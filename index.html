@@ -1,5 +1,12 @@
+<!DOCTYPE html>
 <html>
 <head>
+  <title>Angelika</title>
+  <meta charset="utf-8">
+
+  <!-- css -->
+  <link href="css/style.css" rel="stylesheet">
+
   <!-- libs -->
   <script src="lib/angular.min.js"></script>
 
@@ -13,6 +20,18 @@
 <body ng-app="angelika">
   <div ng-controller="LoginCtrl">
     Yay, it works!
+    <table>
+      <tr>
+        <th>Tid</th>
+        <th>Håndtert</th>
+        <th>Notis</th>
+      </tr>
+      <tr ng-repeat="alarm in alarms">
+        <td>{{ alarm.time_created }}</td>
+        <td>{{ alarm.is_treated }}</td>
+        <td>{{ alarm.treated_text }}</td>
+      </tr>
+    </table>
   </div>
 </body>
 </html>
