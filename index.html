@@ -8,9 +8,11 @@
   <link href="css/style.css" rel="stylesheet">
 
   <!-- libs -->
-  <script src="lib/angular.min.js"></script>
+  <link href="lib/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <script src="lib/angular/angular.min.js"></script>
+  <script src="lib/ui-bootstrap/ui-bootstrap-tpls-0.11.0.min.js"></script>
 
-  <!-- bootstrap -->
+  <!-- app -->
   <script src="js/app.js"></script>
   <script src="js/static.js"></script>
 
@@ -19,8 +21,9 @@
 </head>
 <body ng-app="angelika">
   <div ng-controller="LoginCtrl">
-    Yay, it works!
-    <table>
+    <p>Yay, it works!</p>
+    
+    <table class="table table-bordered table-striped table-hover table-responsive">
       <tr>
         <th>Tid</th>
         <th>Håndtert</th>

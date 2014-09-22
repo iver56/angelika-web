@@ -1,7 +1,8 @@
 var angelika = angular.module(
   'angelika',
   [
-    'angelika.controllers'
+    'angelika.controllers',
+    'ui.bootstrap'
   ]
 ).config(function($httpProvider) {
     console.log('run config');
