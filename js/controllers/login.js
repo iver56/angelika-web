@@ -1,15 +1,13 @@
-angelikaControllers.controller('LoginCtrl', function($scope, $http, cfg) {
-  console.log('LoginCtrl is running!');
-  $scope.alarms = [];
+angelikaControllers.controller('LoginCtrl', function($scope, AuthService, $state) {
+  $scope.loginData = {
+    username: "",
+    password: ""
+  };
 
-  //Hello world (API)
-  $http.get(cfg.apiUrl + "/alarms/")
-    .success(function(data) {
-      console.log("Yay, got data from the API!");
+  $scope.login = function() {
+    AuthService.login($scope.loginData.username, $scope.loginData.password, function(data) {
       console.log(data);
-      $scope.alarms = data.results;
-    })
-    .error(function(data, status, headers, config) {
-      console.log(data, status, headers, config);
+      $state.go('alarms');
     });
+  };
 });

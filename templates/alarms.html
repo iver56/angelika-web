@@ -1,0 +1,12 @@
+<table class="table table-bordered table-striped table-hover table-responsive">
+  <tr>
+    <th>Tid</th>
+    <th>Håndtert</th>
+    <th>Notis</th>
+  </tr>
+  <tr ng-repeat="alarm in alarms">
+    <td>{{ alarm.time_created }}</td>
+    <td>{{ alarm.is_treated }}</td>
+    <td>{{ alarm.treated_text }}</td>
+  </tr>
+</table>
