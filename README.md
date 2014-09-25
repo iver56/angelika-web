@@ -8,7 +8,7 @@ The backend is in a [separate repository](https://github.com/sigurdsa/angelika-a
 
 * Copy js/static.js.example to js/static.js
 * If you don't have npm, install it.
-* `npm install http-server`
+* `npm install http-server -g`
 * If you don't have make, install it
 
 # Serve the application
