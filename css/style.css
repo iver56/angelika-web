@@ -32,3 +32,12 @@
 .form-signin .alert {
     margin-top: 20px;
 }
+
+header {
+    text-align: right;
+    padding-bottom: 40px;
+}
+
+#logout-btn {
+    margin: 10px;
+}
