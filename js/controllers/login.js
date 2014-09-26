@@ -1,4 +1,5 @@
 angelikaControllers.controller('LoginCtrl', function($scope, AuthService, $state) {
+  $scope.loginFailed = false;
   $scope.loginData = {
     username: "",
     password: ""
@@ -6,8 +7,13 @@ angelikaControllers.controller('LoginCtrl', function($scope, AuthService, $state
 
   $scope.login = function() {
     AuthService.login($scope.loginData.username, $scope.loginData.password, function(data) {
-      console.log(data);
-      $state.go('alarms');
+
+      if (data.status === "success") {
+        $state.go('alarms');
+      } else {
+        $scope.loginFailed = true;
+      }
+
     });
   };
 });
