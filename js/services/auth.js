@@ -1,4 +1,4 @@
-angelikaServices.service('AuthService', function($http, cfg, $state) {
+angelikaServices.service('AuthService', function($http, cfg) {
   var that = this;
   this.login = function(username, password, cb) {
     $http.post(cfg.apiUrl + '/api-token-auth/', {username: username, password: password})

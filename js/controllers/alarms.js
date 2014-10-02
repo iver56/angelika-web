@@ -1,5 +1,7 @@
-angelikaControllers.controller('AlarmsCtrl', function($scope, $http, cfg, AuthService, $state) {
+angelikaControllers.controller('AlarmsCtrl', function($scope, $http, cfg, AuthService) {
   $scope.alarms = [];
+
+  $scope.name = 'John Dee';
 
   $http.get(cfg.apiUrl + "/alarms/")
     .success(function(data) {
@@ -12,6 +14,5 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, cfg, AuthSe
 
   $scope.logOut = function() {
     AuthService.logout();
-    $state.go('login');
   }
 });
