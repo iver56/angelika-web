@@ -2,7 +2,8 @@ var angelika = angular.module(
   'angelika',
   [
     'angelika.controllers',
-    'angelika.services'
+    'angelika.services',
+    'ui.bootstrap'
   ]
 ).config(function($httpProvider) {
     //Enable cross domain calls

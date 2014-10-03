@@ -10,6 +10,7 @@ angelikaControllers.controller('LoginCtrl', function($scope, AuthService) {
     AuthService.login($scope.loginData.username, $scope.loginData.password, function(data) {
 
       if (data.status === "success") {
+        window.location.href = 'dashboard.html';
       } else {
         $scope.loginFailed = true;
       }
