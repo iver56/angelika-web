@@ -13,8 +13,11 @@ var angelika = angular.module(
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
   })
   .run(function(AuthService) {
-    if (AuthService.tryLoginFromMemory() && 'index.html' === getCurrentFileName()) {
-      window.location.href = 'dashboard.html';
+    var loggedIn = AuthService.tryLoginFromMemory();
+    if (loggedIn) {
+      if ('index.html' === getCurrentFileName()) {
+        window.location.href = 'dashboard.html';
+      }
     } else if ('dashboard.html' === getCurrentFileName()) {
       window.location.href = 'index.html';
     }
