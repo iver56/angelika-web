@@ -11,7 +11,19 @@ var angelika = angular.module(
 
     //Remove the header used to identify ajax call that would prevent CORS from working
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
+  })
+  .run(function(AuthService) {
+    if (AuthService.tryLoginFromMemory() && 'index.html' === getCurrentFileName()) {
+      window.location.href = 'dashboard.html';
+    } else if ('dashboard.html' === getCurrentFileName()) {
+      window.location.href = 'index.html';
+    }
   });
 
 var angelikaControllers = angular.module('angelika.controllers', []);
 var angelikaServices = angular.module('angelika.services', []);
+
+function getCurrentFileName(){
+  var pagePathName = window.location.pathname;
+  return pagePathName.substring(pagePathName.lastIndexOf("/") + 1);
+}

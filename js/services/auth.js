@@ -13,9 +13,25 @@ angelikaServices.service('AuthService', function($http, cfg) {
 
   this.setToken = function(token) {
     $http.defaults.headers.common.Authorization = "Token " + token;
+    simpleStorage.set('authToken', token, {TTL: 7200000 /*2h*/});
   };
 
   this.logOut = function() {
     delete $http.defaults.headers.common.Authorization;
+    simpleStorage.deleteKey('authToken');
   };
+
+  this.tryLoginFromMemory = function() {
+    var cachedToken = simpleStorage.get('authToken');
+    if (cachedToken) {
+      this.setToken(cachedToken);
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  this.isLoggedIn = function() {
+    return typeof $http.defaults.headers.common.Authorization === 'undefined';
+  }
 });
