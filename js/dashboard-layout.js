@@ -9,12 +9,12 @@ dashboardLayout = new GoldenLayout({
         {
           type: 'component',
           componentName: 'template',
-          componentState: { template: 'alarms.html' }
+          componentState: { template: 'left.html', controller: 'AlarmsCtrl' }
         },
         {
           type: 'component',
           componentName: 'template',
-          componentState: { template: 'alarms.html' }
+          componentState: { template: 'right.html', controller: 'PatientCtrl' }
         }
       ]
     }
@@ -22,7 +22,15 @@ dashboardLayout = new GoldenLayout({
 });
 
 dashboardLayout.registerComponent('template', function(container, state) {
-  var templateHtml = '<div ng-include="\'templates/' + state.template + '\'"></div>';
+  if (typeof state.template !== 'string') {
+    console.error('state.template must be specified and must be a string');
+  }
+  if (typeof state.controller !== 'string') {
+    console.error('state.controller must be specified and must be a string');
+  }
+  var templateHtml = '<div ng-include="\'templates/' + state.template + '\'" ng-controller="'
+    + state.controller + '"></div>';
+  console.log("loading template", templateHtml);
   container.getElement().html(templateHtml);
 });
 

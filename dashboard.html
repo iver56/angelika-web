@@ -28,23 +28,12 @@
 
   <!-- controllers, alphabetically -->
   <script src="js/controllers/alarms.js"></script>
+  <script src="js/controllers/patient.js"></script>
 
+  <!-- bootstrap the layout and fire up angular -->
   <script src="js/dashboard-layout.js"></script>
 
-  <template type="text/html" id="userNameTemplate">
-    <div ng-controller="AlarmsCtrl" class="section">
-      <strong>Username</strong> {{name}}
-      <div ng-include="'templates/alarms.html'"></div>
-    </div>
-  </template>
-
-  <template type="text/html" id="userDetailTemplate">
-    <div class="section">
-      <strong>Age</strong>
-    </div>
-  </template>
 </head>
 <body>
-<div>Yo</div>
 </body>
 </html>
