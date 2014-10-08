@@ -1,1 +1,14 @@
-<h2>Brukere</h2>
+<input type="text" class="form-control" ng-model="search.$" placeholder="Søk i brukere (fornavn, etternavn eller fødselsnummer)">
+<table class="table table-bordered table-striped table-hover table-responsive">
+  <tr>
+    <th>Navn</th>
+    <th>Personnummer</th>
+    <th>Alder</th>
+  </tr>
+  <tr ng-repeat="user in users | filter:search">
+    <td>{{ user.telephone }}</td>
+    <td>{{ user.national_identification_number}}</td>
+    <td>{{ user.national_identification_number | limitTo:4 | date:ddMMyy }}</td>
+  </tr>
+</table>
+
