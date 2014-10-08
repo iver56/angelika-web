@@ -9,7 +9,9 @@ dashboardLayout = new GoldenLayout({
         {
           type: 'component',
           componentName: 'template',
-          componentState: { template: 'left.html', controller: 'LeftCtrl' }
+          componentState: { template: 'left.html', controller: 'LeftCtrl' },
+          width: 35,
+          isClosable: false
         },
         {
           type: 'component',
