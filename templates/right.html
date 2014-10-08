@@ -1,1 +1,14 @@
-<h1>Dette er høyresiden</h1>
+<tabset>
+  <tab heading="Info">
+    <div ng-include="'templates/patient-info.html'" ng-controller="PatientInfoCtrl"></div>
+  </tab>
+  <tab heading="Grafer">
+    <div ng-include="'templates/patient-graphs.html'" ng-controller="PatientGraphsCtrl"></div>
+  </tab>
+  <tab heading="Lister">
+    <div ng-include="'templates/patient-lists.html'" ng-controller="PatientListsCtrl"></div>
+  </tab>
+  <tab heading="Rediger">
+    <div ng-include="'templates/patient-form.html'" ng-controller="PatientFormCtrl"></div>
+  </tab>
+</tabset>
