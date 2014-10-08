@@ -1,25 +1,14 @@
-<nav class="navbar navbar-default navbar-static-top" role="navigation">
-  <div class="text-center">
-    <div class="btn-group container-fluid">
-      <button type="button" class="btn btn-default btn-lg navbar-btn active">Varsler</button>
-      <button type="button" class="btn btn-default btn-lg navbar-btn">Pasienter</button>
-      <button type="button" class="btn btn-default btn-lg navbar-btn">Innstillinger</button>
-    </div>
-    <div class="pull-right">
-      <button id="logout-btn" ng-click="logOut()" class="btn btn-default">Logg ut</button>
-    </div>
-  </div>
-</nav>
-
-<table class="table table-bordered table-striped table-hover table-responsive">
-  <tr>
-    <th>Tid</th>
-    <th>Håndtert</th>
-    <th>Notis</th>
-  </tr>
-  <tr ng-repeat="alarm in alarms">
-    <td>{{ alarm.time_created }}</td>
-    <td>{{ alarm.is_treated }}</td>
-    <td>{{ alarm.treated_text }}</td>
-  </tr>
-</table>
+<tabset>
+  <tab heading="Varsler">
+    <div ng-include="'templates/alarms.html'" ng-controller="AlarmsCtrl"></div>
+  </tab>
+  <tab heading="Brukere">
+    <div ng-include="'templates/users.html'" ng-controller="UsersCtrl"></div>
+  </tab>
+  <tab heading="Innstillinger">
+    Innstillinger.. Vi vet ikke hva som skal inn her
+  </tab>
+  <tab heading="Logg ut" select="logOut()">
+    Du blir nå logget ut
+  </tab>
+</tabset>

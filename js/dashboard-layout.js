@@ -9,12 +9,12 @@ dashboardLayout = new GoldenLayout({
         {
           type: 'component',
           componentName: 'template',
-          componentState: { template: 'left.html', controller: 'AlarmsCtrl' }
+          componentState: { template: 'left.html', controller: 'LeftCtrl' }
         },
         {
           type: 'component',
           componentName: 'template',
-          componentState: { template: 'right.html', controller: 'PatientCtrl' }
+          componentState: { template: 'right.html', controller: 'RightCtrl' }
         }
       ]
     }

@@ -15,7 +15,7 @@ angelikaServices.service('AuthService', function($http, cfg) {
     $http.defaults.headers.common.Authorization = "Token " + token;
   };
 
-  this.logout = function() {
+  this.logOut = function() {
     delete $http.defaults.headers.common.Authorization;
   };
 });
