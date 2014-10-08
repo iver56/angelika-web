@@ -5,26 +5,33 @@
   <meta charset="utf-8">
 
   <!-- css -->
-  <link href="css/style.css" rel="stylesheet">
+  <link href="css/login.css" rel="stylesheet">
 
   <!-- libs -->
-  <link href="lib/bootstrap/bootstrap.min.css" rel="stylesheet">
   <script src="lib/angular/angular.min.js"></script>
+  <link href="lib/bootstrap/bootstrap.min.css" rel="stylesheet">
   <script src="lib/ui-bootstrap/ui-bootstrap-tpls-0.11.0.min.js"></script>
-  <script src="lib/angular-ui-router/angular-ui-router.min.js"></script>
 
   <!-- app -->
   <script src="js/app.js"></script>
   <script src="js/static.js"></script>
 
-  <!-- services, alphabetically -->
   <script src="js/services/auth.js"></script>
 
-  <!-- controllers, alphabetically -->
   <script src="js/controllers/login.js"></script>
-  <script src="js/controllers/alarms.js"></script>
 </head>
+
 <body ng-app="angelika">
-<div ui-view></div>
+<div class="container container-login" ng-controller="LoginCtrl">
+  <form class="form-signin" ng-submit="login()">
+    <h2 class="form-signin-heading">Logg inn</h2>
+    <input type="text" class="input-block-level" placeholder="Brukernavn"
+           ng-model="loginData.username" required>
+    <input type="password" class="input-block-level" placeholder="Passord"
+           ng-model="loginData.password" required>
+    <button class="btn btn-large btn-primary" type="submit">Logg inn</button>
+    <alert ng-show="loginFailed" type="danger">Feil brukernavn/passord</alert>
+  </form>
+</div>
 </body>
 </html>

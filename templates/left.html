@@ -1,0 +1,14 @@
+<tabset>
+  <tab heading="Varsler">
+    <div ng-include="'templates/alarms.html'" ng-controller="AlarmsCtrl"></div>
+  </tab>
+  <tab heading="Brukere">
+    <div ng-include="'templates/users.html'" ng-controller="UsersCtrl"></div>
+  </tab>
+  <tab heading="Innstillinger">
+    Innstillinger.. Vi vet ikke hva som skal inn her
+  </tab>
+  <tab heading="Logg ut" select="logOut()">
+    Du blir nå logget ut
+  </tab>
+</tabset>
