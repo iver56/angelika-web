@@ -1,3 +1,7 @@
 #chartRangeBtns {
     margin-bottom: 10px;
 }
+
+div.lm_content {
+  overflow-y: auto;
+}
