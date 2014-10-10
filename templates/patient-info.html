@@ -1,17 +1,33 @@
-<div style="overflow-y: scroll; height: ">
-  <h3> {{patient.name}} </h3>
-  <p> Fødselsnummer: {{patient.national_identification_number}} </p>
-  <p> Telefonnummer: {{patient.telephone}} </p>
-  <p> Adresse: {{patient.address}} </p>
-  <p> Alder: {{patient.age}} </p>
-  <p> Pårørende: </p>
-  <ol ng-repeat="person in patient.next_of_kin">
-    <li>
-      <p> {{person.name}} ({{person.telephone}}) </p>
-      <p> {{person.address}} </p>
-    </li>
-  </ol>
-  <p> Varsler: </p>
+<div>
+  <div class="page-header">
+    <h1>{{patient.name}} <small> Personnummer: {{patient.national_identification_number}}</small></h1>
+  </div>
+
+  <table class="table table-responsive">
+    <tr class="active" >
+      <td width="30px">Alder</td>
+      <td>{{patient.age}} år</td>
+    </tr>
+    <tr class="active" >
+      <td>Telefonnummer</td>
+      <td>{{patient.telephone}}</td>
+    </tr>
+    <tr class="active" >
+      <td>Adresse</td>
+      <td>{{patient.address}}</td>
+    </tr>
+  </table>
+
+  <h4> Pårørende: </h4>
+  <div class="list-group" ng-repeat="contact in patient.next_of_kin">
+    <a class="list-group-item">
+      <h5 class="list-group-item-heading">{{contact.name}}</h5>
+      <p class="list-group-item-text">{{contact.telephone}}</p>
+      <p class="list-group-item-text">{{contact.address}}</p>
+    </a>
+  </div>
+
+  <h4> Varsler: </h4>
   <table class="table table-bordered table-striped table-hover table-responsive">
     <tr>
       <th>Tid</th>
