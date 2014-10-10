@@ -1,4 +1,9 @@
-<input type="text" class="form-control" ng-model="search.$" placeholder="Søk i brukere (fornavn, etternavn eller fødselsnummer)">
+<div class="form-group has-feedback">
+  <label class="control-label">Username</label>
+  <input type="text" class="form-control" ng-model="search.$" placeholder="Søk" />
+  <i class="glyphicon glyphicon-search form-control-feedback"></i>
+</div>
+
 <table class="table table-bordered table-striped table-hover table-responsive">
   <tr>
     <th>Navn</th>
@@ -8,7 +13,7 @@
   <tr ng-repeat="user in users | filter:search">
     <td>{{ user.telephone }}</td>
     <td>{{ user.national_identification_number}}</td>
-    <td>{{ user.national_identification_number | limitTo:4 | date:ddMMyy }}</td>
+    <td>{{ user.national_identification_number | limitTo:6 }}</td>
   </tr>
 </table>
 
