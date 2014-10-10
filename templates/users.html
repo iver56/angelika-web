@@ -1,1 +1,21 @@
-<h2>Brukere</h2>
+<div class="input-group">
+  <span class="input-group-addon">
+    <span class="glyphicon glyphicon-search">
+    </span>
+  </span>
+  <input type="text" ng-model="search.$" class="form-control" placeholder="Søk etter bruker">
+</div>
+
+<table class="table table-bordered table-striped table-hover table-responsive">
+  <tr>
+    <th>Navn</th>
+    <th>Personnummer</th>
+    <th>Alder</th>
+  </tr>
+  <tr ng-repeat="user in users | filter:search">
+    <td>{{ user.user.full_name }}</td>
+    <td>{{ user.national_identification_number}}</td>
+    <td>{{ user.age }} år</td>
+  </tr>
+</table>
+
