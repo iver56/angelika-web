@@ -1,1 +1,61 @@
-Informasjon om brukeren
+<div>
+  <div class="page-header">
+    <h1>{{patient.name}} <small> Personnummer: {{patient.national_identification_number}}</small></h1>
+  </div>
+
+  <table class="table table-responsive">
+    <tr class="active" >
+      <td width="30px">Alder</td>
+      <td>{{patient.age}} år</td>
+    </tr>
+    <tr class="active" >
+      <td>Telefonnummer</td>
+      <td>{{patient.telephone}}</td>
+    </tr>
+    <tr class="active" >
+      <td>Adresse</td>
+      <td>{{patient.address}}</td>
+    </tr>
+  </table>
+
+  <h4> Pårørende: </h4>
+  <div class="list-group" ng-repeat="contact in patient.next_of_kin">
+    <a class="list-group-item">
+      <h5 class="list-group-item-heading">{{contact.name}}</h5>
+      <p class="list-group-item-text">{{contact.telephone}}</p>
+      <p class="list-group-item-text">{{contact.address}}</p>
+    </a>
+  </div>
+
+  <h4> Varsler: </h4>
+  <table class="table table-bordered table-striped table-hover table-responsive">
+    <tr>
+      <th>Tid</th>
+      <th>Håndtert</th>
+      <th>Notis</th>
+    </tr>
+    <tr ng-repeat="alarm in patient.alarms">
+      <td>{{ alarm.time_created | date : 'dd.MM.yyyy HH:mm'}}</td>
+      <td>{{ alarm.is_treated ? 'Ja' : 'Nei' }}</td>
+      <td>{{ alarm.treated_text }}</td>
+    </tr>
+  </table>
+
+  <div class="panel panel-success">
+    <div class="panel-heading">
+      <h3 class="panel-title">Motiverende beskjed:</h3>
+    </div>
+    <div class="panel-body">
+      {{patient.motivational_note}}
+    </div>
+  </div>
+
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h3 class="panel-title">Info til pasienten:</h3>
+    </div>
+    <div class="panel-body">
+      {{patient.information_note}}
+    </div>
+  </div>
+</div>
