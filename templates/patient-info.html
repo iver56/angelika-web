@@ -1,1 +1,31 @@
-Informasjon om brukeren
+<div>
+  <h3> {{patient.name}} </h3>
+  <p> Fødselsnummer: {{patient.national_identification_number}} </p>
+  <p> Telefonnummer: {{patient.telephone}} </p>
+  <p> Adresse: {{patient.address}} </p>
+  <p> Alder: {{patient.age}} </p>
+  <p> Pårørende: </p>
+  <ol ng-repeat="person in patient.next_of_kin">
+    <li>
+      <p> {{person.name}} ({{person.telephone}}) </p>
+      <p> {{person.address}} </p>
+    </li>
+  </ol>
+  <p> Varsler: </p>
+  <table class="table table-bordered table-striped table-hover table-responsive">
+    <tr>
+      <th>Tid</th>
+      <th>Håndtert</th>
+      <th>Notis</th>
+    </tr>
+    <tr ng-repeat="alarm in patient.alarms">
+      <td>{{ alarm.time_created | date : 'dd.MM.yyyy HH:mm'}}</td>
+      <td>{{ alarm.is_treated ? 'Ja' : 'Nei' }}</td>
+      <td>{{ alarm.treated_text }}</td>
+    </tr>
+  </table>
+  <p> Motiverende beskjed: </p>
+  <p> {{patient.motivational_note}} </p>
+  <p> Info til pasienten: </p>
+  <p> {{patient.information_note}}</p>
+</div>
