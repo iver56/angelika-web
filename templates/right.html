@@ -1,14 +1,14 @@
 <tabset>
-  <tab heading="Info">
-    <div ng-include="'templates/patient-info.html'" ng-controller="PatientInfoCtrl"></div>
+  <tab heading="Info" ng-controller="PatientInfoCtrl">
+    <div ng-include="'templates/patient-info.html'"></div>
   </tab>
-  <tab heading="Grafer">
-    <div ng-include="'templates/patient-graphs.html'" ng-controller="PatientGraphsCtrl"></div>
+  <tab heading="Grafer" ng-controller="PatientGraphsCtrl" select="tabSelected()">
+    <div ng-include="'templates/patient-graphs.html'"></div>
   </tab>
-  <tab heading="Lister">
-    <div ng-include="'templates/patient-lists.html'" ng-controller="PatientListsCtrl"></div>
+  <tab heading="Lister" ng-controller="PatientListsCtrl">
+    <div ng-include="'templates/patient-lists.html'"></div>
   </tab>
-  <tab heading="Rediger">
-    <div ng-include="'templates/patient-form.html'" ng-controller="PatientFormCtrl"></div>
+  <tab heading="Rediger" ng-controller="PatientFormCtrl">
+    <div ng-include="'templates/patient-form.html'"></div>
   </tab>
 </tabset>

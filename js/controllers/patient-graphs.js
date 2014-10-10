@@ -1,4 +1,7 @@
 angelikaControllers.controller('PatientGraphsCtrl', function($scope, $timeout) {
+  $scope.tabSelected = function() {
+    $scope.setChartWidths();
+  };
 
   $scope.chartO2Series = [
     {"name": "O2-metning"}
@@ -114,7 +117,6 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $timeout) {
   }];
 
   var setData = function() {
-    console.log("timeout done");
     $scope.chartO2Config.series[0].data = [
       [Date.UTC(2013,  8, 1), 92   ],
       [Date.UTC(2013,  9, 1), 88   ],
@@ -218,18 +220,16 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $timeout) {
       [Date.UTC(2014,  9, 9), 930   ],
       [Date.UTC(2014,  9, 10), 900   ]
     ];
-    setChartWidth();
   };
 
-  var setChartWidth = function() {
+  $scope.setChartWidths = function() {
     $scope.chartO2Config.options.chart.width = $("#container").width();
     $scope.chartHeartRateConfig.options.chart.width = $("#container").width();
     $scope.chartTempConfig.options.chart.width = $("#container").width();
     $scope.chartActivityConfig.options.chart.width = $("#container").width();
-
   };
 
-  $timeout(setData, 500);
+  $timeout(setData, 1000);
 
   $scope.setChartRange = function($days) {
     var now = new Date().getTime();
