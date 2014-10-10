@@ -5,3 +5,7 @@
 div.lm_content {
   overflow-y: auto;
 }
+
+ul.nav-tabs li {
+  cursor: pointer;
+}
