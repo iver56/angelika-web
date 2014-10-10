@@ -1,1 +1,14 @@
-Grafer
+<h1>Grafer</h1>
+<div id="chartRangeBtns">
+  <button ng-click="setChartRange('1')">Dag</button>
+  <button ng-click="setChartRange('7')">Uke</button>
+  <button ng-click="setChartRange('31')">Måned</button>
+  <button ng-click="setChartRange('365')">År</button>
+</div>
+
+<div id="chartContainer">
+  <highchart config="chartO2Config"></highchart>
+  <highchart config="chartHeartRateConfig"></highchart>
+  <highchart config="chartTempConfig"></highchart>
+  <highchart config="chartActivityConfig"></highchart>
+</div>
