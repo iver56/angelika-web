@@ -10,9 +10,9 @@
     <th>Alder</th>
   </tr>
   <tr ng-repeat="user in users | filter:search">
-    <td>{{ user.telephone }}</td>
+    <td>{{ user.user.full_name }}</td>
     <td>{{ user.national_identification_number}}</td>
-    <td>{{ user.national_identification_number | limitTo:6 }}</td>
+    <td>{{ user.age }} år</td>
   </tr>
 </table>
 
