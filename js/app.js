@@ -3,6 +3,7 @@ var angelika = angular.module(
   [
     'angelika.controllers',
     'angelika.services',
+    'highcharts-ng',
     'ui.bootstrap'
   ]
 ).config(function($httpProvider) {
