@@ -1,4 +1,4 @@
-<div>
+<div style="overflow-y: scroll; height: ">
   <h3> {{patient.name}} </h3>
   <p> Fødselsnummer: {{patient.national_identification_number}} </p>
   <p> Telefonnummer: {{patient.telephone}} </p>
@@ -24,8 +24,22 @@
       <td>{{ alarm.treated_text }}</td>
     </tr>
   </table>
-  <p> Motiverende beskjed: </p>
-  <p> {{patient.motivational_note}} </p>
-  <p> Info til pasienten: </p>
-  <p> {{patient.information_note}}</p>
+
+  <div class="panel panel-success">
+    <div class="panel-heading">
+      <h3 class="panel-title">Motiverende beskjed:</h3>
+    </div>
+    <div class="panel-body">
+      {{patient.motivational_note}}
+    </div>
+  </div>
+
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h3 class="panel-title">Info til pasienten:</h3>
+    </div>
+    <div class="panel-body">
+      {{patient.information_note}}
+    </div>
+  </div>
 </div>
