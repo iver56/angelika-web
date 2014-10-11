@@ -5,8 +5,8 @@
     <th>Notis</th>
   </tr>
   <tr ng-repeat="alarm in alarms">
-    <td>{{ alarm.time_created }}</td>
-    <td>{{ alarm.is_treated }}</td>
+    <td>{{ alarm.time_created | date:'dd.MM.yyyy HH:mm'}}</td>
+    <td>{{ alarm.is_treated ? 'Ja' : 'Nei'}}</td>
     <td>{{ alarm.treated_text }}</td>
   </tr>
 </table>
