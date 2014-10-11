@@ -1,4 +1,6 @@
 angelikaControllers.controller('PatientGraphsCtrl', function($scope, $timeout) {
+  $scope.chartRange = { days: 7 };
+
   $scope.tabSelected = function() {
     $scope.setChartWidths();
   };
@@ -231,10 +233,10 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $timeout) {
 
   $timeout(setData, 1000);
 
-  $scope.setChartRange = function($days) {
+  $scope.updateChartRange = function() {
     var now = new Date().getTime();
     var msPerDay = 86400000;
-    var min = now - (msPerDay * $days);
+    var min = now - (msPerDay * $scope.chartRange.days);
 
     $scope.chartO2Config.options.xAxis.min = min;
     $scope.chartHeartRateConfig.options.xAxis.min = min;
