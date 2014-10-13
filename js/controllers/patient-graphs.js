@@ -1,4 +1,4 @@
-angelikaControllers.controller('PatientGraphsCtrl', function($scope, $timeout) {
+angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg) {
   $scope.chartRange = { days: 7 };
 
   $scope.tabSelected = function() {
@@ -72,15 +72,23 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $timeout) {
   $scope.chartO2Config.options.yAxis.max = 100;
 
   // Plot bands
+
+  // Normal values, to be fetched from api
+  var o2Min = 90;
+  var heartRateMin = 60;
+  var heartRateMax = 90;
+  var tempMin = 36;
+  var tempMax = 39;
+
   $scope.chartO2Config.options.yAxis.plotBands = [{
     // Critically low value
     color: 'rgba(245,127,127,0.2)',
     from: '0',
-    to: '90' // Fetch from normal values
+    to: o2Min
   },{
     // Green OK area:
     color: 'rgba(125,235,121,0.2)',
-    from: '90', // Fetch from normal values
+    from: o2Min,
     to: '100'
   }];
 
@@ -88,16 +96,16 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $timeout) {
     // Critically low value:
     color: 'rgba(245,127,127,0.2)',
     from: '0',
-    to: '60' // Fetch from normal values
+    to: heartRateMin
   },{
     // Green OK area:
     color: 'rgba(125,235,121,0.2)',
-    from: '60', // Fetch from normal values
-    to: '90' // Fetch from normal values
+    from: heartRateMin,
+    to: heartRateMax
   },{
     // Critically high value:
     color: 'rgba(245,127,127,0.2)',
-    from: '90', // Fetch from normal values
+    from: heartRateMax,
     to: '200' // Fetch from normal values
   }];
 
@@ -105,124 +113,23 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $timeout) {
     // Critically low value:
     color: 'rgba(245,127,127,0.2)',
     from: '0',
-    to: '36' // Fetch from normal values
+    to: tempMin
   },{
     // Green OK area:
     color: 'rgba(125,235,121,0.2)',
-    from: '36', // Fetch from normal values
-    to: '39' // Fetch from normal values
+    from: tempMin,
+    to: tempMax
   },{
     // Critically high value:
     color: 'rgba(245,127,127,0.2)',
-    from: '39', // Fetch from normal values
+    from: tempMax,
     to: '50' // Fetch from normal values
   }];
 
-  var setData = function() {
-    $scope.chartO2Config.series[0].data = [
-      [Date.UTC(2013,  8, 1), 92   ],
-      [Date.UTC(2013,  9, 1), 88   ],
-      [Date.UTC(2013, 10, 1), 89   ],
-      [Date.UTC(2013, 11, 1), 95   ],
-      [Date.UTC(2014,  0, 1), 94   ],
-      [Date.UTC(2014,  1, 1), 91   ],
-      [Date.UTC(2014,  2, 1), 87   ],
-      [Date.UTC(2014,  3, 1), 95   ],
-      [Date.UTC(2014,  4, 1), 94   ],
-      [Date.UTC(2014,  5, 1), 96   ],
-      [Date.UTC(2014,  6, 1), 93   ],
-      [Date.UTC(2014,  7, 1), 95   ],
-      [Date.UTC(2014,  8, 1), 93   ],
-      [Date.UTC(2014,  9, 1), 87   ],
-      [Date.UTC(2014,  9, 2), 95   ],
-      [Date.UTC(2014,  9, 3), 94   ],
-      [Date.UTC(2014,  9, 4), 96   ],
-      [Date.UTC(2014,  9, 5), 93   ],
-      [Date.UTC(2014,  9, 6), 95   ],
-      [Date.UTC(2014,  9, 7), 93   ],
-      [Date.UTC(2014,  9, 8), 87   ],
-      [Date.UTC(2014,  9, 9), 93   ],
-      [Date.UTC(2014,  9, 10), 90   ]
-    ];
-
-    $scope.chartHeartRateConfig.series[0].data = [
-      [Date.UTC(2013,  8, 1), 65   ],
-      [Date.UTC(2013,  9, 1), 71   ],
-      [Date.UTC(2013, 10, 1), 69   ],
-      [Date.UTC(2013, 11, 1), 73   ],
-      [Date.UTC(2014,  0, 1), 75   ],
-      [Date.UTC(2014,  1, 1), 77   ],
-      [Date.UTC(2014,  2, 1), 70   ],
-      [Date.UTC(2014,  3, 1), 76   ],
-      [Date.UTC(2014,  4, 1), 72   ],
-      [Date.UTC(2014,  5, 1), 68   ],
-      [Date.UTC(2014,  6, 1), 75   ],
-      [Date.UTC(2014,  7, 1), 78   ],
-      [Date.UTC(2014,  8, 1), 81   ],
-      [Date.UTC(2014,  9, 1), 80   ],
-      [Date.UTC(2014,  9, 2), 82   ],
-      [Date.UTC(2014,  9, 3), 79   ],
-      [Date.UTC(2014,  9, 4), 76   ],
-      [Date.UTC(2014,  9, 5), 75   ],
-      [Date.UTC(2014,  9, 6), 79   ],
-      [Date.UTC(2014,  9, 7), 80   ],
-      [Date.UTC(2014,  9, 8), 76   ],
-      [Date.UTC(2014,  9, 9), 74   ],
-      [Date.UTC(2014,  9, 10), 73   ]
-    ];
-
-    $scope.chartTempConfig.series[0].data = [
-      [Date.UTC(2013,  8, 1), 37.1   ],
-      [Date.UTC(2013,  9, 1), 37.3   ],
-      [Date.UTC(2013, 10, 1), 37.2   ],
-      [Date.UTC(2013, 11, 1), 37.8   ],
-      [Date.UTC(2014,  0, 1), 37.5   ],
-      [Date.UTC(2014,  1, 1), 37.9   ],
-      [Date.UTC(2014,  2, 1), 38.2   ],
-      [Date.UTC(2014,  3, 1), 38.5   ],
-      [Date.UTC(2014,  4, 1), 38.9   ],
-      [Date.UTC(2014,  5, 1), 39.2   ],
-      [Date.UTC(2014,  6, 1), 39.3   ],
-      [Date.UTC(2014,  7, 1), 38.8   ],
-      [Date.UTC(2014,  8, 1), 38.4   ],
-      [Date.UTC(2014,  9, 1), 38.3   ],
-      [Date.UTC(2014,  9, 2), 38.0   ],
-      [Date.UTC(2014,  9, 3), 37.5   ],
-      [Date.UTC(2014,  9, 4), 37.3   ],
-      [Date.UTC(2014,  9, 5), 37.4   ],
-      [Date.UTC(2014,  9, 6), 37.2   ],
-      [Date.UTC(2014,  9, 7), 37.0   ],
-      [Date.UTC(2014,  9, 8), 37.1   ],
-      [Date.UTC(2014,  9, 9), 36.8   ],
-      [Date.UTC(2014,  9, 10), 36.9   ]
-    ];
-
-    $scope.chartActivityConfig.series[0].data = [
-      [Date.UTC(2013,  8, 1), 920   ],
-      [Date.UTC(2013,  9, 1), 880   ],
-      [Date.UTC(2013, 10, 1), 890   ],
-      [Date.UTC(2013, 11, 1), 950   ],
-      [Date.UTC(2014,  0, 1), 940   ],
-      [Date.UTC(2014,  1, 1), 910   ],
-      [Date.UTC(2014,  2, 1), 870   ],
-      [Date.UTC(2014,  3, 1), 950   ],
-      [Date.UTC(2014,  4, 1), 940   ],
-      [Date.UTC(2014,  5, 1), 960   ],
-      [Date.UTC(2014,  6, 1), 930   ],
-      [Date.UTC(2014,  7, 1), 950   ],
-      [Date.UTC(2014,  8, 1), 930   ],
-      [Date.UTC(2014,  9, 1), 870   ],
-      [Date.UTC(2014,  9, 2), 950   ],
-      [Date.UTC(2014,  9, 3), 940   ],
-      [Date.UTC(2014,  9, 4), 960   ],
-      [Date.UTC(2014,  9, 5), 930   ],
-      [Date.UTC(2014,  9, 6), 950   ],
-      [Date.UTC(2014,  9, 7), 930   ],
-      [Date.UTC(2014,  9, 8), 870   ],
-      [Date.UTC(2014,  9, 9), 930   ],
-      [Date.UTC(2014,  9, 10), 900   ]
-    ];
-  };
+  var o2Data;
+  var heartRateData;
+  var tempData;
+  var activityData;
 
   $scope.setChartWidths = function() {
     $scope.chartO2Config.options.chart.width = $("#container").width();
@@ -231,7 +138,96 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $timeout) {
     $scope.chartActivityConfig.options.chart.width = $("#container").width();
   };
 
-  $timeout(setData, 1000);
+  $http.get(cfg.apiUrl + "/measurements/?patient_id=1&type=O")
+    .success(function(o2DataAPI) {
+      o2Data = o2DataAPI.results;
+
+      for (var i=0; i<o2Data.length; i++) {
+
+        if (o2Data[i].y < o2Min) {
+          o2Data[i].events = {
+            click: function (e) {
+              console.log(e);
+              alert('test');
+            }
+          };
+
+          o2Data[i].marker = {
+            symbol: 'url(../../img/alert-icon.png)'
+          };
+        }
+      };
+
+      $scope.chartO2Config.series[0].data = o2Data;
+    })
+    .error(function(o2DataAPI, o2Status, o2Headers, o2Config) {
+      console.log(o2DataAPI, o2Status, o2Headers, o2Config);
+    });
+
+
+  $http.get(cfg.apiUrl + "/measurements/?patient_id=1&type=P")
+    .success(function(heartRateDataAPI) {
+      heartRateData = heartRateDataAPI.results;
+
+      for (var i=0; i<heartRateData.length; i++) {
+
+        if (heartRateData[i].y < heartRateMin || heartRateData[i].y > heartRateMax) {
+          heartRateData[i].events = {
+            click: function (e) {
+              console.log(e);
+              alert('test');
+            }
+          };
+
+          heartRateData[i].marker = {
+            symbol: 'url(../../img/alert-icon.png)'
+          };
+        }
+      };
+
+      $scope.chartHeartRateConfig.series[0].data = heartRateData;
+    })
+    .error(function(heartRateDataAPI, heartRateStatus, heartRateHeaders, heartRateConfig) {
+      console.log(heartRateDataAPI, heartRateStatus, heartRateHeaders, heartRateConfig);
+    });
+
+
+  $http.get(cfg.apiUrl + "/measurements/?patient_id=1&type=T")
+    .success(function(tempDataAPI) {
+      tempData = tempDataAPI.results;
+
+      for (var i=0; i<tempData.length; i++) {
+
+        if (tempData[i].y < tempMin || tempData[i].y > tempMax) {
+          tempData[i].events = {
+            click: function (e) {
+              console.log(e);
+              alert('test');
+            }
+          };
+
+          tempData[i].marker = {
+            symbol: 'url(../../img/alert-icon.png)'
+          };
+        }
+      };
+
+      $scope.chartTempConfig.series[0].data = tempData;
+    })
+    .error(function(tempDataAPI, tempStatus, tempHeaders, tempConfig) {
+      console.log(tempDataAPI, tempStatus, tempHeaders, tempConfig);
+    });
+
+
+  $http.get(cfg.apiUrl + "/measurements/?patient_id=1&type=A")
+    .success(function(activityDataAPI) {
+      $scope.chartActivityConfig.series[0].data = activityDataAPI.results;
+    })
+    .error(function(activityDataAPI, activityStatus, activityHeaders, activityConfig) {
+      console.log(activityDataAPI, activityStatus, activityHeaders, activityConfig);
+    });
+
+
 
   $scope.updateChartRange = function() {
     var now = new Date().getTime();
@@ -247,5 +243,7 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $timeout) {
     $scope.chartHeartRateConfig.options.xAxis.max = now;
     $scope.chartTempConfig.options.xAxis.max = now;
     $scope.chartActivityConfig.options.xAxis.max = now;
-  }
+  };
+
+  $scope.updateChartRange();
 });
