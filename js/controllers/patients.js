@@ -1,4 +1,4 @@
-angelikaControllers.controller('PatientsCtrl', function($scope, $http, cfg, AuthService) {
+angelikaControllers.controller('PatientsCtrl', function($scope, $http, cfg, AuthService, LayoutUtils) {
   $scope.patients = [];
 
   $http.get(cfg.apiUrl + "/patients/")
@@ -10,16 +10,7 @@ angelikaControllers.controller('PatientsCtrl', function($scope, $http, cfg, Auth
     });
 
   $scope.openPatient = function(patient) {
-    var patientComponentConfig = {
-      type: 'component',
-      componentName: 'template',
-      title: patient.user.full_name,
-      componentState: {
-        template: 'patient.html',
-        controller: 'PatientCtrl',
-        patientId: patient.id
-      }
-    };
+    var patientComponentConfig = LayoutUtils.getPatientConfig(patient.id, patient.user.full_name);
     dashboardLayout.getPatientParentComponent().addChild(patientComponentConfig);
   }
 });

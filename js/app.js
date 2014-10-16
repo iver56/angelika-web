@@ -2,6 +2,7 @@ var angelika = angular.module(
   'angelika',
   [
     'angelika.controllers',
+    'angelika.directives',
     'angelika.services',
     'highcharts-ng',
     'ui.bootstrap'
@@ -31,6 +32,7 @@ var angelika = angular.module(
   });
 
 var angelikaControllers = angular.module('angelika.controllers', []);
+var angelikaDirectives = angular.module('angelika.directives', []);
 var angelikaServices = angular.module('angelika.services', []);
 
 Highcharts.setOptions({
