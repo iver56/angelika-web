@@ -12,8 +12,8 @@ angelikaControllers.controller('PatientsCtrl', function($scope, $http, cfg, Auth
   $scope.openPatient = function(patient) {
     var patientComponentConfig = {
       type: 'component',
-      title: patient.user.full_name,
       componentName: 'template',
+      title: patient.user.full_name,
       componentState: { template: 'patient.html', controller: 'PatientCtrl' }
     };
     dashboardLayout.getPatientParentComponent().addChild(patientComponentConfig);

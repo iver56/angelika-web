@@ -3,6 +3,20 @@ div.lm_content {
   background-color: white;
 }
 
+li.lm_active {
+  color: #fff !important;
+  background-color: #428BCA !important;
+}
+
+li.lm_active .lm_close_tab {
+  color: white !important;
+}
+
+li.lm_tab {
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
 ul.nav-tabs li {
   cursor: pointer;
 }
