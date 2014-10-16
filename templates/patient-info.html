@@ -1,41 +1,45 @@
 <div>
   <div class="page-header">
-    <h1>{{patient.name}} <small> Personnummer: {{patient.national_identification_number}}</small></h1>
+    <h1>{{ patient.user.full_name }}</h1>
   </div>
 
   <table class="table table-responsive">
-    <tr class="active" >
-      <td width="30px">Alder</td>
-      <td>{{patient.age}} år</td>
+    <tr class="active">
+      <td width="120px">Personnummer</td>
+      <td>{{ patient.national_identification_number }}</td>
     </tr>
-    <tr class="active" >
+    <tr class="active">
+      <td>Alder</td>
+      <td>{{ patient.age }} år</td>
+    </tr>
+    <tr class="active">
       <td>Telefonnummer</td>
-      <td>{{patient.telephone}}</td>
+      <td>{{ patient.telephone }}</td>
     </tr>
-    <tr class="active" >
+    <tr class="active">
       <td>Adresse</td>
-      <td>{{patient.address}}</td>
+      <td>{{ patient.address }}</td>
     </tr>
   </table>
 
-  <h4> Pårørende: </h4>
+  <h4>Pårørende:</h4>
   <div class="list-group" ng-repeat="contact in patient.next_of_kin">
     <a class="list-group-item">
-      <h5 class="list-group-item-heading">{{contact.name}}</h5>
-      <p class="list-group-item-text">{{contact.telephone}}</p>
-      <p class="list-group-item-text">{{contact.address}}</p>
+      <h5 class="list-group-item-heading">{{ contact.name }}</h5>
+      <p class="list-group-item-text">{{ contact.telephone }}</p>
+      <p class="list-group-item-text">{{ contact.address }}</p>
     </a>
   </div>
 
-  <h4> Varsler: </h4>
+  <h4>Varsler:</h4>
   <table class="table table-bordered table-striped table-hover table-responsive">
     <tr>
       <th>Tid</th>
       <th>Håndtert</th>
       <th>Notis</th>
     </tr>
-    <tr ng-repeat="alarm in patient.alarms">
-      <td>{{ alarm.time_created | date : 'dd.MM.yyyy HH:mm'}}</td>
+    <tr ng-repeat="alarm in alarms">
+      <td>{{ alarm.time_created | date : 'dd.MM.yyyy HH:mm' }}</td>
       <td>{{ alarm.is_treated ? 'Ja' : 'Nei' }}</td>
       <td>{{ alarm.treated_text }}</td>
     </tr>
@@ -46,7 +50,9 @@
       <h3 class="panel-title">Motiverende beskjed:</h3>
     </div>
     <div class="panel-body">
-      {{patient.motivational_note}}
+      Cardigan Bushwick pickled narwhal heirloom typewriter leggings, readymade mlkshk. Leggings
+      crucifix street art, squid raw denim asymmetrical literally sustainable kale chips disrupt
+      flexitarian fashion axe Schlitz.
     </div>
   </div>
 
@@ -55,7 +61,8 @@
       <h3 class="panel-title">Info til pasienten:</h3>
     </div>
     <div class="panel-body">
-      {{patient.information_note}}
+      Trust fund kogi readymade cred pickled tousled. Shabby chic bicycle rights chillwave, raw
+      denim Shoreditch lomo fap cardigan meggings meh distillery tilde Banksy artisan viral.
     </div>
   </div>
 </div>

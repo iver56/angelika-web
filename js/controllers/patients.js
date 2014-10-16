@@ -3,7 +3,7 @@ angelikaControllers.controller('PatientsCtrl', function($scope, $http, cfg, Auth
 
   $http.get(cfg.apiUrl + "/patients/")
     .success(function(data) {
-      $scope.patients = data.results;
+      $scope.patients = data;
     })
     .error(function(data, status, headers, config) {
       console.error(data, status, headers, config);
@@ -14,7 +14,11 @@ angelikaControllers.controller('PatientsCtrl', function($scope, $http, cfg, Auth
       type: 'component',
       componentName: 'template',
       title: patient.user.full_name,
-      componentState: { template: 'patient.html', controller: 'PatientCtrl' }
+      componentState: {
+        template: 'patient.html',
+        controller: 'PatientCtrl',
+        patientId: patient.id
+      }
     };
     dashboardLayout.getPatientParentComponent().addChild(patientComponentConfig);
   }

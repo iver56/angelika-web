@@ -43,9 +43,15 @@ dashboardLayout.registerComponent('template', function(container, state) {
   if (typeof state.controller !== 'string') {
     console.error('state.controller must be specified and must be a string');
   }
-  var templateHtml = '<div ng-include="\'templates/' + state.template + '\'" ng-controller="'
-    + state.controller + '"></div>';
+
+  var templateHtml = '<div'
+    + ' ng-include="\'templates/' + state.template + '\'"'
+    + ' ng-controller="' + state.controller + '"'
+    + (state.patientId ? ' ng-init="patientId = ' + state.patientId + '; init()"' : '')
+    + '></div>';
+
   console.log("loading template", templateHtml);
+
   container.getElement().html(templateHtml);
 
 });
