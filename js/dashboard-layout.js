@@ -1,22 +1,35 @@
 dashboardLayout = new GoldenLayout({
-  settings: {
-    hasHeaders: false
+  labels: {
+    close: 'Lukk',
+    maximise: 'Maksimer',
+    minimise: 'Minimer',
+    popout: 'Åpne i nytt vindu'
   },
   content: [
     {
-      type: 'row',
+      type: 'stack',
+      isClosable: false,
       content: [
         {
           type: 'component',
           componentName: 'template',
-          componentState: { template: 'left.html', controller: 'LeftCtrl' },
-          width: 35,
+          title: '<span class="glyphicon glyphicon-bell"></span> Varsler',
+          componentState: { template: 'alarms.html', controller: 'AlarmsCtrl' },
           isClosable: false
         },
         {
           type: 'component',
           componentName: 'template',
-          componentState: { template: 'right.html', controller: 'RightCtrl' }
+          title: '<span class="glyphicon glyphicon-search"></span> Brukere',
+          componentState: { template: 'patients.html', controller: 'PatientsCtrl' },
+          isClosable: false
+        },
+        {
+          type: 'component',
+          componentName: 'template',
+          title: '<span class="glyphicon glyphicon-cog"></span> Innstillinger',
+          componentState: { template: 'settings.html', controller: 'SettingsCtrl' },
+          isClosable: false
         }
       ]
     }
@@ -34,10 +47,16 @@ dashboardLayout.registerComponent('template', function(container, state) {
     + state.controller + '"></div>';
   console.log("loading template", templateHtml);
   container.getElement().html(templateHtml);
+
 });
 
 dashboardLayout.on('initialised', function() {
   angular.bootstrap(document.body, ['angelika']);
+
 });
 
 dashboardLayout.init();
+
+dashboardLayout.getPatientParentComponent = function() {
+  return dashboardLayout.root.contentItems[0];
+};

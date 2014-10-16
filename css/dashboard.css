@@ -1,7 +1,12 @@
 div.lm_content {
   overflow-y: auto;
+  background-color: white;
 }
 
 ul.nav-tabs li {
+  cursor: pointer;
+}
+
+.clickable {
   cursor: pointer;
 }
