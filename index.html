@@ -40,6 +40,7 @@
            ng-model="loginData.password" required>
     <button class="btn btn-large btn-primary" type="submit">Logg inn</button>
     <alert ng-show="loginFailed" type="danger">Feil brukernavn/passord</alert>
+    <alert ng-show="serverError" type="danger">Får ikke kontakt med serveren</alert>
   </form>
 </div>
 </body>

@@ -7,7 +7,11 @@ angelikaServices.service('AuthService', function($http, cfg) {
         cb({status: 'success'});
       })
       .error(function(data, status, headers, config) {
-        cb({status: 'error'});
+        if (status === 400) {
+          cb({status: 'wrongCredentials'});
+        } else {
+          cb({status: 'serverError'});
+        }
       });
   };
 
