@@ -5,6 +5,13 @@ dashboardLayout = new GoldenLayout({
     minimise: 'Minimer',
     popout: 'Åpne i nytt vindu'
   },
+  dimensions: {
+    minItemWidth: 350,
+    minItemHeight: 200,
+    dragProxyWidth: 350,
+    dragProxyHeight: 200,
+    headerHeight: 30
+  },
   content: [
     {
       type: 'stack',

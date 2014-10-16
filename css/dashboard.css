@@ -6,15 +6,22 @@ div.lm_content {
 li.lm_active {
   color: #fff !important;
   background-color: #428BCA !important;
+  box-shadow: none !important;
 }
 
 li.lm_active .lm_close_tab {
   color: white !important;
 }
 
-li.lm_tab {
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
+.lm_item .lm_header .lm_tab {
+  border-radius: 4px 4px 0 0;
+  height: 24px !important;
+  line-height: 26px;
+  font-size: 14px !important;
+}
+
+.lm_header .lm_tab .lm_close_tab {
+  top: 9px !important;
 }
 
 ul.nav-tabs li {
