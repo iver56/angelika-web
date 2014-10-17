@@ -12,10 +12,13 @@
     <th>Personnummer</th>
     <th>Alder</th>
   </tr>
-  <tr ng-repeat="user in users | filter:search">
-    <td>{{ user.user.full_name }}</td>
-    <td>{{ user.national_identification_number}}</td>
-    <td>{{ user.age }} år</td>
+  <tr ng-repeat="patient in patients | filter:search"
+      ng-click="openPatient(patient)"
+      class="clickable"
+      draggable-patient>
+    <td>{{ patient.user.full_name }}</td>
+    <td>{{ patient.national_identification_number}}</td>
+    <td>{{ patient.age }} år</td>
   </tr>
 </table>
 
