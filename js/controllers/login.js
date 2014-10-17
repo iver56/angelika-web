@@ -11,8 +11,12 @@ angelikaControllers.controller('LoginCtrl', function($scope, AuthService) {
 
       if (data.status === "success") {
         window.location.href = 'dashboard.html';
-      } else {
+      } else if (data.status === 'wrongCredentials') {
         $scope.loginFailed = true;
+        $scope.serverError = false;
+      } else {
+        $scope.loginFailed = false;
+        $scope.serverError = true;
       }
 
     });
