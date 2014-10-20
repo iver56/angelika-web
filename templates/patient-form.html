@@ -1,1 +1,48 @@
-Skjema
+<form novalidate role="form">
+  <h3>Info om bruker</h3>
+
+  <div class="form-group">
+    <label>
+      Fornavn
+      <input type="text" ng-model="patient.user.first_name" class="form-control" required>
+    </label>
+  </div>
+  <div class="form-group">
+    <label>
+      Etternavn
+      <input type="text" ng-model="patient.user.last_name" class="form-control" required>
+    </label>
+  </div>
+  <div class="form-group">
+    <label>
+      Fødselsnummer
+      <input type="text" ng-model="patient.national_identification_number" class="form-control" required>
+    </label>
+  </div>
+  <div class="form-group">
+    <label>
+      Telefonnummer
+      <input type="text" ng-model="patient.phone_number" class="form-control">
+    </label>
+  </div>
+  <div class="form-group">
+    <label>
+      Adresse
+      <input type="text" ng-model="patient.address" class="form-control">
+    </label>
+  </div>
+  <div class="form-group">
+    <label>
+      Postnummer
+      <input type="text" ng-model="patient.zip_code" class="form-control">
+    </label>
+  </div>
+  <div class="form-group">
+    <label>
+      Poststed
+      <input type="text" ng-model="patient.city" class="form-control">
+    </label>
+  </div>
+
+  <button ng-click="save()" class="btn btn-default" type="submit">Lagre</button>
+</form>
