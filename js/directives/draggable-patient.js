@@ -3,11 +3,11 @@ angelikaDirectives.directive('draggablePatient', ['LayoutUtils', function(Layout
     restrict: 'A',
     link: function(scope, element, attrs) {
       var patient = scope.$eval(attrs.draggablePatient);
-      var patientComponentConfig = LayoutUtils.getPatientConfig(
-        patient.id,
-        patient.user.full_name
-      );
       if (!!patient) {
+        var patientComponentConfig = LayoutUtils.getPatientConfig(
+          patient.id,
+          patient.user.full_name
+        );
         dashboardLayout.createDragSource(element, patientComponentConfig);
       }
     }
