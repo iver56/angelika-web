@@ -1,7 +1,6 @@
-angelikaControllers.controller('AlarmsCtrl', function($scope, $http, cfg) {
+angelikaControllers.controller('AlarmsCtrl', function($scope, $http, cfg, AlarmHelper) {
   $scope.alarms = [];
-
-  $scope.name = 'John Dee';
+  $scope.measurementType = AlarmHelper.measurementType;
 
   $http.get(cfg.apiUrl + "/alarms/")
     .success(function(data) {
