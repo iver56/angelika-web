@@ -3,7 +3,7 @@ angelikaControllers.controller('PatientsCtrl', function($scope, $http, cfg, Auth
 
   $http.get(cfg.apiUrl + "/patients/")
     .success(function(data) {
-      $scope.patients = data;
+      $scope.patients = data.results;
     })
     .error(function(data, status, headers, config) {
       console.error(data, status, headers, config);
