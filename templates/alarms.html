@@ -5,7 +5,10 @@
     <th>Type</th>
     <th>Håndtert</th>
   </tr>
-  <tr ng-repeat="alarm in alarms">
+  <tr ng-repeat="alarm in alarms"
+      class="clickable"
+      ng-click="openPatient(alarm.measurement.patient)"
+      draggable-patient="alarm.measurement.patient">
     <td>{{ alarm.measurement.patient.user.full_name }}</td>
     <td>{{ alarm.time_created | date:'dd.MM.yyyy HH:mm'}}</td>
     <td>{{ measurementType[alarm.measurement.type] }}</td>

@@ -1,4 +1,4 @@
-angelikaControllers.controller('AlarmsCtrl', function($scope, $http, cfg, AlarmHelper) {
+angelikaControllers.controller('AlarmsCtrl', function($scope, $http, cfg, AlarmHelper, LayoutUtils) {
   $scope.alarms = [];
   $scope.measurementType = AlarmHelper.measurementType;
 
@@ -9,4 +9,9 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, cfg, AlarmH
     .error(function(data, status, headers, config) {
       console.error(data, status, headers, config);
     });
+
+  $scope.openPatient = function(patient) {
+    var patientComponentConfig = LayoutUtils.getPatientConfig(patient.id, patient.user.full_name);
+    dashboardLayout.getPatientParentComponent().addChild(patientComponentConfig);
+  }
 });
