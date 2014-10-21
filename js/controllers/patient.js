@@ -3,7 +3,7 @@ angelikaControllers.controller('PatientCtrl', function($scope, $http, cfg, $q) {
   $scope.patient = {};
 
   var asyncPatientId = $q.defer();
-  $scope.init = function(resolve, reject) {
+  $scope.init = function() {
     if ($scope.patientId < 0) {
       console.error("Patient id is not specified!");
       asyncPatientId.reject($scope.patientId);
