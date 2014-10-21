@@ -1,4 +1,4 @@
-<div>
+<div class="container">
   <div class="page-header">
     <h1>{{ patient.user.first_name }} {{ patient.user.last_name }}</h1>
   </div>
@@ -18,17 +18,20 @@
     </tr>
     <tr class="active">
       <td>Adresse</td>
-      <td>{{ patient.address }}</td>
+      <td>
+        <a ng-href="http://maps.google.com/?q={{patient.address}}, {{patient.zip_code}} {{patient.city}}, Norway" target="_blank" >
+          {{patient.address}}, {{patient.zip_code}} {{patient.city}}</a>
+      </td>
     </tr>
   </table>
 
   <h4>Pårørende:</h4>
-  <div class="list-group" ng-repeat="contact in patient.next_of_kin">
-    <a class="list-group-item">
+  <div class="panel panel-default" ng-repeat="contact in patient.next_of_kin">
+    <div class="panel-body">
       <h5 class="list-group-item-heading">{{ contact.name }}</h5>
-      <p class="list-group-item-text">{{ contact.telephone }}</p>
-      <p class="list-group-item-text">{{ contact.address }}</p>
-    </a>
+      <p class="list-group-item-text"><span class="glyphicon glyphicon-earphone"></span> {{ contact.telephone }}</p>
+      <a ng-href="http://maps.google.com/?q={{contact.address}}" target="_blank" ><span class="glyphicon glyphicon-map-marker"></span> {{ contact.address }}</a>
+    </div>
   </div>
 
   <h4>Varsler:</h4>
