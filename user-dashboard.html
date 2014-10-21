@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+  <title>Angelika</title>
+  <meta charset="utf-8">
+  <!-- css -->
+  <link href="css/user-dashboard.css" rel="stylesheet">
+
+  <!-- libs -->
+  <script src="lib/jQuery/jquery.min.js"></script>
+  <script src="lib/angular/angular.min.js"></script>
+  <script src="lib/angular/angular-locale_nb-no.js"></script>
+  <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <script src="lib/ui-bootstrap/ui-bootstrap-tpls-0.11.0.min.js"></script>
+  <script src="lib/simpleStorage/simpleStorage.js"></script>
+
+  <!-- highcharts -->
+  <script src="lib/highcharts/highcharts-ng.js"></script>
+  <script src="lib/highcharts/highstock.js"></script>
+  <script src="http://code.highcharts.com/stock/highcharts-more.js"></script>
+  <script src="http://code.highcharts.com/stock/modules/exporting.js"></script>
+
+  <script type="text/javascript">
+    window.currentPage = 'user-dashboard.html';
+  </script>
+
+  <!-- app -->
+  <script src="js/app.js"></script>
+  <script src="js/static.js"></script>
+
+  <!-- controllers, alphabetically -->
+  <script src="js/controllers/user-dashboard.js"></script>
+
+  <!-- services, alphabetically -->
+  <script src="js/services/auth.js"></script>
+</head>
+
+<body ng-app="angelika" ng-controller="UserDashboardCtrl">
+<header>
+  <button ng-click="logOut()" class="btn btn-danger btn-lg">Logg ut</button>
+</header>
+
+<h1>Hei {{ name }}!</h1>
+
+<div class="alert alert-warning" role="alert">
+  <p>Er alt i orden? Ikke nøl med å ta kontakt hvis du trenger hjelp!<br/>
+    Telefonnummer: 23 48 76 76<br/>
+    Eller trykk her, så ringer vi deg:
+    <button onclick="/*registerCallRequest()*/" class="btn btn-default btn-lg">Ring meg</button>
+  </p>
+</div>
+
+<div class="alert alert-success" role="alert">{{ motivationalMsg }}</div>
+
+<div class="alert alert-info" role="alert">{{ otherMsg }}</div>
+
+<div id="charts">
+
+  <strong>Oversikt over din oksygenmetning den siste uka:</strong>
+  <highchart class="chartContainer" config="chartO2Config"></highchart>
+
+  <strong>Oversikt over din puls den siste uka:</strong>
+  <highchart class="chartContainer" config="chartHeartRateConfig"></highchart>
+
+  <strong>Oversikt over din temperatur den siste uka:</strong>
+  <highchart class="chartContainer" config="chartTempConfig"></highchart>
+
+  <strong>Oversikt over ditt aktivitetsnivå den siste uka:</strong>
+  <highchart class="chartContainer" config="chartActivityConfig"></highchart>
+</div>
+
+
+</body>
+
+</html>
+
+
+
