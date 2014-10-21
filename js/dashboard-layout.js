@@ -57,15 +57,12 @@ dashboardLayout.registerComponent('template', function(container, state) {
     + (state.patientId ? ' ng-init="patientId = ' + state.patientId + '; init()"' : '')
     + '></div>';
 
-  console.log("loading template", templateHtml);
-
   container.getElement().html(templateHtml);
 
 });
 
 dashboardLayout.on('initialised', function() {
   angular.bootstrap(document.body, ['angelika']);
-
 });
 
 dashboardLayout.init();
@@ -73,3 +70,9 @@ dashboardLayout.init();
 dashboardLayout.getPatientParentComponent = function() {
   return dashboardLayout.root.contentItems[0];
 };
+
+dashboardLayout.on('tabCreated', function(tab) {
+  if (tab.contentItem.config.componentState.patientId) {
+    tab.element.attr('data-patient-id', tab.contentItem.config.componentState.patientId);
+  }
+});
