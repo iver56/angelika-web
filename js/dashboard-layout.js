@@ -71,14 +71,6 @@ dashboardLayout.getPatientParentComponent = function() {
   return dashboardLayout.root.contentItems[0];
 };
 
-dashboardLayout.getPatientComponent = function(patientId) {
-  for (var i = 0; i < dashboardLayout.root.contentItems.length; i++) {
-    var contentItem = dashboardLayout.root.contentItems[i];
-    console.log(contentItem);
-  }
-  return null;
-};
-
 dashboardLayout.on('tabCreated', function(tab) {
   if (tab.contentItem.config.componentState.patientId) {
     tab.element.attr('data-patient-id', tab.contentItem.config.componentState.patientId);
