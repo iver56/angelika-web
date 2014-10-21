@@ -1,4 +1,8 @@
-angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg) {
+angelikaControllers.controller('UserDashboardCtrl', function($scope, $http, cfg, AuthService) {
+  $scope.name = "Ola Nordmann";
+  $scope.motivationalMsg = "Motiverende melding skrevet av helsepersonell kommer her.";
+  $scope.otherMsg = "Annen informasjon skrevet av helsepersonell kommer her.";
+
   $scope.chartRange = { days: 7 };
 
   $scope.tabSelected = function() {
@@ -13,18 +17,37 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
       credits: {
         enabled: false
       },
-      title: {},
+      title: {
+        text: ''
+      },
       xAxis: {
         type: 'datetime',
-        minTickInterval: 24 * 3600 * 1000
+        minTickInterval: 24 * 3600 * 1000,
+        labels: {
+          style: {
+            fontSize:'18px'
+          }
+        }
       },
       yAxis: {
-        title: {}
+        title: {
+          style: {
+            fontSize:'18px'
+          }
+        },
+        labels: {
+          style: {
+            fontSize:'18px'
+          }
+        }
       },
       plotOptions: {
         series: {
           lineWidth: 3
         }
+      },
+      exporting: {
+        enabled: false
       },
       legend: {
         enabled: false
@@ -47,12 +70,6 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
   $scope.chartHeartRateConfig = angular.copy(commonChartConfig);
   $scope.chartTempConfig = angular.copy(commonChartConfig);
   $scope.chartActivityConfig = angular.copy(commonChartConfig);
-
-  // Set chart titles
-  $scope.chartO2Config.options.title.text = "O2-metning";
-  $scope.chartHeartRateConfig.options.title.text = "Puls";
-  $scope.chartTempConfig.options.title.text = "Temperatur";
-  $scope.chartActivityConfig.options.title.text = "Aktivitet";
 
   // Set tooltip suffixes
   $scope.chartO2Config.options.tooltip.valueSuffix = " %";
@@ -127,35 +144,17 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
   var o2Data;
   var heartRateData;
   var tempData;
-  var activityData;
 
   $scope.setChartWidths = function() {
-    $scope.chartO2Config.options.chart.width = $("#container").width();
-    $scope.chartHeartRateConfig.options.chart.width = $("#container").width();
-    $scope.chartTempConfig.options.chart.width = $("#container").width();
-    $scope.chartActivityConfig.options.chart.width = $("#container").width();
+    $scope.chartO2Config.options.chart.width = $("#charts").width();
+    $scope.chartHeartRateConfig.options.chart.width = $("#charts").width();
+    $scope.chartTempConfig.options.chart.width = $("#charts").width();
+    $scope.chartActivityConfig.options.chart.width = $("#charts").width();
   };
 
   $http.get(cfg.apiUrl + "/measurements/?patient_id=1&type=O")
     .success(function(o2DataAPI) {
       o2Data = o2DataAPI.results;
-
-      for (var i=0; i<o2Data.length; i++) {
-
-        if (o2Data[i].y < o2Min) {
-          o2Data[i].events = {
-            click: function (e) {
-              console.log(e);
-              alert('test');
-            }
-          };
-
-          o2Data[i].marker = {
-            symbol: 'url(../../img/alert-icon.png)'
-          };
-        }
-      };
-
       $scope.chartO2Config.series[0].data = o2Data;
     })
     .error(function(o2DataAPI, o2Status, o2Headers, o2Config) {
@@ -166,23 +165,6 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
   $http.get(cfg.apiUrl + "/measurements/?patient_id=1&type=P")
     .success(function(heartRateDataAPI) {
       heartRateData = heartRateDataAPI.results;
-
-      for (var i=0; i<heartRateData.length; i++) {
-
-        if (heartRateData[i].y < heartRateMin || heartRateData[i].y > heartRateMax) {
-          heartRateData[i].events = {
-            click: function (e) {
-              console.log(e);
-              alert('test');
-            }
-          };
-
-          heartRateData[i].marker = {
-            symbol: 'url(../../img/alert-icon.png)'
-          };
-        }
-      };
-
       $scope.chartHeartRateConfig.series[0].data = heartRateData;
     })
     .error(function(heartRateDataAPI, heartRateStatus, heartRateHeaders, heartRateConfig) {
@@ -193,23 +175,6 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
   $http.get(cfg.apiUrl + "/measurements/?patient_id=1&type=T")
     .success(function(tempDataAPI) {
       tempData = tempDataAPI.results;
-
-      for (var i=0; i<tempData.length; i++) {
-
-        if (tempData[i].y < tempMin || tempData[i].y > tempMax) {
-          tempData[i].events = {
-            click: function (e) {
-              console.log(e);
-              alert('test');
-            }
-          };
-
-          tempData[i].marker = {
-            symbol: 'url(../../img/alert-icon.png)'
-          };
-        }
-      };
-
       $scope.chartTempConfig.series[0].data = tempData;
     })
     .error(function(tempDataAPI, tempStatus, tempHeaders, tempConfig) {
@@ -224,7 +189,6 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
     .error(function(activityDataAPI, activityStatus, activityHeaders, activityConfig) {
       console.log(activityDataAPI, activityStatus, activityHeaders, activityConfig);
     });
-
 
 
   $scope.updateChartRange = function() {
@@ -244,4 +208,9 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
   };
 
   $scope.updateChartRange();
+
+  $scope.logOut = function() {
+    AuthService.logOut();
+    window.location.href = 'index.html';
+  }
 });
