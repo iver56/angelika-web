@@ -29,8 +29,8 @@
   <div class="panel panel-default" ng-repeat="contact in patient.next_of_kin">
     <div class="panel-body">
       <h5 class="list-group-item-heading">{{ contact.name }}</h5>
-      <p class="list-group-item-text">{{ contact.telephone }}</p>
-      <a href="http://maps.google.com/?q={{contact.address}}" target="_blank" >{{ contact.address }}</a>
+      <p class="list-group-item-text"><span class="glyphicon glyphicon-earphone"></span> {{ contact.telephone }}</p>
+      <a href="http://maps.google.com/?q={{contact.address}}" target="_blank" ><span class="glyphicon glyphicon-map-marker"></span> {{ contact.address }}</a>
     </div>
   </div>
 
