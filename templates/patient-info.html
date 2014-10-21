@@ -19,7 +19,7 @@
     <tr class="active">
       <td>Adresse</td>
       <td>
-        <a href="http://maps.google.com/?q={{patient.address}}, {{patient.zip_code}} {{patient.city}}, Norway" target="_blank" >
+        <a ng-href="http://maps.google.com/?q={{patient.address}}, {{patient.zip_code}} {{patient.city}}, Norway" target="_blank" >
           {{patient.address}}, {{patient.zip_code}} {{patient.city}}</a>
       </td>
     </tr>
@@ -30,7 +30,7 @@
     <div class="panel-body">
       <h5 class="list-group-item-heading">{{ contact.name }}</h5>
       <p class="list-group-item-text"><span class="glyphicon glyphicon-earphone"></span> {{ contact.telephone }}</p>
-      <a href="http://maps.google.com/?q={{contact.address}}" target="_blank" ><span class="glyphicon glyphicon-map-marker"></span> {{ contact.address }}</a>
+      <a ng-href="http://maps.google.com/?q={{contact.address}}" target="_blank" ><span class="glyphicon glyphicon-map-marker"></span> {{ contact.address }}</a>
     </div>
   </div>
 
