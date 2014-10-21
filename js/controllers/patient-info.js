@@ -2,20 +2,6 @@ angelikaControllers.controller('PatientInfoCtrl', function($scope, $http, cfg) {
 
   $scope.getPatient().then(function(patient) {
     $scope.patient = patient;
-
-    //TODO: Make the API include this in the patient object
-    $scope.patient.next_of_kin = [
-      {
-        name: "Nils Overhaug",
-        telephone: 73345544,
-        address:"Lillegata 20, 0340 Oslo"
-      },
-      {
-        name: "Lise Overhaug",
-        telephone: 92452343,
-        address: "Bittelillegata 30, 4100 Stavanger"
-      }
-    ];
   });
 
   //TODO: get this from the API
