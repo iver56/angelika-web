@@ -15,12 +15,16 @@ var angelika = angular.module(
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
   })
   .run(function(AuthService, $compile, $rootScope) {
-    var loggedIn = AuthService.tryLoginFromMemory();
-    if (loggedIn) {
+    var role = AuthService.tryLoginFromMemory();
+    if (role) {
       if ('index.html' === window.currentPage) {
-        window.location.href = 'dashboard.html';
+        if ('patient' === role) {
+          window.location.href = 'user-dashboard.html';
+        } else {
+          window.location.href = 'dashboard.html';
+        }
       }
-    } else if ('dashboard.html' === window.currentPage) {
+    } else if ('dashboard.html' === window.currentPage || 'user-dashboard.html' === window.currentPage) {
       window.location.href = 'index.html';
     }
 
