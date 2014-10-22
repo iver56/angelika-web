@@ -32,20 +32,19 @@
 <h4>Pårørende:</h4>
 <div class="panel panel-default" ng-repeat="contact in patient.next_of_kin">
   <div class="panel-body">
+    <p ng-show="{{contact.id === 1}}"><span class="glyphicon glyphicon-star"></span> Hovedpårørende:</p>
+    <p ng-hide="{{contact.id === 1}}"> {{contact.id}}. pårørende:</p>
     <p class="list-group-item-heading">
       <span class="glyphicon glyphicon-user"></span>
       {{ contact.full_name }} <span ng-show="contact.relation">({{ contact.relation }})</span>
     </p>
-
     <p class="list-group-item-text" ng-show="contact.phone_number">
       <span class="glyphicon glyphicon-earphone"></span> {{ contact.phone_number }}
     </p>
-
     <p class="list-group-item-text">
       <span class="glyphicon glyphicon-map-marker"></span>
       <a ng-href="http://maps.google.com/?q={{contact.address}}" target="_blank">{{ contact.address }}</a>
     </p>
-
   </div>
 </div>
 
