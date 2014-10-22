@@ -1,6 +1,6 @@
 angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg) {
   $scope.posting = false;
-  $scope.getPatient().then(function(patient)  {
+  $scope.getPatient().then(function(patient) {
     $scope.patient = patient;
   });
 
@@ -18,7 +18,6 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg) {
         $scope.posting = true;
         console.error(data);
       });
-    console.log($scope.posting)
   };
 
 });
