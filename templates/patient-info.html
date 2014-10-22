@@ -1,84 +1,86 @@
-<div class="container">
-  <div class="page-header">
-    <h1>{{ patient.user.first_name }} {{ patient.user.last_name }}</h1>
-  </div>
+<div class="page-header">
+  <h1>{{ patient.user.first_name }} {{ patient.user.last_name }}</h1>
+</div>
 
-  <table class="table table-responsive">
-    <tr class="active">
-      <td width="120px">Personnummer</td>
-      <td>{{ patient.national_identification_number }}</td>
-    </tr>
-    <tr class="active">
-      <td>Alder</td>
-      <td>{{ patient.age }} år</td>
-    </tr>
-    <tr class="active">
-      <td>Telefonnummer</td>
-      <td>
-        {{ patient.phone_number }}
-        <i ng-hide="patient.phone_number">Ikke spesifisert</i>
-      </td>
-    </tr>
-    <tr class="active">
-      <td>Adresse</td>
-      <td>
-        <a ng-href="http://maps.google.com/?q={{patient.address}}, {{patient.zip_code}} {{patient.city}}, Norway" target="_blank" >
-          {{ patient.address }}, {{ patient.zip_code }} {{ patient.city }}
-        </a>
-      </td>
-    </tr>
-  </table>
+<table class="table table-responsive">
+  <tr class="active">
+    <td width="120px">Personnummer</td>
+    <td>{{ patient.national_identification_number }}</td>
+  </tr>
+  <tr class="active">
+    <td>Alder</td>
+    <td>{{ patient.age }} år</td>
+  </tr>
+  <tr class="active">
+    <td>Telefonnummer</td>
+    <td>
+      {{ patient.phone_number }}
+      <i ng-hide="patient.phone_number">Ikke spesifisert</i>
+    </td>
+  </tr>
+  <tr class="active">
+    <td>Adresse</td>
+    <td>
+      <a ng-href="http://maps.google.com/?q={{patient.address}}, {{patient.zip_code}} {{patient.city}}, Norway"
+         target="_blank">
+        {{ patient.address }}, {{ patient.zip_code }} {{ patient.city }}
+      </a>
+    </td>
+  </tr>
+</table>
 
-  <h4>Pårørende:</h4>
-  <div class="panel panel-default" ng-repeat="contact in patient.next_of_kin">
-    <div class="panel-body">
-      <p class="list-group-item-heading">
-        <span class="glyphicon glyphicon-user"></span>
-        {{ contact.full_name }} <span ng-show="contact.relation">({{ contact.relation }})</span>
-      </p>
-      <p class="list-group-item-text" ng-show="contact.phone_number">
-        <span class="glyphicon glyphicon-earphone"></span> {{ contact.phone_number }}
-      </p>
-      <p class="list-group-item-text">
-        <span class="glyphicon glyphicon-map-marker"></span>
-        <a ng-href="http://maps.google.com/?q={{contact.address}}" target="_blank">{{ contact.address }}</a>
-      </p>
+<h4>Pårørende:</h4>
+<div class="panel panel-default" ng-repeat="contact in patient.next_of_kin">
+  <div class="panel-body">
+    <p class="list-group-item-heading">
+      <span class="glyphicon glyphicon-user"></span>
+      {{ contact.full_name }} <span ng-show="contact.relation">({{ contact.relation }})</span>
+    </p>
 
-    </div>
-  </div>
+    <p class="list-group-item-text" ng-show="contact.phone_number">
+      <span class="glyphicon glyphicon-earphone"></span> {{ contact.phone_number }}
+    </p>
 
-  <h4>Varsler:</h4>
-  <table class="table table-bordered table-striped table-hover table-responsive">
-    <tr>
-      <th>Tid</th>
-      <th>Håndtert</th>
-      <th>Notis</th>
-    </tr>
-    <tr ng-repeat="alarm in alarms">
-      <td>{{ alarm.time_created | date : 'dd.MM.yyyy HH:mm' }}</td>
-      <td>{{ alarm.is_treated ? 'Ja' : 'Nei' }}</td>
-      <td>{{ alarm.treated_text }}</td>
-    </tr>
-  </table>
+    <p class="list-group-item-text">
+      <span class="glyphicon glyphicon-map-marker"></span>
+      <a ng-href="http://maps.google.com/?q={{contact.address}}" target="_blank">{{ contact.address }}</a>
+    </p>
 
-  <div class="panel panel-success">
-    <div class="panel-heading">
-      <h3 class="panel-title">Motiverende beskjed:</h3>
-    </div>
-    <div class="panel-body">
-      Cardigan Bushwick pickled narwhal heirloom typewriter leggings, readymade mlkshk. Leggings
-      crucifix street art, squid raw denim asymmetrical literally sustainable kale chips disrupt
-      flexitarian fashion axe Schlitz.
-    </div>
-  </div>
-
-  <div class="panel panel-info">
-    <div class="panel-heading">
-      <h3 class="panel-title">Info til pasienten:</h3>
-    </div>
-    <div class="panel-body">
-      Trust fund kogi readymade cred pickled tousled. Shabby chic bicycle rights chillwave, raw
-      denim Shoreditch lomo fap cardigan meggings meh distillery tilde Banksy artisan viral.
-    </div>
   </div>
 </div>
+
+<h4>Varsler:</h4>
+<table class="table table-bordered table-striped table-hover table-responsive">
+  <tr>
+    <th>Tid</th>
+    <th>Håndtert</th>
+    <th>Notis</th>
+  </tr>
+  <tr ng-repeat="alarm in alarms">
+    <td>{{ alarm.time_created | date : 'dd.MM.yyyy HH:mm' }}</td>
+    <td>{{ alarm.is_treated ? 'Ja' : 'Nei' }}</td>
+    <td>{{ alarm.treated_text }}</td>
+  </tr>
+</table>
+
+<div class="panel panel-success">
+  <div class="panel-heading">
+    <h3 class="panel-title">Motiverende beskjed:</h3>
+  </div>
+  <div class="panel-body">
+    Cardigan Bushwick pickled narwhal heirloom typewriter leggings, readymade mlkshk. Leggings
+    crucifix street art, squid raw denim asymmetrical literally sustainable kale chips disrupt
+    flexitarian fashion axe Schlitz.
+  </div>
+</div>
+
+<div class="panel panel-info">
+  <div class="panel-heading">
+    <h3 class="panel-title">Info til pasienten:</h3>
+  </div>
+  <div class="panel-body">
+    Trust fund kogi readymade cred pickled tousled. Shabby chic bicycle rights chillwave, raw
+    denim Shoreditch lomo fap cardigan meggings meh distillery tilde Banksy artisan viral.
+  </div>
+</div>
+
