@@ -31,3 +31,7 @@ ul.nav-tabs li {
 .clickable {
   cursor: pointer;
 }
+
+.medium-padding {
+    padding: 10px 15px;
+}
