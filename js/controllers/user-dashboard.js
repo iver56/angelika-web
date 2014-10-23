@@ -5,7 +5,9 @@ angelikaControllers.controller('UserDashboardCtrl', function ($scope, $http, cfg
       $scope.motivationalMsg = "Motiverende melding skrevet av helsepersonell kommer her.";
       $scope.otherMsg = "Annen informasjon skrevet av helsepersonell kommer her.";
 
-      $scope.chartRange = { days: 7 };
+      var now = new Date().getTime();
+      var msPerDay = 86400000;
+      var min = now - (msPerDay * 7); // 7 days ago
 
       $scope.tabSelected = function () {
         $scope.setChartWidths();
@@ -25,6 +27,8 @@ angelikaControllers.controller('UserDashboardCtrl', function ($scope, $http, cfg
           xAxis: {
             type: 'datetime',
             minTickInterval: 24 * 3600 * 1000,
+            min: min,
+            max: now,
             labels: {
               style: {
                 fontSize: '18px'
@@ -101,6 +105,7 @@ angelikaControllers.controller('UserDashboardCtrl', function ($scope, $http, cfg
           .success(function (o2Data) {
             $scope.chartO2Config.series[0].data = o2Data;
             setPlotBands($scope.chartO2Config, $scope.patient.o2_min, null);
+            checkYAxisRange($scope.chartO2Config, $scope.patient.o2_min, null);
           })
           .error(function (o2DataAPI, o2Status, o2Headers, o2Config) {
             console.log(o2DataAPI, o2Status, o2Headers, o2Config);
@@ -112,6 +117,7 @@ angelikaControllers.controller('UserDashboardCtrl', function ($scope, $http, cfg
           .success(function (heartRateData) {
             $scope.chartHeartRateConfig.series[0].data = heartRateData;
             setPlotBands($scope.chartHeartRateConfig, $scope.patient.pulse_min, $scope.patient.pulse_max);
+            checkYAxisRange($scope.chartHeartRateConfig, $scope.patient.pulse_min, $scope.patient.pulse_max);
           })
           .error(function (heartRateDataAPI, heartRateStatus, heartRateHeaders, heartRateConfig) {
             console.log(heartRateDataAPI, heartRateStatus, heartRateHeaders, heartRateConfig);
@@ -123,6 +129,7 @@ angelikaControllers.controller('UserDashboardCtrl', function ($scope, $http, cfg
           .success(function (temperatureData) {
             $scope.chartTempConfig.series[0].data = temperatureData;
             setPlotBands($scope.chartTempConfig, $scope.patient.temperature_min, $scope.patient.temperature_max);
+            checkYAxisRange($scope.chartTempConfig, $scope.patient.temperature_min, $scope.patient.temperature_max);
           })
           .error(function (tempDataAPI, tempStatus, tempHeaders, tempConfig) {
             console.log(tempDataAPI, tempStatus, tempHeaders, tempConfig);
@@ -142,24 +149,6 @@ angelikaControllers.controller('UserDashboardCtrl', function ($scope, $http, cfg
     .error(function (data, status, headers, config) {
       console.log(data, status, headers, config);
     });
-
-  $scope.updateChartRange = function () {
-    var now = new Date().getTime();
-    var msPerDay = 86400000;
-    var min = now - (msPerDay * $scope.chartRange.days);
-
-    $scope.chartO2Config.options.xAxis.min = min;
-    $scope.chartHeartRateConfig.options.xAxis.min = min;
-    $scope.chartTempConfig.options.xAxis.min = min;
-    $scope.chartActivityConfig.options.xAxis.min = min;
-
-    $scope.chartO2Config.options.xAxis.max = now;
-    $scope.chartHeartRateConfig.options.xAxis.max = now;
-    $scope.chartTempConfig.options.xAxis.max = now;
-    $scope.chartActivityConfig.options.xAxis.max = now;
-  };
-
-  $scope.updateChartRange();
 
   $scope.logOut = function () {
     AuthService.logOut();
@@ -194,5 +183,34 @@ angelikaControllers.controller('UserDashboardCtrl', function ($scope, $http, cfg
     }
 
     config.options.yAxis.plotBands = plotBands;
+  }
+
+  function checkYAxisRange(config, min, max) {
+    var aboveMax = false;
+    var belowMin = false;
+    for (var i=0; i<config.series[0].data.length; i++) {
+      if (max) {
+        if (config.series[0].data[i].y > max) {
+          aboveMax = true;
+        }
+      }
+      if (config.series[0].data[i].y < min) {
+        belowMin = true;
+      }
+    }
+
+    var yAxisInterval;
+    if (max) {
+      yAxisInterval = (max - min) / 10;
+    } else {
+      yAxisInterval = (100 - min) / 10;
+    }
+
+    if (max && !aboveMax) {
+      config.options.yAxis.max = (max + yAxisInterval);
+    }
+    if (!belowMin) {
+      config.options.yAxis.min = (min - yAxisInterval);
+    }
   }
 });
