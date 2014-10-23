@@ -1,7 +1,7 @@
-angelikaControllers.controller('PatientGraphsCtrl', function ($scope, $http, cfg) {
+angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg) {
   $scope.chartRange = { days: 7 };
 
-  $scope.tabSelected = function () {
+  $scope.tabSelected = function() {
     $scope.setChartWidths();
   };
 
@@ -69,27 +69,9 @@ angelikaControllers.controller('PatientGraphsCtrl', function ($scope, $http, cfg
   // Y-axis max
   $scope.chartO2Config.options.yAxis.max = 100;
 
-  var o2Min;
-  var heartRateMin;
-  var heartRateMax;
-  var tempMin;
-  var tempMax;
-
-  // Normal values
-  $scope.getPatient().then(function (patient) {
-    o2Min = patient.o2_min;
-    heartRateMin = patient.pulse_min;
-    heartRateMax = patient.pulse_max;
-    tempMin = patient.temperature_min;
-    tempMax = patient.temperature_max;
-  });
-
-  var o2Data;
-  var heartRateData;
-  var temperatureData;
   var alertIconUrl = 'url(../../img/alert-icon.png)';
 
-  $scope.setChartWidths = function () {
+  $scope.setChartWidths = function() {
     var width = $("#charts").width();
     $scope.chartO2Config.options.chart.width = width;
     $scope.chartHeartRateConfig.options.chart.width = width;
@@ -97,16 +79,16 @@ angelikaControllers.controller('PatientGraphsCtrl', function ($scope, $http, cfg
     $scope.chartActivityConfig.options.chart.width = width;
   };
 
-  $scope.getPatientId().then(function (patientId) {
-    $http.get(cfg.apiUrl + "/measurements/?patient_id=" + patientId + "&type=O")
-      .success(function (o2DataAPI) {
-        o2Data = o2DataAPI.results;
+  $scope.getPatient().then(function(patient) {
+    $http.get(cfg.apiUrl + "/measurements/?patient_id=" + patient.id + "&type=O")
+      .success(function(o2DataAPI) {
+        var o2Data = o2DataAPI.results;
 
         for (var i = 0; i < o2Data.length; i++) {
 
-          if (o2Data[i].y < o2Min) {
+          if (o2Data[i].y < patient.o2_min) {
             o2Data[i].events = {
-              click: function (e) {
+              click: function(e) {
                 console.log(e);
                 alert('test');
               }
@@ -118,22 +100,23 @@ angelikaControllers.controller('PatientGraphsCtrl', function ($scope, $http, cfg
         }
         ;
         $scope.chartO2Config.series[0].data = o2Data;
-        setPlotBands($scope.chartO2Config, o2Min, null);
+        setPlotBands($scope.chartO2Config, patient.o2_min, null);
+        checkYAxisRange($scope.chartO2Config, patient.o2_min, null);
       })
-      .error(function (o2DataAPI, o2Status, o2Headers, o2Config) {
+      .error(function(o2DataAPI, o2Status, o2Headers, o2Config) {
         console.log(o2DataAPI, o2Status, o2Headers, o2Config);
       });
 
 
-    $http.get(cfg.apiUrl + "/measurements/?patient_id=" + patientId + "&type=P")
-      .success(function (heartRateDataAPI) {
-        heartRateData = heartRateDataAPI.results;
+    $http.get(cfg.apiUrl + "/measurements/?patient_id=" + patient.id + "&type=P")
+      .success(function(heartRateDataAPI) {
+        var heartRateData = heartRateDataAPI.results;
 
         for (var i = 0; i < heartRateData.length; i++) {
 
-          if (heartRateData[i].y < heartRateMin || heartRateData[i].y > heartRateMax) {
+          if (heartRateData[i].y < patient.pulse_min || heartRateData[i].y > patient.pulse_max) {
             heartRateData[i].events = {
-              click: function (e) {
+              click: function(e) {
                 console.log(e);
                 alert('test');
               }
@@ -143,24 +126,24 @@ angelikaControllers.controller('PatientGraphsCtrl', function ($scope, $http, cfg
             };
           }
         }
-        ;
         $scope.chartHeartRateConfig.series[0].data = heartRateData;
-        setPlotBands($scope.chartHeartRateConfig, heartRateMin, heartRateMax);
+        setPlotBands($scope.chartHeartRateConfig, patient.pulse_min, patient.pulse_max);
+        checkYAxisRange($scope.chartHeartRateConfig, patient.pulse_min, patient.pulse_max);
       })
-      .error(function (heartRateDataAPI, heartRateStatus, heartRateHeaders, heartRateConfig) {
+      .error(function(heartRateDataAPI, heartRateStatus, heartRateHeaders, heartRateConfig) {
         console.log(heartRateDataAPI, heartRateStatus, heartRateHeaders, heartRateConfig);
       });
 
 
-    $http.get(cfg.apiUrl + "/measurements/?patient_id=" + patientId + "&type=T")
-      .success(function (temperatureDataAPI) {
-        temperatureData = temperatureDataAPI.results;
+    $http.get(cfg.apiUrl + "/measurements/?patient_id=" + patient.id + "&type=T")
+      .success(function(temperatureDataAPI) {
+        var temperatureData = temperatureDataAPI.results;
 
         for (var i = 0; i < temperatureData.length; i++) {
 
-          if (temperatureData[i].y < tempMin || temperatureData[i].y > tempMax) {
+          if (temperatureData[i].y < patient.temperature_min || temperatureData[i].y > patient.temperature_max) {
             temperatureData[i].events = {
-              click: function (e) {
+              click: function(e) {
                 console.log(e);
                 alert('test');
               }
@@ -172,23 +155,24 @@ angelikaControllers.controller('PatientGraphsCtrl', function ($scope, $http, cfg
         }
         ;
         $scope.chartTempConfig.series[0].data = temperatureData;
-        setPlotBands($scope.chartTempConfig, tempMin, tempMax);
+        setPlotBands($scope.chartTempConfig, patient.temperature_min, patient.temperature_max);
+        checkYAxisRange($scope.chartTempConfig, patient.temperature_min, patient.temperature_max);
       })
-      .error(function (tempDataAPI, tempStatus, tempHeaders, tempConfig) {
+      .error(function(tempDataAPI, tempStatus, tempHeaders, tempConfig) {
         console.log(tempDataAPI, tempStatus, tempHeaders, tempConfig);
       });
 
 
-    $http.get(cfg.apiUrl + "/measurements/?patient_id=" + patientId + "&type=A")
-      .success(function (activityDataAPI) {
+    $http.get(cfg.apiUrl + "/measurements/?patient_id=" + patient.id + "&type=A")
+      .success(function(activityDataAPI) {
         $scope.chartActivityConfig.series[0].data = activityDataAPI.results;
       })
-      .error(function (activityDataAPI, activityStatus, activityHeaders, activityConfig) {
+      .error(function(activityDataAPI, activityStatus, activityHeaders, activityConfig) {
         console.log(activityDataAPI, activityStatus, activityHeaders, activityConfig);
       });
   });
 
-  $scope.updateChartRange = function () {
+  $scope.updateChartRange = function() {
     var now = new Date().getTime();
     var msPerDay = 86400000;
     var min = now - (msPerDay * $scope.chartRange.days);
@@ -234,5 +218,34 @@ angelikaControllers.controller('PatientGraphsCtrl', function ($scope, $http, cfg
     }
 
     config.options.yAxis.plotBands = plotBands;
+  }
+
+  function checkYAxisRange(config, min, max) {
+    var aboveMax = false;
+    var belowMin = false;
+    for (var i=0; i<config.series[0].data.length; i++) {
+      if (max) {
+        if (config.series[0].data[i].y > max) {
+          aboveMax = true;
+        }
+      }
+      if (config.series[0].data[i].y < min) {
+        belowMin = true;
+      }
+    }
+
+    var yAxisInterval;
+    if (max) {
+      yAxisInterval = (max - min) / 10;
+    } else {
+      yAxisInterval = (100 - min) / 10;
+    }
+
+    if (max && !aboveMax) {
+      config.options.yAxis.max = (max + yAxisInterval);
+    }
+    if (!belowMin) {
+      config.options.yAxis.min = (min - yAxisInterval);
+    }
   }
 });
