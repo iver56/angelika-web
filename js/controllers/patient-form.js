@@ -15,7 +15,7 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg) {
         $tab.find('span.lm_title').text(fullName);
       })
       .error(function(data) {
-        $scope.posting = true;
+        $scope.posting = false;
         console.error(data);
       });
   };
