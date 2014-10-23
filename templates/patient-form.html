@@ -1,103 +1,142 @@
 <form novalidate role="form">
-  <h3>Info om bruker</h3>
-  <div class="form-group">
-    <label>
-      Fornavn
-      <input type="text" ng-model="patient.user.first_name" class="form-control" required>
-    </label>
-  </div>
-  <div class="form-group">
-    <label>
-      Etternavn
-      <input type="text" ng-model="patient.user.last_name" class="form-control" required>
-    </label>
-  </div>
-  <div class="form-group">
-    <label>
-      Fødselsnummer
-      <input type="text" ng-model="patient.national_identification_number" class="form-control" required>
-    </label>
-  </div>
-  <div class="form-group">
-    <label>
-      Telefonnummer
-      <input type="text" ng-model="patient.phone_number" class="form-control">
-    </label>
-  </div>
-  <div class="form-group">
-    <label>
-      Adresse
-      <input type="text" ng-model="patient.address" class="form-control">
-    </label>
-  </div>
-  <div class="form-group">
-    <label>
-      Postnummer
-      <input type="text" ng-model="patient.zip_code" class="form-control">
-    </label>
-  </div>
-  <div class="form-group">
-    <label>
-      Poststed
-      <input type="text" ng-model="patient.city" class="form-control">
-    </label>
-  </div>
+  <fieldset ng-disabled="posting">
+    <h3>Info om bruker</h3>
 
-  <h3>Normalverdier</h3>
-  <p>Det generes varsler hvis verdiene går utenfor disse grenseverdiene</p>
-  <div class="row">
-    <div class="col-md-3">
-      <h4>O2-metning</h4>
+    <div class="form-group">
+      <label>
+        Fornavn
+        <input type="text" ng-model="patient.user.first_name" class="form-control" required>
+      </label>
     </div>
-    <div class="col-md-3">
-      <label class="control-label">Min (%)</label>
-      <input type="number" ng-model="patient.o2_min" class="form-control">
+    <div class="form-group">
+      <label>
+        Etternavn
+        <input type="text" ng-model="patient.user.last_name" class="form-control" required>
+      </label>
     </div>
-    <div class="col-md-3">
-      <label class="control-label">Maks (%)</label>
-      <input type="number" ng-model="patient.o2_max" class="form-control">
+    <div class="form-group">
+      <label>
+        Fødselsnummer
+        <input type="text" ng-model="patient.national_identification_number" class="form-control" required>
+      </label>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-3">
-      <h4>Puls</h4>
+    <div class="form-group">
+      <label>
+        Telefonnummer
+        <input type="text" ng-model="patient.phone_number" class="form-control">
+      </label>
     </div>
-    <div class="col-md-3">
-      <label class="control-label">Min (slag/min.)</label>
-      <input type="number" ng-model="patient.pulse_min" class="form-control">
+    <div class="form-group">
+      <label>
+        Adresse
+        <input type="text" ng-model="patient.address" class="form-control">
+      </label>
     </div>
-    <div class="col-md-3">
-      <label class="control-label">Maks (slag/min.)</label>
-      <input type="number" ng-model="patient.pulse_max" class="form-control">
+    <div class="form-group">
+      <label>
+        Postnummer
+        <input type="text" ng-model="patient.zip_code" class="form-control">
+      </label>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-3">
-      <h4>Temperatur</h4>
+    <div class="form-group">
+      <label>
+        Poststed
+        <input type="text" ng-model="patient.city" class="form-control">
+      </label>
     </div>
-    <div class="col-md-3">
-      <label class="control-label">Min (°C)</label>
-      <input type="number" ng-model="patient.temperature_min" class="form-control">
-    </div>
-    <div class="col-md-3">
-      <label class="control-label">Maks (°C)</label>
-      <input type="number" ng-model="patient.temperature_max" class="form-control">
-    </div>
-  </div>
 
-  <h3>Synlig for bruker</h3>
-  <div class="checkbox">
-    <label><input type="checkbox" ng-model="patient.activity_access">Aktivitetsmålinger</label>
-  </div>
-  <div class="checkbox">
-    <label><input type="checkbox" ng-model="patient.o2_access">O2-metning</label>
-  </div>
-  <div class="checkbox">
-    <label><input type="checkbox" ng-model="patient.pulse_access">Puls</label>
-  </div>
-  <div class="checkbox">
-    <label><input type="checkbox" ng-model="patient.temperature_access">Temperatur</label>
-  </div>
+    <h3>Normalverdier</h3>
 
-  <button ng-click="save()" class="btn btn-default" type="submit">Lagre</button>
+    <p>Det generes varsler hvis verdiene går utenfor disse grenseverdiene</p>
+
+    <div class="row">
+      <div class="col-md-3">
+        <h4>O2-metning</h4>
+      </div>
+      <div class="col-md-3">
+        <label class="control-label">Min (%)</label>
+        <input type="number" ng-model="patient.o2_min" class="form-control">
+      </div>
+      <div class="col-md-3">
+        <label class="control-label">Maks (%)</label>
+        <input type="number" ng-model="patient.o2_max" class="form-control">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <h4>Puls</h4>
+      </div>
+      <div class="col-md-3">
+        <label class="control-label">Min (slag/min.)</label>
+        <input type="number" ng-model="patient.pulse_min" class="form-control">
+      </div>
+      <div class="col-md-3">
+        <label class="control-label">Maks (slag/min.)</label>
+        <input type="number" ng-model="patient.pulse_max" class="form-control">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <h4>Temperatur</h4>
+      </div>
+      <div class="col-md-3">
+        <label class="control-label">Min (°C)</label>
+        <input type="number" ng-model="patient.temperature_min" class="form-control">
+      </div>
+      <div class="col-md-3">
+        <label class="control-label">Maks (°C)</label>
+        <input type="number" ng-model="patient.temperature_max" class="form-control">
+      </div>
+    </div>
+
+    <h3>Synlig for bruker</h3>
+
+    <div class="checkbox">
+      <label><input type="checkbox" ng-model="patient.activity_access">Aktivitetsmålinger</label>
+    </div>
+    <div class="checkbox">
+      <label><input type="checkbox" ng-model="patient.o2_access">O2-metning</label>
+    </div>
+    <div class="checkbox">
+      <label><input type="checkbox" ng-model="patient.pulse_access">Puls</label>
+    </div>
+    <div class="checkbox">
+      <label><input type="checkbox" ng-model="patient.temperature_access">Temperatur</label>
+    </div>
+
+    <h3>Pårørende</h3>
+
+    <div class="panel panel-default panel-body" ng-repeat="contact in patient.next_of_kin">
+      <h4 ng-show="$index === 0"><span class="glyphicon glyphicon-star"></span>Hovedpårørende</h4>
+      <h4 ng-hide="$index === 0">{{ $index + 1 }}. pårørende</h4>
+
+      <div class="form-group">
+        <label>
+          Navn
+          <input type="text" ng-model="contact.full_name" class="form-control" required>
+        </label>
+      </div>
+      <div class="form-group">
+        <label>
+          Telefon
+          <input type="text" ng-model="contact.phone_number" class="form-control" required>
+        </label>
+      </div>
+      <div class="form-group">
+        <label>
+          Adresse
+          <input type="text" ng-model="contact.address" class="form-control" required>
+        </label>
+      </div>
+      <div class="form-group">
+        <label>
+          Rolle
+          <input type="text" ng-model="contact.relation" class="form-control" required>
+        </label>
+      </div>
+
+    </div>
+
+    <button ng-click="save()" class="btn btn-default" type="submit">Lagre</button>
+  </fieldset>
 </form>
