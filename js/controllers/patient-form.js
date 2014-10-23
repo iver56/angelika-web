@@ -40,4 +40,12 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg) {
   $scope.removeNextOfKin = function(index) {
     $scope.patient.next_of_kin.splice(index, 1);
   };
+
+  $scope.moveNextOfKinUp = function(index) {
+    <!-- Code to increment index of object at index, index -->
+  }
+
+  $scope.moveNextOfKinDown = function(index) {
+    <!-- Code to decrement index of object at index, index -->
+  }
 });
