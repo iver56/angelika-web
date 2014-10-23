@@ -106,9 +106,9 @@
 
     <h3>Pårørende</h3>
 
-    <div ng-repeat="contact in patient.next_of_kin">
-      <h5 ng-show="{{$index === 0}}"><span class="glyphicon glyphicon-star"></span> Hovedpårørende:</h5>
-      <h5 ng-hide="{{$index === 0}}"> {{$index + 1}}. pårørende:</h5>
+    <div class="panel panel-default panel-body" ng-repeat="contact in patient.next_of_kin">
+      <h4 ng-show="$index === 0"><span class="glyphicon glyphicon-star"></span>Hovedpårørende</h4>
+      <h4 ng-hide="$index === 0">{{ $index + 1 }}. pårørende</h4>
 
       <div class="form-group">
         <label>
