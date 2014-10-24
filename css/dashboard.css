@@ -35,14 +35,3 @@ ul.nav-tabs li {
 .medium-padding {
     padding: 10px 15px;
 }
-
-.spinner-element {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -50px;
-    margin-left: -50px;
-    width: 100px;
-    height: 100px;
-    z-index: 1;
-}
