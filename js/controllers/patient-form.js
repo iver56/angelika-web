@@ -1,4 +1,4 @@
-angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, $location, $anchorScroll) {
+angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg) {
   $scope.posting = false;
   $scope.getPatient().then(function(patient) {
     $scope.patient = patient;
@@ -55,9 +55,7 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, $
     $scope.patient.next_of_kin[index + 1] = temp;
   };
 
-  $scope.alerts = [
-
-  ];
+  $scope.alerts = [ ];
 
   $scope.addErrorAlert = function() {
     $scope.alerts.pop();
