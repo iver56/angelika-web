@@ -137,10 +137,10 @@
         <span class="glyphicon glyphicon-remove"></span> Fjern
       </button>
       <div class="btn-group">
-        <button ng-click="moveNextOfKinUp($index)" class="btn btn-default" ng-disabled="$index === 0">
+        <button ng-click="moveNextOfKinUp($index)" class="btn btn-default" ng-if="!$first">
           <span class="glyphicon glyphicon-chevron-up"></span> Flytt opp
         </button>
-        <button ng-click="moveNextOfKinDown($index)" class="btn btn-default" ng-disabled="$index === {{patient.next_of_kin.length - 1}}">
+        <button ng-click="moveNextOfKinDown($index)" class="btn btn-default" ng-if="!$last">
           <span class="glyphicon glyphicon-chevron-down"></span> Flytt ned
         </button>
       </div>
