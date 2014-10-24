@@ -105,6 +105,7 @@
     </div>
 
     <h3>Pårørende</h3>
+
     <div class="panel panel-default panel-body" ng-repeat="contact in patient.next_of_kin">
       <h4 ng-show="$index === 0"><span class="glyphicon glyphicon-star"></span>Hovedpårørende</h4>
       <h4 ng-hide="$index === 0">{{ $index + 1 }}. pårørende</h4>
@@ -142,7 +143,7 @@
       <span class="glyphicon glyphicon-ok"></span> Lagre
     </button>
     <span class="medium-padding" ng-show="posting">
-    <img src="lib/graphics/spinner.gif" alt="Laster..." style="width:20px;height:20px">
-  </span>
+      <img src="lib/graphics/spinner.gif" alt="Laster..." style="width:20px;height:20px">
+    </span>
   </fieldset>
 </form>
