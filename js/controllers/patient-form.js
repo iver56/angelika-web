@@ -1,4 +1,4 @@
-angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg) {
+angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, $location, $anchorScroll) {
   $scope.posting = false;
   $scope.getPatient().then(function(patient) {
     $scope.patient = patient;
@@ -19,10 +19,12 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg) {
         $tab.attr('title', fullName);
         $tab.find('span.lm_title').text(fullName);
         $scope.posting = false;
+        $scope.addSuccessAlert();
       })
       .error(function(data) {
         $scope.posting = false;
         console.error(data);
+        $scope.addErrorAlert();
       });
   };
 
@@ -45,11 +47,29 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg) {
     var temp = $scope.patient.next_of_kin[index];
     $scope.patient.next_of_kin[index] = $scope.patient.next_of_kin[index - 1];
     $scope.patient.next_of_kin[index - 1] = temp;
-  }
+  };
 
   $scope.moveNextOfKinDown = function(index) {
     var temp = $scope.patient.next_of_kin[index];
     $scope.patient.next_of_kin[index] = $scope.patient.next_of_kin[index + 1];
     $scope.patient.next_of_kin[index + 1] = temp;
-  }
+  };
+
+  $scope.alerts = [
+
+  ];
+
+  $scope.addErrorAlert = function() {
+    $scope.alerts.pop();
+    $scope.alerts.push({ type: 'danger', msg: 'Kommunikasjon med server feilet, ingenting ble lagret.'});
+  };
+
+  $scope.addSuccessAlert = function() {
+    $scope.alerts.pop();
+    $scope.alerts.push({ type: 'success', msg: 'Endringer er lagret.'});
+  };
+
+  $scope.closeAlert = function(index) {
+    $scope.alerts.splice(index, 1);
+  };
 });
