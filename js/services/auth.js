@@ -3,8 +3,8 @@ angelikaServices.service('AuthService', function($http, cfg) {
   this.login = function(username, password, cb) {
     $http.post(cfg.apiUrl + '/api-token-auth/', {username: username, password: password})
       .success(function(data) {
-        that.setToken(data.token, data.role);
-        cb({status: 'success', role: data.role});
+        that.setToken(data.token, data.group);
+        cb({status: 'success', group: data.group});
       })
       .error(function(data, status, headers, config) {
         if (status === 400) {
@@ -15,10 +15,10 @@ angelikaServices.service('AuthService', function($http, cfg) {
       });
   };
 
-  this.setToken = function(token, role) {
+  this.setToken = function(token, group) {
     $http.defaults.headers.common.Authorization = "Token " + token;
     simpleStorage.set('authToken', token, {TTL: 7200000 /*2h*/});
-    simpleStorage.set('authRole', role, {TTL: 7200000 /*2h*/});
+    simpleStorage.set('authGroup', group, {TTL: 7200000 /*2h*/});
   };
 
   this.logOut = function() {
@@ -27,14 +27,14 @@ angelikaServices.service('AuthService', function($http, cfg) {
   };
 
   /**
-   * @returns false if failure, role (string) if success
+   * @returns boolean false if failure, group (string) if success
    */
   this.tryLoginFromMemory = function() {
     var cachedToken = simpleStorage.get('authToken');
-    var cachedRole = simpleStorage.get('authRole');
-    if (cachedToken && cachedRole) {
-      this.setToken(cachedToken, cachedRole);
-      return cachedRole;
+    var cachedGroup = simpleStorage.get('authGroup');
+    if (cachedToken && cachedGroup) {
+      this.setToken(cachedToken, cachedGroup);
+      return cachedGroup;
     } else {
       return false;
     }
