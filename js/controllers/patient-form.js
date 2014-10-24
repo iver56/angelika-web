@@ -32,7 +32,6 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg) {
       full_name: '',
       address: '',
       phone_number: '',
-      priority: $scope.patient.next_of_kin[$scope.patient.next_of_kin.length - 1].priority + 1,
       relation: ''
     });
   };
