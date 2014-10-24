@@ -153,7 +153,8 @@
     <br>
     <br>
     <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}} </alert>
-    <button class="btn btn-default" type="submit" ng-click="addValidationErrorAlert(!patientForm.$valid)">
+
+    <button class="btn btn-default" type="submit">
       <span class="glyphicon glyphicon-ok"></span> Lagre
     </button>
     <span class="medium-padding" ng-show="posting">
