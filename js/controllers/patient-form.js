@@ -54,7 +54,7 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg) {
     $scope.patient.next_of_kin[index + 1] = temp;
   };
 
-  $scope.alerts = [ ];
+  $scope.alerts = [];
 
   $scope.addErrorAlert = function() {
     $scope.alerts.pop();
