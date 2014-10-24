@@ -1,3 +1,4 @@
 .idea
 *.iml
 js/static.js
+.DS_Store
