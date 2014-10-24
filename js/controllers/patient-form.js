@@ -40,4 +40,16 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg) {
   $scope.removeNextOfKin = function(index) {
     $scope.patient.next_of_kin.splice(index, 1);
   };
+
+  $scope.moveNextOfKinUp = function(index) {
+    var temp = $scope.patient.next_of_kin[index];
+    $scope.patient.next_of_kin[index] = $scope.patient.next_of_kin[index - 1];
+    $scope.patient.next_of_kin[index - 1] = temp;
+  }
+
+  $scope.moveNextOfKinDown = function(index) {
+    var temp = $scope.patient.next_of_kin[index];
+    $scope.patient.next_of_kin[index] = $scope.patient.next_of_kin[index + 1];
+    $scope.patient.next_of_kin[index + 1] = temp;
+  }
 });

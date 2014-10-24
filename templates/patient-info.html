@@ -36,12 +36,12 @@
     <p ng-hide="$index === 0">{{ $index + 1 }}. pårørende:</p>
     <p class="list-group-item-heading">
       <span class="glyphicon glyphicon-user"></span>
-      {{ contact.full_name }} <span ng-show="contact.relation">({{ contact.relation }})</span>
+      {{ contact.full_name }} <span class="label label-info" ng-show="contact.relation">{{ contact.relation }}</span>
     </p>
     <p class="list-group-item-text" ng-show="contact.phone_number">
       <span class="glyphicon glyphicon-earphone"></span> {{ contact.phone_number }}
     </p>
-    <p class="list-group-item-text">
+    <p class="list-group-item-text" ng-show="contact.address">
       <span class="glyphicon glyphicon-map-marker"></span>
       <a ng-href="http://maps.google.com/?q={{contact.address}}" target="_blank">{{ contact.address }}</a>
     </p>

@@ -109,7 +109,6 @@
     <div class="panel panel-default panel-body" ng-repeat="contact in patient.next_of_kin">
       <h4 ng-show="$index === 0"><span class="glyphicon glyphicon-star"></span>Hovedpårørende</h4>
       <h4 ng-hide="$index === 0">{{ $index + 1 }}. pårørende</h4>
-      <button ng-click="removeNextOfKin($index)" class="btn btn-danger">Fjern</button>
       <div class="form-group">
         <label>
           Navn
@@ -133,6 +132,18 @@
           Rolle
           <input type="text" ng-model="contact.relation" class="form-control">
         </label>
+      </div>
+
+      <button ng-click="removeNextOfKin($index)" class="btn btn-danger">
+        <span class="glyphicon glyphicon-remove"></span> Fjern
+      </button>
+      <div class="btn-group">
+        <button ng-click="moveNextOfKinUp($index)" class="btn btn-default" ng-if="!$first">
+          <span class="glyphicon glyphicon-chevron-up"></span> Flytt opp
+        </button>
+        <button ng-click="moveNextOfKinDown($index)" class="btn btn-default" ng-if="!$last">
+          <span class="glyphicon glyphicon-chevron-down"></span> Flytt ned
+        </button>
       </div>
     </div>
     <button ng-click="addNextOfKin()" class="btn">Legg til pårørende</button>
