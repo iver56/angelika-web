@@ -150,7 +150,8 @@
 
     <br>
     <br>
-    <button ng-click="save()" class="btn btn-default" type="submit">
+    <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+    <button id="bottom" ng-click="save()" class="btn btn-default" type="submit">
       <span class="glyphicon glyphicon-ok"></span> Lagre
     </button>
     <span class="medium-padding" ng-show="posting">
