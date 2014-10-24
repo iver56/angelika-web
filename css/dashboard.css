@@ -35,3 +35,11 @@ ul.nav-tabs li {
 .medium-padding {
     padding: 10px 15px;
 }
+
+.ng-invalid.ng-dirty {
+    border-color: #FA787E;
+}
+
+.ng-valid.ng-dirty {
+    border-color: #78FA89;
+}
