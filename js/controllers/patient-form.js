@@ -1,12 +1,27 @@
 angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg) {
   $scope.posting = false;
-  $scope.getPatient().then(function(patient) {
-    $scope.patient = patient;
-  });
+  $scope.patient = {
+    id: null,
+    user: {},
+    next_of_kin: []
+  };
+
+  // getPatient is inherited from the parent scope (PatientCtrl). Available only if the patient already exists.
+  if ($scope.getPatient) {
+    $scope.getPatient().then(function(patient) {
+      $scope.patient = patient;
+    });
+  }
 
   $scope.save = function() {
     $scope.posting = true;
-    $http.patch(cfg.apiUrl + "/patients/" + $scope.patientId + "/", $scope.patient)
+
+    var method = $scope.patient.id ? 'patch' : 'post';
+    var url = cfg.apiUrl + "/patients/";
+    if (method === 'patch') {
+      url += $scope.patientId + "/";
+    }
+    $http[method](url, $scope.patient)
       .success(function(patient) {
         for (var property in patient) {
           if (patient.hasOwnProperty(property) && $scope.patient.hasOwnProperty(property)) {
@@ -14,10 +29,16 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg) {
           }
         }
 
-        var fullName = patient.user.first_name + " " + patient.user.last_name;
-        var $tab = $(".lm_tab[data-patient-id='" + $scope.patient.id + "']");
-        $tab.attr('title', fullName);
-        $tab.find('span.lm_title').text(fullName);
+        if ('patch' === method) {
+          var fullName = patient.user.first_name + " " + patient.user.last_name;
+          var $tab = $(".lm_tab[data-patient-id='" + $scope.patient.id + "']");
+          $tab.attr('title', fullName);
+          $tab.find('span.lm_title').text(fullName);
+        } else {
+          //a new patient has been created
+          //TODO: close current tab and open tab for the new patient
+        }
+
         $scope.posting = false;
         $scope.addSuccessAlert();
       })

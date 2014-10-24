@@ -28,4 +28,16 @@ angelikaServices.service('LayoutUtils', function() {
       dashboardLayout.getPatientParentComponent().addChild(patientComponentConfig);
     }
   };
+
+  this.getNewPatientConfig = function() {
+    return {
+      type: 'component',
+      componentName: 'template',
+      title: 'Ny bruker',
+      componentState: {
+        template: 'patient-form.html',
+        controller: 'PatientFormCtrl'
+      }
+    }
+  };
 });
