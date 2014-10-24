@@ -43,6 +43,7 @@ ul.nav-tabs li {
 
 .measurementTableContainer {
   width: 20% !important;
+  min-width: 170px;
   float: left;
   margin-right: 4%;
 }
