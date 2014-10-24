@@ -42,10 +42,14 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg) {
   };
 
   $scope.moveNextOfKinUp = function(index) {
-    <!-- Code to increment index of object at index, index -->
+    var temp = $scope.patient.next_of_kin[index];
+    $scope.patient.next_of_kin[index] = $scope.patient.next_of_kin[index - 1];
+    $scope.patient.next_of_kin[index - 1] = temp;
   }
 
   $scope.moveNextOfKinDown = function(index) {
-    <!-- Code to decrement index of object at index, index -->
+    var temp = $scope.patient.next_of_kin[index];
+    $scope.patient.next_of_kin[index] = $scope.patient.next_of_kin[index + 1];
+    $scope.patient.next_of_kin[index + 1] = temp;
   }
 });
