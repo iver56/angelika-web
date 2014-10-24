@@ -69,163 +69,88 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
   // Y-axis max
   $scope.chartO2Config.options.yAxis.max = 100;
 
-  // Plot bands
-
-  // Normal values, to be fetched from api
-  var o2Min = 90;
-  var heartRateMin = 60;
-  var heartRateMax = 90;
-  var tempMin = 36;
-  var tempMax = 39;
-
-  $scope.chartO2Config.options.yAxis.plotBands = [{
-    // Critically low value
-    color: 'rgba(245,127,127,0.2)',
-    from: '0',
-    to: o2Min
-  },{
-    // Green OK area:
-    color: 'rgba(125,235,121,0.2)',
-    from: o2Min,
-    to: '100'
-  }];
-
-  $scope.chartHeartRateConfig.options.yAxis.plotBands = [{
-    // Critically low value:
-    color: 'rgba(245,127,127,0.2)',
-    from: '0',
-    to: heartRateMin
-  },{
-    // Green OK area:
-    color: 'rgba(125,235,121,0.2)',
-    from: heartRateMin,
-    to: heartRateMax
-  },{
-    // Critically high value:
-    color: 'rgba(245,127,127,0.2)',
-    from: heartRateMax,
-    to: '200' // Fetch from normal values
-  }];
-
-  $scope.chartTempConfig.options.yAxis.plotBands = [{
-    // Critically low value:
-    color: 'rgba(245,127,127,0.2)',
-    from: '0',
-    to: tempMin
-  },{
-    // Green OK area:
-    color: 'rgba(125,235,121,0.2)',
-    from: tempMin,
-    to: tempMax
-  },{
-    // Critically high value:
-    color: 'rgba(245,127,127,0.2)',
-    from: tempMax,
-    to: '50' // Fetch from normal values
-  }];
-
-  var o2Data;
-  var heartRateData;
-  var tempData;
-  var activityData;
+  var alertIconUrl = 'url(../../img/alert-icon.png)';
 
   $scope.setChartWidths = function() {
-    $scope.chartO2Config.options.chart.width = $("#container").width();
-    $scope.chartHeartRateConfig.options.chart.width = $("#container").width();
-    $scope.chartTempConfig.options.chart.width = $("#container").width();
-    $scope.chartActivityConfig.options.chart.width = $("#container").width();
+    var width = $("#charts").width();
+    $scope.chartO2Config.options.chart.width = width;
+    $scope.chartHeartRateConfig.options.chart.width = width;
+    $scope.chartTempConfig.options.chart.width = width;
+    $scope.chartActivityConfig.options.chart.width = width;
   };
 
-  $http.get(cfg.apiUrl + "/measurements/?patient_id=1&type=O")
-    .success(function(o2DataAPI) {
-      o2Data = o2DataAPI.results;
+  $scope.getPatient().then(function(patient) {
+    $scope.getPatientO2Data().then(function(o2DataAPI) {
+      var o2Data = o2DataAPI.results;
 
-      for (var i=0; i<o2Data.length; i++) {
+      for (var i = 0; i < o2Data.length; i++) {
 
-        if (o2Data[i].y < o2Min) {
+        if (o2Data[i].y < patient.o2_min) {
           o2Data[i].events = {
-            click: function (e) {
+            click: function(e) {
               console.log(e);
               alert('test');
             }
           };
-
           o2Data[i].marker = {
-            symbol: 'url(../../img/alert-icon.png)'
+            symbol: alertIconUrl
           };
         }
-      };
-
+      }
       $scope.chartO2Config.series[0].data = o2Data;
-    })
-    .error(function(o2DataAPI, o2Status, o2Headers, o2Config) {
-      console.log(o2DataAPI, o2Status, o2Headers, o2Config);
+      setPlotBands($scope.chartO2Config, patient.o2_min, null);
+      checkYAxisRange($scope.chartO2Config, patient.o2_min, null);
     });
 
+    $scope.getPatientHeartRateData().then(function(heartRateDataAPI) {
+      var heartRateData = heartRateDataAPI.results;
 
-  $http.get(cfg.apiUrl + "/measurements/?patient_id=1&type=P")
-    .success(function(heartRateDataAPI) {
-      heartRateData = heartRateDataAPI.results;
+      for (var i = 0; i < heartRateData.length; i++) {
 
-      for (var i=0; i<heartRateData.length; i++) {
-
-        if (heartRateData[i].y < heartRateMin || heartRateData[i].y > heartRateMax) {
+        if (heartRateData[i].y < patient.pulse_min || heartRateData[i].y > patient.pulse_max) {
           heartRateData[i].events = {
-            click: function (e) {
+            click: function(e) {
               console.log(e);
               alert('test');
             }
           };
-
           heartRateData[i].marker = {
-            symbol: 'url(../../img/alert-icon.png)'
+            symbol: alertIconUrl
           };
         }
-      };
-
+      }
       $scope.chartHeartRateConfig.series[0].data = heartRateData;
-    })
-    .error(function(heartRateDataAPI, heartRateStatus, heartRateHeaders, heartRateConfig) {
-      console.log(heartRateDataAPI, heartRateStatus, heartRateHeaders, heartRateConfig);
+      setPlotBands($scope.chartHeartRateConfig, patient.pulse_min, patient.pulse_max);
+      checkYAxisRange($scope.chartHeartRateConfig, patient.pulse_min, patient.pulse_max);
     });
 
+    $scope.getPatientTemperatureData().then(function(temperatureDataAPI) {
+      var temperatureData = temperatureDataAPI.results;
 
-  $http.get(cfg.apiUrl + "/measurements/?patient_id=1&type=T")
-    .success(function(tempDataAPI) {
-      tempData = tempDataAPI.results;
+      for (var i = 0; i < temperatureData.length; i++) {
 
-      for (var i=0; i<tempData.length; i++) {
-
-        if (tempData[i].y < tempMin || tempData[i].y > tempMax) {
-          tempData[i].events = {
-            click: function (e) {
+        if (temperatureData[i].y < patient.temperature_min || temperatureData[i].y > patient.temperature_max) {
+          temperatureData[i].events = {
+            click: function(e) {
               console.log(e);
               alert('test');
             }
           };
-
-          tempData[i].marker = {
-            symbol: 'url(../../img/alert-icon.png)'
+          temperatureData[i].marker = {
+            symbol: alertIconUrl
           };
         }
-      };
+      }
 
-      $scope.chartTempConfig.series[0].data = tempData;
-    })
-    .error(function(tempDataAPI, tempStatus, tempHeaders, tempConfig) {
-      console.log(tempDataAPI, tempStatus, tempHeaders, tempConfig);
+      $scope.chartTempConfig.series[0].data = temperatureData;
+      setPlotBands($scope.chartTempConfig, patient.temperature_min, patient.temperature_max);
+      checkYAxisRange($scope.chartTempConfig, patient.temperature_min, patient.temperature_max);
     });
 
-
-  $http.get(cfg.apiUrl + "/measurements/?patient_id=1&type=A")
-    .success(function(activityDataAPI) {
+    $scope.getPatientActivityData().then(function(activityDataAPI) {
       $scope.chartActivityConfig.series[0].data = activityDataAPI.results;
-    })
-    .error(function(activityDataAPI, activityStatus, activityHeaders, activityConfig) {
-      console.log(activityDataAPI, activityStatus, activityHeaders, activityConfig);
     });
-
-
+  });
 
   $scope.updateChartRange = function() {
     var now = new Date().getTime();
@@ -244,4 +169,63 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
   };
 
   $scope.updateChartRange();
+
+  function setPlotBands(config, min, max) {
+    var plotBands = [];
+    plotBands.push({
+      color: 'rgba(245,127,127,0.2)', // red, low
+      from: '0',
+      to: min
+    });
+
+    if (max) {
+      var tmpMax = max;
+    } else {
+      var tmpMax = 1000;
+    }
+    plotBands.push({
+      color: 'rgba(125,235,121,0.2)', // green
+      from: min,
+      to: tmpMax
+    });
+
+    if (max) {
+      plotBands.push({
+        color: 'rgba(245,127,127,0.2)', // red, high
+        from: max,
+        to: 1000
+      });
+    }
+
+    config.options.yAxis.plotBands = plotBands;
+  }
+
+  function checkYAxisRange(config, min, max) {
+    var aboveMax = false;
+    var belowMin = false;
+    for (var i=0; i<config.series[0].data.length; i++) {
+      if (max) {
+        if (config.series[0].data[i].y > max) {
+          aboveMax = true;
+        }
+      }
+      if (config.series[0].data[i].y < min) {
+        belowMin = true;
+      }
+    }
+
+    var yAxisInterval;
+    if (max) {
+      yAxisInterval = (max - min) / 10;
+    } else {
+      yAxisInterval = (100 - min) / 10;
+    }
+
+    if (max && !aboveMax) {
+      config.options.yAxis.max = (max + yAxisInterval);
+    }
+    if (!belowMin) {
+      config.options.yAxis.min = (min - yAxisInterval);
+    }
+  }
 });

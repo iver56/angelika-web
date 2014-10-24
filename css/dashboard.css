@@ -32,6 +32,30 @@ ul.nav-tabs li {
   cursor: pointer;
 }
 
+
 .medium-padding {
     padding: 10px 15px;
+}
+
+.btn-group {
+  margin: 20px 0 0 20px;
+}
+
+.measurementTableContainer {
+  width: 20% !important;
+  min-width: 170px;
+  float: left;
+  margin-right: 4%;
+}
+
+#measurementTableContainerO2 {
+  margin-left: 4%;
+}
+
+.measurementTable {
+  padding: 0 20px;
+}
+
+.measurementTable th, .measurementTable th:hover {
+  background-color: #F5F5F5 !important;
 }

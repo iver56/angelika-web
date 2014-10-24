@@ -40,11 +40,11 @@
   <button ng-click="logOut()" class="btn btn-danger btn-lg">Logg ut</button>
 </header>
 
-<h1>Hei {{ name }}!</h1>
+<h1>Hei {{ patient.user.full_name }}!</h1>
 
 <div class="alert alert-warning" role="alert">
-  <p>Er alt i orden? Ikke nøl med å ta kontakt hvis du trenger hjelp!<br/>
-    Telefonnummer: 23 48 76 76<br/>
+  <p>Er alt i orden? Ikke nøl med å ta kontakt hvis du trenger hjelp!<br>
+    Telefonnummer: 23 48 76 76<br>
     Eller trykk her, så ringer vi deg:
     <button onclick="/*registerCallRequest()*/" class="btn btn-default btn-lg">Ring meg</button>
   </p>
@@ -56,17 +56,25 @@
 
 <div id="charts">
 
-  <strong>Oversikt over din oksygenmetning den siste uka:</strong>
-  <highchart class="chartContainer" config="chartO2Config"></highchart>
+  <div ng-if="patient.o2_access">
+    <strong>Oversikt over din oksygenmetning den siste uka:</strong>
+    <highchart class="chartContainer" config="chartO2Config"></highchart>
+  </div>
 
-  <strong>Oversikt over din puls den siste uka:</strong>
-  <highchart class="chartContainer" config="chartHeartRateConfig"></highchart>
+  <div ng-if="patient.pulse_access">
+    <strong>Oversikt over din puls den siste uka:</strong>
+    <highchart class="chartContainer" config="chartHeartRateConfig"></highchart>
+  </div>
 
-  <strong>Oversikt over din temperatur den siste uka:</strong>
-  <highchart class="chartContainer" config="chartTempConfig"></highchart>
+  <div ng-if="patient.temperature_access">
+    <strong>Oversikt over din temperatur den siste uka:</strong>
+    <highchart class="chartContainer" config="chartTempConfig"></highchart>
+  </div>
 
-  <strong>Oversikt over ditt aktivitetsnivå den siste uka:</strong>
-  <highchart class="chartContainer" config="chartActivityConfig"></highchart>
+  <div ng-if="patient.activity_access">
+    <strong>Oversikt over ditt aktivitetsnivå den siste uka:</strong>
+    <highchart class="chartContainer" config="chartActivityConfig"></highchart>
+  </div>
 </div>
 
 
