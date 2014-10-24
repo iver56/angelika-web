@@ -1,5 +1,3 @@
-<h1>Grafer</h1>
-
 <div class="btn-group">
   <label class="btn btn-primary" ng-model="chartRange.days"
          btn-radio="1" ng-change="updateChartRange()">Dag</label>
@@ -11,10 +9,10 @@
          btn-radio="365" ng-change="updateChartRange()">År</label>
 </div>
 
+<highchart config="chartO2Config"></highchart>
 <br><br>
-<div id="chartContainer">
-  <highchart config="chartO2Config"></highchart>
-  <highchart config="chartHeartRateConfig"></highchart>
-  <highchart config="chartTempConfig"></highchart>
-  <highchart config="chartActivityConfig"></highchart>
-</div>
+<highchart config="chartHeartRateConfig"></highchart>
+<br><br>
+<highchart config="chartTempConfig"></highchart>
+<br><br>
+<highchart config="chartActivityConfig"></highchart>

@@ -32,18 +32,30 @@ ul.nav-tabs li {
   cursor: pointer;
 }
 
+
 .medium-padding {
     padding: 10px 15px;
 }
 
-.ng-invalid.ng-dirty {
-    border-color: #FA787E;
+.btn-group {
+  margin: 20px 0 0 20px;
 }
 
-.ng-invalid.ng-pristine{
-    border-color: #FA787E;
+.measurementTableContainer {
+  width: 20% !important;
+  min-width: 170px;
+  float: left;
+  margin-right: 4%;
 }
 
-.ng-valid.ng-dirty {
-    border-color: #78FA89;
+#measurementTableContainerO2 {
+  margin-left: 4%;
+}
+
+.measurementTable {
+  padding: 0 20px;
+}
+
+.measurementTable th, .measurementTable th:hover {
+  background-color: #F5F5F5 !important;
 }
