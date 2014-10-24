@@ -10,9 +10,9 @@ angelikaControllers.controller('LoginCtrl', function($scope, AuthService) {
     AuthService.login($scope.loginData.username, $scope.loginData.password, function(data) {
 
       if (data.status === "success") {
-        if ('patient' === data.role) {
+        if ('patients' === data.group) {
           window.location.href = 'user-dashboard.html';
-        } else {
+        } else if ('health-professionals' === data.group) {
           window.location.href = 'dashboard.html';
         }
       } else if (data.status === 'wrongCredentials') {
