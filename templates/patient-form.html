@@ -137,16 +137,17 @@
         <span class="glyphicon glyphicon-remove"></span> Fjern
       </button>
       <div class="btn-group">
-        <button ng-click="moveNextOfKinUp($index)" class="btn btn-default">
+        <button ng-click="moveNextOfKinUp($index)" class="btn btn-default" ng-disabled="$index === 0">
           <span class="glyphicon glyphicon-chevron-up"></span> Flytt opp
         </button>
-        <button ng-click="moveNextOfKinDown($index)" class="btn btn-default">
+        <button ng-click="moveNextOfKinDown($index)" class="btn btn-default" ng-disabled="$index === {{patient.next_of_kin.length - 1}}">
           <span class="glyphicon glyphicon-chevron-down"></span> Flytt ned
         </button>
       </div>
     </div>
     <button ng-click="addNextOfKin()" class="btn">Legg til pårørende</button>
 
+    <br>
     <br>
     <br>
     <button ng-click="save()" class="btn btn-default" type="submit">Lagre</button>
