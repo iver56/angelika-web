@@ -11,7 +11,6 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, cfg, AlarmH
     });
 
   $scope.openPatient = function(patient) {
-    var patientComponentConfig = LayoutUtils.getPatientConfig(patient.id, patient.user.full_name);
-    dashboardLayout.getPatientParentComponent().addChild(patientComponentConfig);
+    LayoutUtils.openPatient(patient);
   }
 });

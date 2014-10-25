@@ -10,7 +10,6 @@ angelikaControllers.controller('PatientsCtrl', function($scope, $http, cfg, Auth
     });
 
   $scope.openPatient = function(patient) {
-    var patientComponentConfig = LayoutUtils.getPatientConfig(patient.id, patient.user.full_name);
-    dashboardLayout.getPatientParentComponent().addChild(patientComponentConfig);
+    LayoutUtils.openPatient(patient);
   }
 });
