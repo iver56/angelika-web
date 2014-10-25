@@ -63,6 +63,10 @@ ul.nav-tabs li {
     border-color: #FA787E;
 }
 
+.ng-invalid.ng-pristine{
+    border-color: #FA787E;
+}
+
 .ng-valid.ng-dirty {
     border-color: #78FA89;
 }
