@@ -59,3 +59,7 @@ ul.nav-tabs li {
 .measurementTable th, .measurementTable th:hover {
   background-color: #F5F5F5 !important;
 }
+
+.setHandledBtn {
+  margin-left: 20px;
+}
