@@ -57,7 +57,12 @@
   </tr>
   <tr ng-repeat="alarm in alarms">
     <td>{{ alarm.time_created | date : 'dd.MM.yyyy HH:mm' }}</td>
-    <td>{{ alarm.is_treated ? 'Ja' : 'Nei' }}</td>
+    <td>
+      {{ alarm.is_treated ? 'Ja' : 'Nei' }}
+      <span ng-if="!alarm.is_treated" class="setHandledBtn">
+        <button class="btn btn-default" ng-click="open('lg', $index)">Merk som håndtert</button>
+      </span>
+    </td>
     <td>{{ alarm.treated_text }}</td>
   </tr>
 </table>
@@ -83,3 +88,48 @@
   </div>
 </div>
 
+<script type="text/ng-template" id="handleAlertModalContent.html">
+  <div class="modal-header">
+    <h3 class="modal-title">Håndter varsel</h3>
+  </div>
+  <div class="modal-body">
+    <table>
+      <tr>
+        <td>Dato:</td>
+        <td>{{alarm.time_created | date : 'dd.MM.yyyy kl. HH:mm'}}</td>
+      </tr>
+      <tr>
+        <td>Type:</td>
+        <td>{{getAlertType(alarm.type)}}</td>
+      </tr>
+      <tr>
+        <td>Verdi:</td>
+        <td>{{alarm.value}}</td>
+      </tr>
+      <tr>
+        <td>Normalverdi:</td>
+        <td>{{getNormalValue(alarm.type, alarm.time_created)}}</td>
+      </tr>
+      <tr>
+        <td>Håndtert:</td>
+        <td><input type="checkbox"></td>
+      </tr>
+      <tr>
+        <td>Notis:</td>
+        <td><textarea rows="6" cols="50"></textarea></td>
+      </tr>
+      <tr>
+        <td>Motiverende tekst til bruker:</td>
+        <td><textarea rows="3" cols="50"></textarea></td>
+      </tr>
+      <tr>
+        <td>Søkeord:</td>
+        <td><input type="text"></td>
+      </tr>
+    </table>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">Lagre</button>
+    <button class="btn btn-warning" ng-click="cancel()">Avbryt</button>
+  </div>
+</script>
