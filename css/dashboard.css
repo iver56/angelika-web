@@ -36,10 +36,6 @@ ul.nav-tabs li {
     padding: 10px 15px;
 }
 
-.btn-group {
-  margin: 20px 0 0 20px;
-}
-
 .measurementTableContainer {
   width: 20% !important;
   min-width: 170px;
@@ -59,7 +55,7 @@ ul.nav-tabs li {
   background-color: #F5F5F5 !important;
 }
 
-.ng-invalid.ng-dirty {
+#patient-form .ng-invalid.ng-dirty {
     border-color: #FA787E;
 }
 
@@ -67,6 +63,6 @@ ul.nav-tabs li {
     border-color: #FA787E;
 }
 
-.ng-valid.ng-dirty {
+#patient-form .ng-valid.ng-dirty {
     border-color: #78FA89;
 }

@@ -8,7 +8,7 @@
   <tab heading="Lister" ng-controller="PatientListsCtrl">
     <div class="medium-padding" ng-include="'templates/patient-lists.html'"></div>
   </tab>
-  <tab heading="Rediger" ng-controller="PatientFormCtrl">
+  <tab heading="Rediger" ng-controller="PatientFormCtrl" select="closeAlert(0)">
     <div class="medium-padding" ng-include="'templates/patient-form.html'"></div>
   </tab>
 </tabset>

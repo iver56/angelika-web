@@ -61,11 +61,12 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg) {
     $scope.alerts.push({ type: 'danger', msg: 'Kommunikasjon med server feilet, ingenting ble lagret.'});
   };
 
-  $scope.addValidationErrorAlert = function(formValid) {
-    if (formValid) {
+  $scope.validateForm = function(valid) {
+    if (!valid) {
       $scope.alerts.pop();
       $scope.alerts.push({ type: 'danger', msg: 'Det er noe feil med utfyllingen av pasientinfo, ingenting ble lagret.'});
     }
+    return valid;
   };
 
   $scope.addSuccessAlert = function() {
