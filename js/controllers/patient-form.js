@@ -59,8 +59,30 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg) {
     });
   };
 
+  $scope.addMotivationalText = function() {
+    $scope.patient.motivation_texts.push({
+      id: null,
+      text: ''
+    });
+  };
+
+  $scope.addInfoText = function() {
+    $scope.patient.info_texts.push({
+      id: null,
+      text: ''
+    });
+  };
+
   $scope.removeNextOfKin = function(index) {
     $scope.patient.next_of_kin.splice(index, 1);
+  };
+
+  $scope.removeMotivationalText = function(index) {
+    $scope.patient.motivation_texts.splice(index, 1);
+  };
+
+  $scope.removeInfoText = function(index) {
+    $scope.patient.info_texts.splice(index, 1);
   };
 
   $scope.moveNextOfKinUp = function(index) {
