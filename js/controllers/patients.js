@@ -11,5 +11,10 @@ angelikaControllers.controller('PatientsCtrl', function($scope, $http, cfg, Auth
 
   $scope.openPatient = function(patient) {
     LayoutUtils.openPatient(patient);
-  }
+  };
+
+  $scope.newPatient = function() {
+    var newPatientComponentConfig = LayoutUtils.getNewPatientConfig();
+    dashboardLayout.getPatientParentComponent().addChild(newPatientComponentConfig);
+  };
 });
