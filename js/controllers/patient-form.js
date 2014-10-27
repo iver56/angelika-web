@@ -54,11 +54,19 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg) {
     $scope.patient.next_of_kin[index + 1] = temp;
   };
 
-  $scope.alerts = [ ];
+  $scope.alerts = [];
 
   $scope.addErrorAlert = function() {
     $scope.alerts.pop();
     $scope.alerts.push({ type: 'danger', msg: 'Kommunikasjon med server feilet, ingenting ble lagret.'});
+  };
+
+  $scope.validateForm = function(valid) {
+    if (!valid) {
+      $scope.alerts.pop();
+      $scope.alerts.push({ type: 'danger', msg: 'Det er noe feil med utfyllingen av pasientinfo, ingenting ble lagret.'});
+    }
+    return valid;
   };
 
   $scope.addSuccessAlert = function() {

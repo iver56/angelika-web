@@ -1,47 +1,48 @@
-<form novalidate role="form">
+<form name="patientForm" ng-submit="validateForm(patientForm.$valid) && save()" novalidate>
   <fieldset ng-disabled="posting">
     <h3>Info om bruker</h3>
 
     <div class="form-group">
       <label>
         Fornavn
-        <input type="text" ng-model="patient.user.first_name" class="form-control" required>
+        <input class="form-control" type="text" ng-model="patient.user.first_name" required/>
       </label>
     </div>
     <div class="form-group">
       <label>
         Etternavn
-        <input type="text" ng-model="patient.user.last_name" class="form-control" required>
+        <input class="form-control" type="text" ng-model="patient.user.last_name" required/>
       </label>
     </div>
     <div class="form-group">
       <label>
         Fødselsnummer
-        <input type="text" ng-model="patient.national_identification_number" class="form-control" required>
+        <input class="form-control" type="text" ng-minlength="11" ng-maxlength="11"
+               ng-model="patient.national_identification_number" required/>
       </label>
     </div>
     <div class="form-group">
       <label>
         Telefonnummer
-        <input type="text" ng-model="patient.phone_number" class="form-control">
+        <input class="form-control" type="text" ng-model="patient.phone_number"/>
       </label>
     </div>
     <div class="form-group">
       <label>
         Adresse
-        <input type="text" ng-model="patient.address" class="form-control">
+        <input class="form-control" type="text" ng-model="patient.address"/>
       </label>
     </div>
     <div class="form-group">
       <label>
         Postnummer
-        <input type="text" ng-model="patient.zip_code" class="form-control">
+        <input class="form-control" type="text" ng-minlength="4" ng-maxlength="4" ng-model="patient.zip_code"/>
       </label>
     </div>
     <div class="form-group">
       <label>
         Poststed
-        <input type="text" ng-model="patient.city" class="form-control">
+        <input class="form-control" type="text" ng-model="patient.city"/>
       </label>
     </div>
 
@@ -109,6 +110,7 @@
     <div class="panel panel-default panel-body" ng-repeat="contact in patient.next_of_kin">
       <h4 ng-show="$index === 0"><span class="glyphicon glyphicon-star"></span> Hovedpårørende</h4>
       <h4 ng-hide="$index === 0">{{ $index + 1 }}. pårørende</h4>
+
       <div class="form-group">
         <label>
           Navn
@@ -150,8 +152,8 @@
 
     <br>
     <br>
-    <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
-    <button id="bottom" ng-click="save()" class="btn btn-default" type="submit">
+    <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}} </alert>
+    <button class="btn btn-default" type="submit">
       <span class="glyphicon glyphicon-ok"></span> Lagre
     </button>
     <span class="medium-padding" ng-show="posting">
