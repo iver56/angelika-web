@@ -11,7 +11,8 @@ angelikaControllers.controller('PatientInfoCtrl', function($scope, $modal) {
       is_treated: false,
       treated_text: "",
       value: 87,
-      type: 'O'
+      type: 'O',
+      treated_text: ''
     },
     {
       time_created: "2014-10-01T01:49:34Z",
@@ -37,28 +38,70 @@ angelikaControllers.controller('PatientInfoCtrl', function($scope, $modal) {
   ];
 
   $scope.open = function(size, idx) {
-    $modal.open({
+    var modalInstance = $modal.open({
       templateUrl: 'handleAlertModalContent.html',
       controller: 'handleAlertModalInstanceCtrl',
       size: size,
       resolve: {
         alarm: function() {
-          return $scope.alarms[idx];
+          return angular.copy($scope.alarms[idx]);
+        },
+        patient: function() {
+          return $scope.patient;
         }
       }
     });
+    modalInstance.result.then(function(alarm) {
+      $scope.alarms[idx] = alarm;
+    });
   };
+
+
 });
 
-angelikaControllers.controller('handleAlertModalInstanceCtrl', function ($scope, $modalInstance, alarm) {
-
+angelikaControllers.controller('handleAlertModalInstanceCtrl', function($scope, $modalInstance, $http, cfg, alarm, patient) {
   $scope.alarm = alarm;
+  $scope.posting = false;
+  $scope.motivationalText = {
+    text: ''
+  };
+  $scope.tag = "";
 
-  $scope.ok = function () {
-    $modalInstance.close();
+  $scope.ok = function() {
+    console.log($scope.motivationalText);
+    if ($scope.motivationalText.text && $scope.motivationalText.text !== "") {
+      $scope.posting = true;
+      patient.motivation_texts.push({
+        id: null,
+        text: $scope.motivationalText.text
+      });
+      $http.patch(cfg.apiUrl + "/patients/" + patient.id + "/", patient)
+        .success(function(patientDB) {
+          for (var property in patientDB) {
+            if (patientDB.hasOwnProperty(property) && patient.hasOwnProperty(property)) {
+              patient[property] = patientDB[property];
+            }
+          }
+
+          var fullName = patientDB.user.first_name + " " + patientDB.user.last_name;
+          var $tab = $(".lm_tab[data-patient-id='" + patient.id + "']");
+          $tab.attr('title', fullName);
+          $tab.find('span.lm_title').text(fullName);
+          $scope.posting = false;
+          $modalInstance.close($scope.alarm);
+        })
+        .error(function(data) {
+          $scope.posting = false;
+          console.error(data);
+          $modalInstance.close($scope.alarm);
+        });
+    } else {
+      console.log("Close, nothing saved");
+      $modalInstance.close($scope.alarm);
+    }
   };
 
-  $scope.cancel = function () {
+  $scope.cancel = function() {
     $modalInstance.dismiss('cancel');
   };
 

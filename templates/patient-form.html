@@ -2,49 +2,62 @@
   <fieldset ng-disabled="posting">
     <h3>Info om bruker</h3>
 
-    <div class="form-group">
-      <label>
-        Fornavn
-        <input class="form-control" type="text" ng-model="patient.user.first_name" required/>
-      </label>
+    <label>Fornavn</label>
+
+    <div class="row">
+      <div class="col-md-3">
+        <input type="text" ng-model="patient.user.first_name" class="form-control" required>
+      </div>
     </div>
-    <div class="form-group">
-      <label>
-        Etternavn
-        <input class="form-control" type="text" ng-model="patient.user.last_name" required/>
-      </label>
+
+    <label>Etternavn</label>
+
+    <div class="row">
+      <div class="col-md-3">
+        <input type="text" ng-model="patient.user.last_name" class="form-control" required>
+      </div>
     </div>
-    <div class="form-group">
-      <label>
-        Fødselsnummer
-        <input class="form-control" type="text" ng-minlength="11" ng-maxlength="11"
-               ng-model="patient.national_identification_number" required/>
-      </label>
+
+    <label>Fødselsnummer</label>
+
+    <div class="row">
+      <div class="col-md-3">
+        <input type="text" ng-model="patient.national_identification_number" class="form-control" required ng-minlength="11" ng-maxlength="11">
+      </div>
     </div>
-    <div class="form-group">
-      <label>
-        Telefonnummer
-        <input class="form-control" type="text" ng-model="patient.phone_number"/>
-      </label>
+
+    <label>Telefonnummer</label>
+
+    <div class="row">
+      <div class="col-md-3">
+        <input type="text" ng-model="patient.phone_number" class="form-control">
+      </div>
     </div>
-    <div class="form-group">
-      <label>
-        Adresse
-        <input class="form-control" type="text" ng-model="patient.address"/>
-      </label>
+
+    <label>Adresse</label>
+
+    <div class="row">
+      <div class="col-md-3">
+        <input type="text" ng-model="patient.address" class="form-control">
+      </div>
     </div>
-    <div class="form-group">
-      <label>
-        Postnummer
-        <input class="form-control" type="text" ng-minlength="4" ng-maxlength="4" ng-model="patient.zip_code"/>
-      </label>
+
+    <label>Postnummer</label>
+
+    <div class="row">
+      <div class="col-md-3">
+        <input type="text" ng-model="patient.zip_code" class="form-control" ng-minlength="4" ng-maxlength="4">
+      </div>
     </div>
-    <div class="form-group">
-      <label>
-        Poststed
-        <input class="form-control" type="text" ng-model="patient.city"/>
-      </label>
+
+    <label>Poststed</label>
+
+    <div class="row">
+      <div class="col-md-3">
+        <input type="text" ng-model="patient.city" class="form-control">
+      </div>
     </div>
+
 
     <h3>Normalverdier</h3>
 
@@ -105,6 +118,41 @@
       <label><input type="checkbox" ng-model="patient.temperature_access">Temperatur</label>
     </div>
 
+    <h3>Motiverende tekster</h3>
+
+    <div ng-repeat="motivationalText in patient.motivation_texts">
+      <div class="row marginBottom20">
+        <div class="col-md-9">
+          <textarea ng-model="motivationalText.text" class="form-control" rows="2"/>
+        </div>
+        <div class="col-md-3">
+          <button ng-click="removeMotivationalText($index)" class="btn btn-danger btn-sm">
+            <span class="glyphicon glyphicon-remove"></span> Fjern
+          </button>
+        </div>
+      </div>
+    </div>
+    <button ng-click="addMotivationalText()" class="btn btn-success">
+      <span class="glyphicon glyphicon-plus"></span> Legg til ny motiverende tekst
+    </button>
+
+    <h3>Informative meldinger til bruker (API ikke klart ennå)</h3>
+    <!--<div ng-repeat="infoText in patient.info_texts">
+      <div class="row marginBottom20">
+        <div class="col-md-9">
+          <textarea ng-model="infoText.text" class="form-control"/>
+        </div>
+        <div class="col-md-3">
+          <button ng-click="removeInfoText($index)" class="btn btn-danger btn-sm">
+            <span class="glyphicon glyphicon-remove"></span> Fjern
+          </button>
+        </div>
+      </div>
+    </div>
+    <button ng-click="addInfoText()" class="btn btn-success">
+      <span class="glyphicon glyphicon-plus"></span> Legg til ny informativ tekst
+    </button>-->
+
     <h3>Pårørende</h3>
 
     <div class="panel panel-default panel-body" ng-repeat="contact in patient.next_of_kin">
@@ -148,12 +196,14 @@
         </button>
       </div>
     </div>
-    <button ng-click="addNextOfKin()" class="btn">Legg til pårørende</button>
+    <button ng-click="addNextOfKin()" class="btn btn-success">
+      <span class="glyphicon glyphicon-plus"></span> Legg til pårørende
+    </button>
 
     <br>
     <br>
     <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}} </alert>
-    <button class="btn btn-default" type="submit">
+    <button id="bottom" class="btn btn-primary btn-lg" type="submit">
       <span class="glyphicon glyphicon-ok"></span> Lagre
     </button>
     <span class="medium-padding" ng-show="posting">

@@ -53,15 +53,25 @@
   <tr>
     <th>Tid</th>
     <th>Håndtert</th>
+    <th>Endre/håndter</th>
     <th>Notis</th>
   </tr>
   <tr ng-repeat="alarm in alarms">
     <td>{{ alarm.time_created | date : 'dd.MM.yyyy HH:mm' }}</td>
     <td>
-      {{ alarm.is_treated ? 'Ja' : 'Nei' }}
-      <span ng-if="!alarm.is_treated" class="setHandledBtn">
-        <button class="btn btn-default" ng-click="open('lg', $index)">Merk som håndtert</button>
+      <span ng-if="alarm.is_treated">
+        <span class="glyphicon glyphicon-ok iconGreen"></span> Ja
       </span>
+      <span ng-if="!alarm.is_treated">
+        <span class="glyphicon glyphicon-warning-sign iconRed"></span> Nei
+      </span>
+    </td>
+    <td>
+      <button class="btn btn-default" ng-click="open('lg', $index)">
+        <span class="glyphicon glyphicon-edit"></span>
+        <span ng-if="alarm.is_treated">Endre</span>
+        <span ng-if="!alarm.is_treated">Merk som håndtert</span>
+      </button>
     </td>
     <td>{{ alarm.treated_text }}</td>
   </tr>
@@ -112,19 +122,19 @@
       </tr>
       <tr>
         <td>Håndtert:</td>
-        <td><input type="checkbox"></td>
+        <td><input type="checkbox" ng-model="alarm.is_treated"></td>
       </tr>
       <tr>
         <td>Notis:</td>
-        <td><textarea rows="6" cols="50"></textarea></td>
+        <td><textarea rows="6" cols="50" ng-model="alarm.treated_text"></textarea></td>
       </tr>
       <tr>
-        <td>Motiverende tekst til bruker:</td>
-        <td><textarea rows="3" cols="50"></textarea></td>
+        <td>Legg inn ny motiverende tekst:</td>
+        <td><textarea rows="3" cols="50" ng-model="motivationalText.text"></textarea></td>
       </tr>
       <tr>
         <td>Søkeord:</td>
-        <td><input type="text"></td>
+        <td><input type="text" ng-model="tag"></td>
       </tr>
     </table>
   </div>

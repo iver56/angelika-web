@@ -1,55 +1,64 @@
-<div id="measurementTableContainerO2" class="measurementTableContainer">
-  <h2>O2-metning</h2>
-  <table class="table table-hover measurementTable">
-    <tr class="active">
-      <th>Tid</th>
-      <th>Måling</th>
-    </tr>
-    <tr ng-repeat="o2Measurement in o2Data | orderBy: '-x'">
-      <td>{{millisToUTCDate(o2Measurement.x) | date:'dd.M.yyyy kl. H:mm'}}</td>
-      <td>{{o2Measurement.y}}</td>
-    </tr>
-  </table>
-</div>
-
-<div class="measurementTableContainer">
-  <h2>Puls</h2>
-  <table class="table table-hover measurementTable">
-    <tr>
-      <th>Tid</th>
-      <th>Måling</th>
-    </tr>
-    <tr ng-repeat="heartRateMeasurement in heartRateData | orderBy: '-x'">
-      <td>{{millisToUTCDate(heartRateMeasurement.x) | date:'dd.M.yyyy kl. H:mm'}}</td>
-      <td>{{heartRateMeasurement.y}}</td>
-    </tr>
-  </table>
-</div>
-
-<div class="measurementTableContainer">
-  <h2>Temperatur</h2>
-  <table class="table table-hover measurementTable">
-    <tr>
-      <th>Tid</th>
-      <th>Måling</th>
-    </tr>
-    <tr ng-repeat="temperatureMeasurement in temperatureData | orderBy: '-x'">
-      <td>{{millisToUTCDate(temperatureMeasurement.x) | date:'dd.M.yyyy kl. H:mm'}}</td>
-      <td>{{temperatureMeasurement.y}}</td>
-    </tr>
-  </table>
-</div>
-
-<div class="measurementTableContainer">
-  <h2>Aktivitet</h2>
-  <table class="table table-hover measurementTable">
-    <tr>
-      <th>Tid</th>
-      <th>Måling</th>
-    </tr>
-    <tr ng-repeat="activityMeasurement in activityData | orderBy: '-x'">
-      <td>{{millisToUTCDate(activityMeasurement.x) | date:'dd.M.yyyy kl. H:mm'}}</td>
-      <td>{{activityMeasurement.y}}</td>
-    </tr>
-  </table>
+<div class="container" style="width: inherit">
+  <div class="row">
+    <div class="col-md-3">
+      <div id="measurementTableContainerO2" class="measurementTableContainer">
+        <h2>O2-metning</h2>
+        <table class="table table-hover measurementTable">
+          <tr class="active">
+            <th>Tid</th>
+            <th>Måling</th>
+          </tr>
+          <tr ng-repeat="o2Measurement in o2Data | orderBy: '-x'">
+            <td>{{millisToUTCDate(o2Measurement.x) | date:'dd.M.yyyy kl. H:mm'}}</td>
+            <td>{{o2Measurement.y}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="measurementTableContainer">
+        <h2>Puls</h2>
+        <table class="table table-hover measurementTable">
+          <tr>
+            <th>Tid</th>
+            <th>Måling</th>
+          </tr>
+          <tr ng-repeat="heartRateMeasurement in heartRateData | orderBy: '-x'">
+            <td>{{millisToUTCDate(heartRateMeasurement.x) | date:'dd.M.yyyy kl. H:mm'}}</td>
+            <td>{{heartRateMeasurement.y}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="measurementTableContainer">
+        <h2>Temperatur</h2>
+        <table class="table table-hover measurementTable">
+          <tr>
+            <th>Tid</th>
+            <th>Måling</th>
+          </tr>
+          <tr ng-repeat="temperatureMeasurement in temperatureData | orderBy: '-x'">
+            <td>{{millisToUTCDate(temperatureMeasurement.x) | date:'dd.M.yyyy kl. H:mm'}}</td>
+            <td>{{temperatureMeasurement.y}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="measurementTableContainer">
+        <h2>Aktivitet</h2>
+        <table class="table table-hover measurementTable">
+          <tr>
+            <th>Tid</th>
+            <th>Måling</th>
+          </tr>
+          <tr ng-repeat="activityMeasurement in activityData | orderBy: '-x'">
+            <td>{{millisToUTCDate(activityMeasurement.x) | date:'dd.M.yyyy kl. H:mm'}}</td>
+            <td>{{activityMeasurement.y}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
