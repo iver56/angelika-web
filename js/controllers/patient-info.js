@@ -65,10 +65,11 @@ angelikaControllers.controller('handleAlertModalInstanceCtrl', function($scope, 
   $scope.motivationalText = {
     text: ''
   };
-  $scope.tag = "";
+  $scope.tag = {
+    text: ''
+  };
 
   $scope.ok = function() {
-    console.log($scope.motivationalText);
     if ($scope.motivationalText.text && $scope.motivationalText.text !== "") {
       $scope.posting = true;
       patient.motivation_texts.push({
@@ -82,18 +83,14 @@ angelikaControllers.controller('handleAlertModalInstanceCtrl', function($scope, 
               patient[property] = patientDB[property];
             }
           }
-
-          var fullName = patientDB.user.first_name + " " + patientDB.user.last_name;
-          var $tab = $(".lm_tab[data-patient-id='" + patient.id + "']");
-          $tab.attr('title', fullName);
-          $tab.find('span.lm_title').text(fullName);
           $scope.posting = false;
           $modalInstance.close($scope.alarm);
         })
         .error(function(data) {
           $scope.posting = false;
           console.error(data);
-          $modalInstance.close($scope.alarm);
+          //TODO: Replace by a proper error message
+          alert("Det oppstod en feil under lagring. Prøv igjen.");
         });
     } else {
       console.log("Close, nothing saved");
@@ -121,7 +118,7 @@ angelikaControllers.controller('handleAlertModalInstanceCtrl', function($scope, 
         break;
     }
     return "Unormalt " + highOrLow + type;
-  }
+  };
 
   $scope.getNormalValue = function(type, time) {
     //TODO: get old normal value
