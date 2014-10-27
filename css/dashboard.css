@@ -33,7 +33,7 @@ ul.nav-tabs li {
 }
 
 .medium-padding {
-    padding: 10px 15px;
+  padding: 10px 15px;
 }
 
 .measurementTableContainer {
@@ -55,14 +55,10 @@ ul.nav-tabs li {
   background-color: #F5F5F5 !important;
 }
 
-#patient-form .ng-invalid.ng-dirty {
-    border-color: #FA787E;
+form[name=patientForm] .ng-invalid.ng-dirty, .ng-invalid.ng-pristine {
+  border-color: #FA787E;
 }
 
-.ng-invalid.ng-pristine{
-    border-color: #FA787E;
-}
-
-#patient-form .ng-valid.ng-dirty {
-    border-color: #78FA89;
+form[name=patientForm] .ng-invalid.ng-dirty.form-control:focus {
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(250, 120, 126, .6);
 }
