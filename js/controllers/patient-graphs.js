@@ -1,5 +1,5 @@
 angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg) {
-  $scope.chartRange = { days: 7 };
+  $scope.chartRange = {days: 7};
 
   $scope.tabSelected = function() {
     $scope.setChartWidths();
@@ -98,7 +98,17 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
         }
       }
       $scope.chartO2Config.series[0].data = o2Data;
-      setPlotBands($scope.chartO2Config, patient.o2_min, null);
+
+      //TODO: Get normal values from API
+      var o2MinNormalValues = [{
+        x: Date.UTC(2014, 9, 8),
+        y: 90
+      }, {
+        x: Date.UTC(2014, 9, 27),
+        y: patient.o2_min
+      }];
+
+      addBackgroundColors($scope.chartO2Config, null, o2MinNormalValues, 0, 100);
       checkYAxisRange($scope.chartO2Config, patient.o2_min, null);
     });
 
@@ -120,7 +130,25 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
         }
       }
       $scope.chartHeartRateConfig.series[0].data = heartRateData;
-      setPlotBands($scope.chartHeartRateConfig, patient.pulse_min, patient.pulse_max);
+
+      //TODO: Get normal values from API
+      var pulseMaxNormalValues = [{
+        x: Date.UTC(2014, 9, 12),
+        y: 93
+      }, {
+        x: Date.UTC(2014, 9, 25),
+        y: patient.pulse_max
+      }];
+
+      var pulseMinNormalValues = [{
+        x: Date.UTC(2014, 9, 12),
+        y: 65
+      }, {
+        x: Date.UTC(2014, 9, 27),
+        y: patient.pulse_min
+      }];
+
+      addBackgroundColors($scope.chartHeartRateConfig, pulseMaxNormalValues, pulseMinNormalValues, 0, 200);
       checkYAxisRange($scope.chartHeartRateConfig, patient.pulse_min, patient.pulse_max);
     });
 
@@ -142,8 +170,25 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
         }
       }
 
+      //TODO: Get normal values from API
+      var tempMaxNormalValues = [{
+        x: Date.UTC(2014, 9, 12),
+        y: 38.2
+      }, {
+        x: Date.UTC(2014, 9, 26),
+        y: patient.temperature_max
+      }];
+
+      var tempMinNormalValues = [{
+        x: Date.UTC(2014, 9, 12),
+        y: 36.2
+      }, {
+        x: Date.UTC(2014, 9, 24),
+        y: patient.temperature_min
+      }];
+
       $scope.chartTempConfig.series[0].data = temperatureData;
-      setPlotBands($scope.chartTempConfig, patient.temperature_min, patient.temperature_max);
+      addBackgroundColors($scope.chartTempConfig, tempMaxNormalValues, tempMinNormalValues, 0, 100);
       checkYAxisRange($scope.chartTempConfig, patient.temperature_min, patient.temperature_max);
     });
 
@@ -170,40 +215,149 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
 
   $scope.updateChartRange();
 
-  function setPlotBands(config, min, max) {
-    var plotBands = [];
-    plotBands.push({
-      color: 'rgba(245,127,127,0.2)', // red, low
-      from: '0',
-      to: min
-    });
+  function addBackgroundColors(config, maxValues, minValues, floor, roof) {
+    // High, red area
+    if (maxValues) {
+      var highArea = [];
+      for (var i = 0; i < maxValues.length; i++) {
+        highArea.push([
+          maxValues[i].x, maxValues[i].y, roof
+        ]);
 
-    if (max) {
-      var tmpMax = max;
-    } else {
-      var tmpMax = 1000;
-    }
-    plotBands.push({
-      color: 'rgba(125,235,121,0.2)', // green
-      from: min,
-      to: tmpMax
-    });
+        if (i + 1 == maxValues.length) {
+          highArea.push([
+            Date.now(), maxValues[i].y, roof
+          ]);
+        } else {
+          highArea.push([
+            maxValues[i + 1].x - 1, maxValues[i].y, roof
+          ]);
+        }
+      }
 
-    if (max) {
-      plotBands.push({
-        color: 'rgba(245,127,127,0.2)', // red, high
-        from: max,
-        to: 1000
+      config.series.push({
+        name: 'Unormalt høyt område',
+        type: 'arearange',
+        color: '#F57F7F', // red
+        fillOpacity: 0.3,
+        data: highArea,
+        zIndex: -1,
+        lineWidth: 0,
+        enableMouseTracking: false
       });
     }
 
-    config.options.yAxis.plotBands = plotBands;
+    // OK area
+    if (!maxValues) {
+      maxValues = [{
+        x: minValues[0].x,
+        y: 100
+      }]
+    }
+
+    var allValues = [];
+    for (var i = 0; i < minValues.length; i++) {
+      allValues.push({
+        x: minValues[i].x,
+        min: minValues[i].y,
+        max: null
+      });
+    }
+
+    for (var i = 0; i < maxValues.length; i++) {
+      var found = false;
+      var newestMinValue = minValues[0].y;
+      for (var j = 0; j < allValues.length && !found && maxValues[i].x >= allValues[j].x; j++) {
+        newestMinValue = allValues[j].min;
+        if (maxValues[i].x == allValues[j].x) {
+          found = true;
+          allValues[j].max = maxValues[i].y;
+        }
+      }
+      if (!found) {
+        allValues.push({
+          x: maxValues[i].x,
+          min: newestMinValue,
+          max: maxValues[i].y
+        });
+      }
+    }
+
+    allValues.sort(compare);
+
+    var newestMaxValue = maxValues[0].y;
+    for (var i = 0; i < allValues.length; i++) {
+      if (!allValues[i].max) {
+        allValues[i].max = newestMaxValue;
+      } else {
+        newestMaxValue = allValues[i].max;
+      }
+    }
+
+    var okArea = [];
+    for (var i=0; i<allValues.length; i++) {
+      okArea.push([
+        allValues[i].x, allValues[i].min, allValues[i].max
+      ]);
+
+      if (i+1 == allValues.length) {
+        okArea.push([
+          Date.now(), allValues[i].min, allValues[i].max
+        ]);
+      } else {
+        okArea.push([
+          allValues[i+1].x - 1, allValues[i].min, allValues[i].max
+        ]);
+      }
+    }
+
+    config.series.push({
+      name: 'OK område',
+      type: 'arearange',
+      color: '#73BF71', // green
+      fillOpacity: 0.3,
+      data: okArea,
+      zIndex: -2,
+      lineWidth: 0,
+      enableMouseTracking: false
+    });
+
+    // Low, red area
+    var lowArea = [];
+    for (var i = 0; i < minValues.length; i++) {
+      lowArea.push([
+        minValues[i].x, floor, minValues[i].y
+      ]);
+
+      if (i + 1 == minValues.length) {
+        lowArea.push([
+          Date.now(), floor, minValues[i].y
+        ]);
+      } else {
+        lowArea.push([
+          minValues[i + 1].x - 1, floor, minValues[i].y
+        ]);
+      }
+    }
+
+    config.series.push({
+      name: 'Unormalt lavt område',
+      type: 'arearange',
+      color: '#F57F7F', // red
+      fillOpacity: 0.3,
+      data: lowArea,
+      zIndex: -1,
+      lineWidth: 0,
+      enableMouseTracking: false
+    });
   }
 
   function checkYAxisRange(config, min, max) {
     var aboveMax = false;
     var belowMin = false;
-    for (var i=0; i<config.series[0].data.length; i++) {
+    var extremeValues = getExtremeValues(config.series[0].data);
+
+    for (var i = 0; i < config.series[0].data.length; i++) {
       if (max) {
         if (config.series[0].data[i].y > max) {
           aboveMax = true;
@@ -221,11 +375,44 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
       yAxisInterval = (100 - min) / 10;
     }
 
-    if (max && !aboveMax) {
-      config.options.yAxis.max = (max + yAxisInterval);
+    if (max) {
+      if (aboveMax) {
+        config.options.yAxis.max = (extremeValues.highest + yAxisInterval);
+      } else {
+        config.options.yAxis.max = (max + yAxisInterval);
+      }
     }
-    if (!belowMin) {
+
+    if (belowMin) {
+      config.options.yAxis.min = (extremeValues.lowest - yAxisInterval);
+    } else {
       config.options.yAxis.min = (min - yAxisInterval);
     }
+  }
+
+
+  function getExtremeValues(data) {
+    var lowest = data[0].y;
+    var highest = data[0].y;
+    for (var i = 1; i < data.length; i++) {
+      if (data[i].y < lowest) {
+        lowest = data[i].y;
+      }
+      if (data[i].y > highest) {
+        highest = data[i].y;
+      }
+    }
+    return {
+      highest: highest,
+      lowest: lowest
+    };
+  }
+
+  function compare(a, b) {
+    if (a.x < b.x)
+      return -1;
+    if (a.x > b.x)
+      return 1;
+    return 0;
   }
 });
