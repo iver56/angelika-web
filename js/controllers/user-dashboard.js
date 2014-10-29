@@ -101,7 +101,7 @@ angelikaControllers.controller('UserDashboardCtrl', function ($scope, $http, cfg
       };
 
       if ($scope.patient.o2_access) {
-        $http.get(cfg.apiUrl + "/current-patient-measurements/?type=O")
+        $http.get(cfg.apiUrl + "/current-patient/measurements/?type=O")
           .success(function (o2Data) {
             $scope.chartO2Config.series[0].data = o2Data;
             setPlotBands($scope.chartO2Config, $scope.patient.o2_min, null);
@@ -113,7 +113,7 @@ angelikaControllers.controller('UserDashboardCtrl', function ($scope, $http, cfg
       }
 
       if ($scope.patient.pulse_access) {
-        $http.get(cfg.apiUrl + "/current-patient-measurements/?type=P")
+        $http.get(cfg.apiUrl + "/current-patient/measurements/?type=P")
           .success(function (heartRateData) {
             $scope.chartHeartRateConfig.series[0].data = heartRateData;
             setPlotBands($scope.chartHeartRateConfig, $scope.patient.pulse_min, $scope.patient.pulse_max);
@@ -125,7 +125,7 @@ angelikaControllers.controller('UserDashboardCtrl', function ($scope, $http, cfg
       }
 
       if ($scope.patient.temperature_access) {
-        $http.get(cfg.apiUrl + "/current-patient-measurements/?type=T")
+        $http.get(cfg.apiUrl + "/current-patient/measurements/?type=T")
           .success(function (temperatureData) {
             $scope.chartTempConfig.series[0].data = temperatureData;
             setPlotBands($scope.chartTempConfig, $scope.patient.temperature_min, $scope.patient.temperature_max);
@@ -137,7 +137,7 @@ angelikaControllers.controller('UserDashboardCtrl', function ($scope, $http, cfg
       }
 
       if ($scope.patient.activity_access) {
-        $http.get(cfg.apiUrl + "/current-patient-measurements/?type=A")
+        $http.get(cfg.apiUrl + "/current-patient/measurements/?type=A")
           .success(function (activityData) {
             $scope.chartActivityConfig.series[0].data = activityData;
           })
