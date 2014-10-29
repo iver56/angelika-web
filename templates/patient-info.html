@@ -112,15 +112,15 @@
           </tr>
           <tr>
             <td>Type:</td>
-            <td>{{getAlertType(alarm.type)}}</td>
+            <td>{{getAlertType(alarm.measurement.type)}}</td>
           </tr>
           <tr>
             <td>Verdi:</td>
-            <td>{{alarm.value}}</td>
+            <td>{{alarm.measurement.value}}</td>
           </tr>
           <tr>
             <td>Normalverdi:</td>
-            <td>{{getNormalValue(alarm.type, alarm.time_created)}}</td>
+            <td>{{getNormalValue(alarm.measurement.type, alarm.time_created)}}</td>
           </tr>
           <tr>
             <td>Håndtert:</td>
