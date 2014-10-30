@@ -79,19 +79,23 @@
 
 <div class="panel panel-success">
   <div class="panel-heading">
-    <h3 class="panel-title">Nyeste motiverende beskjed{{motivationalTextsCount}}:</h3>
+    <h3 class="panel-title">Motiverende beskjeder:</h3>
   </div>
-  <div class="panel-body">
-    {{newestMotivationalText}}
+  <div ng-repeat="motivationalText in patient.motivation_texts">
+    <div class="panel-body">
+      {{motivationalText.text}}
+    </div>
   </div>
 </div>
 
 <div class="panel panel-info">
   <div class="panel-heading">
-    <h3 class="panel-title">Nyeste info-beskjed til pasienten:{{infoTextsCount}}</h3>
+    <h3 class="panel-title">Informative beskjeder:</h3>
   </div>
-  <div class="panel-body">
-    {{newestInfoText}}
+  <div ng-repeat="informationalText in patient.information_texts">
+    <div class="panel-body">
+      {{informationalText.text}}
+    </div>
   </div>
 </div>
 
