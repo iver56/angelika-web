@@ -32,10 +32,7 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
       tooltip: {
         pointFormat: '{series.name}: <b>{point.y} </b>',
         xDateFormat: '%A %d.%m.%Y kl. %H:%M'
-      }/*,
-       rangeSelector: {
-       enabled: true
-       }*/
+      }
     },
     series: [
       {"name": ""}
@@ -81,11 +78,10 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
 
   $scope.getPatient().then(function(patient) {
     $scope.getPatientO2Data().then(function(o2DataAPI) {
-      var o2Data = o2DataAPI.results;
+      var o2Data = o2DataAPI.measurements;
 
       for (var i = 0; i < o2Data.length; i++) {
-
-        if (o2Data[i].y < patient.o2_min) {
+        if (false/*o2Data[i].alert*/) {
           o2Data[i].events = {
             click: function(e) {
               console.log(e);
@@ -99,25 +95,15 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
       }
       $scope.chartO2Config.series[0].data = o2Data;
 
-      //TODO: Get normal values from API
-      var o2MinNormalValues = [{
-        x: Date.UTC(2014, 9, 8),
-        y: 90
-      }, {
-        x: Date.UTC(2014, 9, 27),
-        y: patient.o2_min
-      }];
-
-      addBackgroundColors($scope.chartO2Config, null, o2MinNormalValues, 0, 100);
-      checkYAxisRange($scope.chartO2Config, patient.o2_min, null);
+      addBackgroundColors($scope.chartO2Config, o2DataAPI.lower_threshold_values, o2DataAPI.upper_threshold_values, 0, 100);
+      checkYAxisRange($scope.chartO2Config, o2DataAPI.lower_threshold_values, o2DataAPI.upper_threshold_values);
     });
 
     $scope.getPatientHeartRateData().then(function(heartRateDataAPI) {
-      var heartRateData = heartRateDataAPI.results;
+      var heartRateData = heartRateDataAPI.measurements;
 
       for (var i = 0; i < heartRateData.length; i++) {
-
-        if (heartRateData[i].y < patient.pulse_min || heartRateData[i].y > patient.pulse_max) {
+        if (false/*heartRateData[i].alert*/) {
           heartRateData[i].events = {
             click: function(e) {
               console.log(e);
@@ -131,33 +117,15 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
       }
       $scope.chartHeartRateConfig.series[0].data = heartRateData;
 
-      //TODO: Get normal values from API
-      var pulseMaxNormalValues = [{
-        x: Date.UTC(2014, 9, 12),
-        y: 93
-      }, {
-        x: Date.UTC(2014, 9, 25),
-        y: patient.pulse_max
-      }];
-
-      var pulseMinNormalValues = [{
-        x: Date.UTC(2014, 9, 12),
-        y: 65
-      }, {
-        x: Date.UTC(2014, 9, 27),
-        y: patient.pulse_min
-      }];
-
-      addBackgroundColors($scope.chartHeartRateConfig, pulseMaxNormalValues, pulseMinNormalValues, 0, 200);
-      checkYAxisRange($scope.chartHeartRateConfig, patient.pulse_min, patient.pulse_max);
+      addBackgroundColors($scope.chartHeartRateConfig, heartRateDataAPI.lower_threshold_values, heartRateDataAPI.upper_threshold_values, 0, 200);
+      checkYAxisRange($scope.chartHeartRateConfig, heartRateDataAPI.lower_threshold_values, heartRateDataAPI.upper_threshold_values);
     });
 
     $scope.getPatientTemperatureData().then(function(temperatureDataAPI) {
-      var temperatureData = temperatureDataAPI.results;
+      var temperatureData = temperatureDataAPI.measurements;
 
       for (var i = 0; i < temperatureData.length; i++) {
-
-        if (temperatureData[i].y < patient.temperature_min || temperatureData[i].y > patient.temperature_max) {
+        if (false/*temperatureData[i].alert*/) {
           temperatureData[i].events = {
             click: function(e) {
               console.log(e);
@@ -170,30 +138,13 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
         }
       }
 
-      //TODO: Get normal values from API
-      var tempMaxNormalValues = [{
-        x: Date.UTC(2014, 9, 12),
-        y: 38.2
-      }, {
-        x: Date.UTC(2014, 9, 26),
-        y: patient.temperature_max
-      }];
-
-      var tempMinNormalValues = [{
-        x: Date.UTC(2014, 9, 12),
-        y: 36.2
-      }, {
-        x: Date.UTC(2014, 9, 24),
-        y: patient.temperature_min
-      }];
-
       $scope.chartTempConfig.series[0].data = temperatureData;
-      addBackgroundColors($scope.chartTempConfig, tempMaxNormalValues, tempMinNormalValues, 0, 100);
-      checkYAxisRange($scope.chartTempConfig, patient.temperature_min, patient.temperature_max);
+      addBackgroundColors($scope.chartTempConfig, temperatureDataAPI.lower_threshold_values, temperatureDataAPI.upper_threshold_values, 0, 100);
+      checkYAxisRange($scope.chartTempConfig, temperatureDataAPI.lower_threshold_values, temperatureDataAPI.upper_threshold_values);
     });
 
     $scope.getPatientActivityData().then(function(activityDataAPI) {
-      $scope.chartActivityConfig.series[0].data = activityDataAPI.results;
+      $scope.chartActivityConfig.series[0].data = activityDataAPI.measurements;
     });
   });
 
@@ -215,7 +166,7 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
 
   $scope.updateChartRange();
 
-  function addBackgroundColors(config, maxValues, minValues, floor, roof) {
+  function addBackgroundColors(config, minValues, maxValues, floor, roof) {
     // High, red area
     if (maxValues) {
       var highArea = [];
@@ -248,13 +199,6 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
     }
 
     // OK area
-    if (!maxValues) {
-      maxValues = [{
-        x: minValues[0].x,
-        y: 100
-      }]
-    }
-
     var allValues = [];
     for (var i = 0; i < minValues.length; i++) {
       allValues.push({
@@ -352,35 +296,28 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
     });
   }
 
-  function checkYAxisRange(config, min, max) {
+  function checkYAxisRange(config, lower_threshold_values, upper_threshold_values) {
+    var min = getLowestValue(lower_threshold_values);
+    var max = getHighestValue(upper_threshold_values);
     var aboveMax = false;
     var belowMin = false;
     var extremeValues = getExtremeValues(config.series[0].data);
 
     for (var i = 0; i < config.series[0].data.length; i++) {
-      if (max) {
-        if (config.series[0].data[i].y > max) {
-          aboveMax = true;
-        }
+      if (config.series[0].data[i].y > max) {
+        aboveMax = true;
       }
       if (config.series[0].data[i].y < min) {
         belowMin = true;
       }
     }
 
-    var yAxisInterval;
-    if (max) {
-      yAxisInterval = (max - min) / 10;
-    } else {
-      yAxisInterval = (100 - min) / 10;
-    }
+    var yAxisInterval = (max - min) / 10;
 
-    if (max) {
-      if (aboveMax) {
-        config.options.yAxis.max = (extremeValues.highest + yAxisInterval);
-      } else {
-        config.options.yAxis.max = (max + yAxisInterval);
-      }
+    if (aboveMax) {
+      config.options.yAxis.max = (extremeValues.highest + yAxisInterval);
+    } else {
+      config.options.yAxis.max = (max + yAxisInterval);
     }
 
     if (belowMin) {
@@ -414,5 +351,25 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
     if (a.x > b.x)
       return 1;
     return 0;
+  }
+
+  function getLowestValue(values) {
+    var lowest = 999999;
+    for (var i=0; i<values.length; i++) {
+      if (values[i].y < lowest) {
+        lowest = values[i].y;
+      }
+    }
+    return lowest;
+  }
+
+  function getHighestValue(values) {
+    var highest = 0;
+    for (var i=0; i<values.length; i++) {
+      if (values[i].y > highest) {
+        highest = values[i].y;
+      }
+    }
+    return highest;
   }
 });
