@@ -2,6 +2,22 @@ angelikaControllers.controller('PatientInfoCtrl', function($scope, $modal) {
 
   $scope.getPatient().then(function(patient) {
     $scope.patient = patient;
+    
+    if (patient.motivation_texts.length > 0) {
+      $scope.newestMotivationalText = patient.motivation_texts[0].text;
+      $scope.motivationalTextsCount = " (" + patient.motivation_texts.length + " totalt)";
+    } else {
+      $scope.newestMotivationalText = "Ingen motiverende tekster er skrevet inn";
+      $scope.motivationalTextsCount = "";
+    }
+
+    if (patient.information_texts.length > 0) {
+      $scope.newestInfoText = patient.information_texts[0].text;
+      $scope.infoTextsCount = " (" + patient.information_texts.length + " totalt)";
+    } else {
+      $scope.newestInfoText = "Ingen informative tekster er skrevet inn";
+      $scope.infoTextsCount = "";
+    }
   });
 
   //TODO: get this from the API
