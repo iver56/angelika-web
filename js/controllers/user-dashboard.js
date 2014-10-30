@@ -4,6 +4,9 @@ angelikaControllers.controller('UserDashboardCtrl', function ($scope, $http, cfg
       $scope.patient = patientData;
       $scope.motivationalMsg = "Motiverende melding skrevet av helsepersonell kommer her.";
       $scope.otherMsg = "Annen informasjon skrevet av helsepersonell kommer her.";
+      $scope.callRequest = {
+        registered: false
+      };
 
       var now = new Date().getTime();
       var msPerDay = 86400000;
@@ -213,4 +216,18 @@ angelikaControllers.controller('UserDashboardCtrl', function ($scope, $http, cfg
       config.options.yAxis.min = (min - yAxisInterval);
     }
   }
+
+  $scope.registerCallRequest = function() {
+    var url = cfg.apiUrl + "/current-patient/call_me/";
+    $http['post'](url)
+      .success(function(result) {
+        console.log("Call request success: ", result);
+        $scope.callRequest.registered = true;
+      })
+      .error(function(data) {
+        console.error("Call request error", data);
+        alert("Noe gikk galt. Oppringnings-forespørsel ble ikke registrert.");
+      });
+  }
+
 });

@@ -43,11 +43,20 @@
 <h1>Hei {{ patient.user.full_name }}!</h1>
 
 <div class="alert alert-warning" role="alert">
-  <p>Er alt i orden? Ikke nøl med å ta kontakt hvis du trenger hjelp!<br>
-    Telefonnummer: 23 48 76 76<br>
-    Eller trykk her, så ringer vi deg:
-    <button onclick="/*registerCallRequest()*/" class="btn btn-default btn-lg">Ring meg</button>
-  </p>
+
+    <p>Er alt i orden? Ikke nøl med å ta kontakt hvis du trenger hjelp!<br>
+      Telefonnummer: 23 48 76 76<br>
+    </p>
+    <div ng-if="!callRequest.registered">
+      <p>
+        Eller trykk her, så ringer vi deg:
+        <button ng-click="registerCallRequest()" class="btn btn-default btn-lg">Ring meg</button>
+      </p>
+    </div>
+    <div ng-if="callRequest.registered">
+      <div class="alert alert-success">Det er registrert at du vil bli oppringt. Vi tar kontakt så snart som mulig.</div>
+    </div>
+
 </div>
 
 <div class="alert alert-success" role="alert">{{ motivationalMsg }}</div>
