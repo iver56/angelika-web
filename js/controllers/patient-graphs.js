@@ -81,7 +81,7 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
 
   $scope.getPatient().then(function(patient) {
     $scope.getPatientO2Data().then(function(o2DataAPI) {
-      var o2Data = o2DataAPI.results;
+      var o2Data = o2DataAPI.measurements;
 
       for (var i = 0; i < o2Data.length; i++) {
 
@@ -103,7 +103,7 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
     });
 
     $scope.getPatientHeartRateData().then(function(heartRateDataAPI) {
-      var heartRateData = heartRateDataAPI.results;
+      var heartRateData = heartRateDataAPI.measurements;
 
       for (var i = 0; i < heartRateData.length; i++) {
 
@@ -125,7 +125,7 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
     });
 
     $scope.getPatientTemperatureData().then(function(temperatureDataAPI) {
-      var temperatureData = temperatureDataAPI.results;
+      var temperatureData = temperatureDataAPI.measurements;
 
       for (var i = 0; i < temperatureData.length; i++) {
 
@@ -148,7 +148,7 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
     });
 
     $scope.getPatientActivityData().then(function(activityDataAPI) {
-      $scope.chartActivityConfig.series[0].data = activityDataAPI.results;
+      $scope.chartActivityConfig.series[0].data = activityDataAPI.measurements;
     });
   });
 
