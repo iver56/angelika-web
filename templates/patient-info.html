@@ -79,22 +79,23 @@
 
 <div class="panel panel-success">
   <div class="panel-heading">
-    <h3 class="panel-title">Motiverende beskjed:</h3>
+    <h3 class="panel-title">Motiverende beskjeder:</h3>
   </div>
-  <div class="panel-body">
-    Cardigan Bushwick pickled narwhal heirloom typewriter leggings, readymade mlkshk. Leggings
-    crucifix street art, squid raw denim asymmetrical literally sustainable kale chips disrupt
-    flexitarian fashion axe Schlitz.
+  <div ng-repeat="motivationalText in patient.motivation_texts">
+    <div class="panel-body">
+      {{motivationalText.text}}
+    </div>
   </div>
 </div>
 
 <div class="panel panel-info">
   <div class="panel-heading">
-    <h3 class="panel-title">Info til pasienten:</h3>
+    <h3 class="panel-title">Informative beskjeder:</h3>
   </div>
-  <div class="panel-body">
-    Trust fund kogi readymade cred pickled tousled. Shabby chic bicycle rights chillwave, raw
-    denim Shoreditch lomo fap cardigan meggings meh distillery tilde Banksy artisan viral.
+  <div ng-repeat="informationalText in patient.information_texts">
+    <div class="panel-body">
+      {{informationalText.text}}
+    </div>
   </div>
 </div>
 

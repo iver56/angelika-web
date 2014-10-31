@@ -59,9 +59,13 @@
 
 </div>
 
-<div class="alert alert-success" role="alert">{{ motivationalMsg }}</div>
+<div ng-repeat="motivationalText in patient.motivation_texts">
+  <div class="alert alert-success" role="alert">{{ motivationalText.text }}</div>
+</div>
 
-<div class="alert alert-info" role="alert">{{ otherMsg }}</div>
+<div ng-repeat="informationText in patient.information_texts">
+  <div class="alert alert-info" role="alert">{{ informationText.text }}</div>
+</div>
 
 <div id="charts">
 
