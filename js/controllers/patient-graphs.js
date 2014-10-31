@@ -1,5 +1,5 @@
 angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg) {
-  $scope.chartRange = { days: 7 };
+  $scope.chartRange = {days: 7};
 
   $scope.tabSelected = function() {
     $scope.setChartWidths();
@@ -32,10 +32,7 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
       tooltip: {
         pointFormat: '{series.name}: <b>{point.y} </b>',
         xDateFormat: '%A %d.%m.%Y kl. %H:%M'
-      }/*,
-       rangeSelector: {
-       enabled: true
-       }*/
+      }
     },
     series: [
       {"name": ""}
@@ -84,8 +81,7 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
       var o2Data = o2DataAPI.measurements;
 
       for (var i = 0; i < o2Data.length; i++) {
-
-        if (o2Data[i].y < patient.o2_min) {
+        if (false/*o2Data[i].alert*/) {
           o2Data[i].events = {
             click: function(e) {
               console.log(e);
@@ -98,16 +94,16 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
         }
       }
       $scope.chartO2Config.series[0].data = o2Data;
-      setPlotBands($scope.chartO2Config, patient.o2_min, null);
-      checkYAxisRange($scope.chartO2Config, patient.o2_min, null);
+
+      addBackgroundColors($scope.chartO2Config, o2DataAPI.lower_threshold_values, o2DataAPI.upper_threshold_values, 0, 100);
+      checkYAxisRange($scope.chartO2Config, o2DataAPI.lower_threshold_values, o2DataAPI.upper_threshold_values);
     });
 
     $scope.getPatientHeartRateData().then(function(heartRateDataAPI) {
       var heartRateData = heartRateDataAPI.measurements;
 
       for (var i = 0; i < heartRateData.length; i++) {
-
-        if (heartRateData[i].y < patient.pulse_min || heartRateData[i].y > patient.pulse_max) {
+        if (false/*heartRateData[i].alert*/) {
           heartRateData[i].events = {
             click: function(e) {
               console.log(e);
@@ -120,16 +116,16 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
         }
       }
       $scope.chartHeartRateConfig.series[0].data = heartRateData;
-      setPlotBands($scope.chartHeartRateConfig, patient.pulse_min, patient.pulse_max);
-      checkYAxisRange($scope.chartHeartRateConfig, patient.pulse_min, patient.pulse_max);
+
+      addBackgroundColors($scope.chartHeartRateConfig, heartRateDataAPI.lower_threshold_values, heartRateDataAPI.upper_threshold_values, 0, 200);
+      checkYAxisRange($scope.chartHeartRateConfig, heartRateDataAPI.lower_threshold_values, heartRateDataAPI.upper_threshold_values);
     });
 
     $scope.getPatientTemperatureData().then(function(temperatureDataAPI) {
       var temperatureData = temperatureDataAPI.measurements;
 
       for (var i = 0; i < temperatureData.length; i++) {
-
-        if (temperatureData[i].y < patient.temperature_min || temperatureData[i].y > patient.temperature_max) {
+        if (false/*temperatureData[i].alert*/) {
           temperatureData[i].events = {
             click: function(e) {
               console.log(e);
@@ -143,8 +139,8 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
       }
 
       $scope.chartTempConfig.series[0].data = temperatureData;
-      setPlotBands($scope.chartTempConfig, patient.temperature_min, patient.temperature_max);
-      checkYAxisRange($scope.chartTempConfig, patient.temperature_min, patient.temperature_max);
+      addBackgroundColors($scope.chartTempConfig, temperatureDataAPI.lower_threshold_values, temperatureDataAPI.upper_threshold_values, 0, 100);
+      checkYAxisRange($scope.chartTempConfig, temperatureDataAPI.lower_threshold_values, temperatureDataAPI.upper_threshold_values);
     });
 
     $scope.getPatientActivityData().then(function(activityDataAPI) {
@@ -170,62 +166,210 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
 
   $scope.updateChartRange();
 
-  function setPlotBands(config, min, max) {
-    var plotBands = [];
-    plotBands.push({
-      color: 'rgba(245,127,127,0.2)', // red, low
-      from: '0',
-      to: min
-    });
+  function addBackgroundColors(config, minValues, maxValues, floor, roof) {
+    // High, red area
+    if (maxValues) {
+      var highArea = [];
+      for (var i = 0; i < maxValues.length; i++) {
+        highArea.push([
+          maxValues[i].x, maxValues[i].y, roof
+        ]);
 
-    if (max) {
-      var tmpMax = max;
-    } else {
-      var tmpMax = 1000;
-    }
-    plotBands.push({
-      color: 'rgba(125,235,121,0.2)', // green
-      from: min,
-      to: tmpMax
-    });
+        if (i + 1 == maxValues.length) {
+          highArea.push([
+            Date.now(), maxValues[i].y, roof
+          ]);
+        } else {
+          highArea.push([
+            maxValues[i + 1].x - 1, maxValues[i].y, roof
+          ]);
+        }
+      }
 
-    if (max) {
-      plotBands.push({
-        color: 'rgba(245,127,127,0.2)', // red, high
-        from: max,
-        to: 1000
+      config.series.push({
+        name: 'Unormalt høyt område',
+        type: 'arearange',
+        color: '#F57F7F', // red
+        fillOpacity: 0.3,
+        data: highArea,
+        zIndex: -1,
+        lineWidth: 0,
+        enableMouseTracking: false
       });
     }
 
-    config.options.yAxis.plotBands = plotBands;
+    // OK area
+    var allValues = [];
+    for (var i = 0; i < minValues.length; i++) {
+      allValues.push({
+        x: minValues[i].x,
+        min: minValues[i].y,
+        max: null
+      });
+    }
+
+    for (var i = 0; i < maxValues.length; i++) {
+      var found = false;
+      var newestMinValue = minValues[0].y;
+      for (var j = 0; j < allValues.length && !found && maxValues[i].x >= allValues[j].x; j++) {
+        newestMinValue = allValues[j].min;
+        if (maxValues[i].x == allValues[j].x) {
+          found = true;
+          allValues[j].max = maxValues[i].y;
+        }
+      }
+      if (!found) {
+        allValues.push({
+          x: maxValues[i].x,
+          min: newestMinValue,
+          max: maxValues[i].y
+        });
+      }
+    }
+
+    allValues.sort(compare);
+
+    var newestMaxValue = maxValues[0].y;
+    for (var i = 0; i < allValues.length; i++) {
+      if (!allValues[i].max) {
+        allValues[i].max = newestMaxValue;
+      } else {
+        newestMaxValue = allValues[i].max;
+      }
+    }
+
+    var okArea = [];
+    for (var i = 0; i < allValues.length; i++) {
+      okArea.push([
+        allValues[i].x, allValues[i].min, allValues[i].max
+      ]);
+
+      if (i + 1 == allValues.length) {
+        okArea.push([
+          Date.now(), allValues[i].min, allValues[i].max
+        ]);
+      } else {
+        okArea.push([
+          allValues[i + 1].x - 1, allValues[i].min, allValues[i].max
+        ]);
+      }
+    }
+
+    config.series.push({
+      name: 'OK område',
+      type: 'arearange',
+      color: '#73BF71', // green
+      fillOpacity: 0.3,
+      data: okArea,
+      zIndex: -2,
+      lineWidth: 0,
+      enableMouseTracking: false
+    });
+
+    // Low, red area
+    var lowArea = [];
+    for (var i = 0; i < minValues.length; i++) {
+      lowArea.push([
+        minValues[i].x, floor, minValues[i].y
+      ]);
+
+      if (i + 1 == minValues.length) {
+        lowArea.push([
+          Date.now(), floor, minValues[i].y
+        ]);
+      } else {
+        lowArea.push([
+          minValues[i + 1].x - 1, floor, minValues[i].y
+        ]);
+      }
+    }
+
+    config.series.push({
+      name: 'Unormalt lavt område',
+      type: 'arearange',
+      color: '#F57F7F', // red
+      fillOpacity: 0.3,
+      data: lowArea,
+      zIndex: -1,
+      lineWidth: 0,
+      enableMouseTracking: false
+    });
   }
 
-  function checkYAxisRange(config, min, max) {
+  function checkYAxisRange(config, lower_threshold_values, upper_threshold_values) {
+    var min = getLowestValue(lower_threshold_values);
+    var max = getHighestValue(upper_threshold_values);
     var aboveMax = false;
     var belowMin = false;
-    for (var i=0; i<config.series[0].data.length; i++) {
-      if (max) {
-        if (config.series[0].data[i].y > max) {
-          aboveMax = true;
-        }
+    var extremeValues = getExtremeValues(config.series[0].data);
+
+    for (var i = 0; i < config.series[0].data.length; i++) {
+      if (config.series[0].data[i].y > max) {
+        aboveMax = true;
       }
       if (config.series[0].data[i].y < min) {
         belowMin = true;
       }
     }
 
-    var yAxisInterval;
-    if (max) {
-      yAxisInterval = (max - min) / 10;
-    } else {
-      yAxisInterval = (100 - min) / 10;
-    }
+    var yAxisInterval = (max - min) / 10;
 
-    if (max && !aboveMax) {
+    if (aboveMax) {
+      config.options.yAxis.max = (extremeValues.highest + yAxisInterval);
+    } else {
       config.options.yAxis.max = (max + yAxisInterval);
     }
-    if (!belowMin) {
+
+    if (belowMin) {
+      config.options.yAxis.min = (extremeValues.lowest - yAxisInterval);
+    } else {
       config.options.yAxis.min = (min - yAxisInterval);
     }
+  }
+
+
+  function getExtremeValues(data) {
+    var lowest = data[0].y;
+    var highest = data[0].y;
+    for (var i = 1; i < data.length; i++) {
+      if (data[i].y < lowest) {
+        lowest = data[i].y;
+      }
+      if (data[i].y > highest) {
+        highest = data[i].y;
+      }
+    }
+    return {
+      highest: highest,
+      lowest: lowest
+    };
+  }
+
+  function compare(a, b) {
+    if (a.x < b.x)
+      return -1;
+    if (a.x > b.x)
+      return 1;
+    return 0;
+  }
+
+  function getLowestValue(values) {
+    var lowest = values[0].y;
+    for (var i = 1; i < values.length; i++) {
+      if (values[i].y < lowest) {
+        lowest = values[i].y;
+      }
+    }
+    return lowest;
+  }
+
+  function getHighestValue(values) {
+    var highest = values[0].y;
+    for (var i = 1; i < values.length; i++) {
+      if (values[i].y > highest) {
+        highest = values[i].y;
+      }
+    }
+    return highest;
   }
 });
