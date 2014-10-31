@@ -3,23 +3,17 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
   $scope.alerts = [];
   $scope.measurementType = AlarmHelper.measurementType;
 
-  $scope.notify = function() {
-
-    var notifySound = document.getElementById("notify-sound");
-    if (notifySound.readyState !== 0) {
-      notifySound.currentTime = 0.0;
-      console.log("now currenttime", notifySound.currentTime)
-    }
-    notifySound.play();
+  $scope.playNotifySound = function() {
+    createjs.Sound.play("notify");
   };
 
   var connectionLost = false;
 
-  (function tick() {
+  function tick() {
     $http.get(cfg.apiUrl + "/alarms/")
       .success(function(data) {
-        $scope.notify();
-        $scope.clareAlerts();
+        $scope.playNotifySound();
+        $scope.popAlert();
         if (connectionLost) {
           $scope.addAlert("server-connection-reestablished");
           connectionLost = false;
@@ -33,7 +27,8 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
         console.error(data, status, headers, config);
         $timeout(tick, 20000);
       });
-  })();
+  }
+  tick();
 
   $scope.openPatient = function(patient) {
     LayoutUtils.openPatient(patient);
@@ -55,7 +50,7 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
     }
   };
 
-  $scope.clareAlerts = function() {
+  $scope.popAlert = function() {
     $scope.alerts.pop();
   }
 });
