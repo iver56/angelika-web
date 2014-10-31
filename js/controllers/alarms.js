@@ -3,11 +3,22 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
   $scope.alerts = [];
   $scope.measurementType = AlarmHelper.measurementType;
 
+  $scope.notify = function() {
+
+    var notifySound = document.getElementById("notify-sound");
+    if (notifySound.readyState !== 0) {
+      notifySound.currentTime = 0.0;
+      console.log("now currenttime", notifySound.currentTime)
+    }
+    notifySound.play();
+  };
+
   var connectionLost = false;
 
   (function tick() {
     $http.get(cfg.apiUrl + "/alarms/")
       .success(function(data) {
+        $scope.notify();
         $scope.clareAlerts();
         if (connectionLost) {
           $scope.addAlert("server-connection-reestablished");
@@ -26,7 +37,7 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
 
   $scope.openPatient = function(patient) {
     LayoutUtils.openPatient(patient);
-  }
+  };
 
   $scope.closeAlert = function(index) {
     $scope.alerts.splice(index, 1);
