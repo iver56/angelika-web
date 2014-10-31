@@ -239,18 +239,18 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
     }
 
     var okArea = [];
-    for (var i=0; i<allValues.length; i++) {
+    for (var i = 0; i < allValues.length; i++) {
       okArea.push([
         allValues[i].x, allValues[i].min, allValues[i].max
       ]);
 
-      if (i+1 == allValues.length) {
+      if (i + 1 == allValues.length) {
         okArea.push([
           Date.now(), allValues[i].min, allValues[i].max
         ]);
       } else {
         okArea.push([
-          allValues[i+1].x - 1, allValues[i].min, allValues[i].max
+          allValues[i + 1].x - 1, allValues[i].min, allValues[i].max
         ]);
       }
     }
@@ -354,8 +354,8 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
   }
 
   function getLowestValue(values) {
-    var lowest = 999999;
-    for (var i=0; i<values.length; i++) {
+    var lowest = values[0].y;
+    for (var i = 1; i < values.length; i++) {
       if (values[i].y < lowest) {
         lowest = values[i].y;
       }
@@ -364,8 +364,8 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
   }
 
   function getHighestValue(values) {
-    var highest = 0;
-    for (var i=0; i<values.length; i++) {
+    var highest = values[0].y;
+    for (var i = 1; i < values.length; i++) {
       if (values[i].y > highest) {
         highest = values[i].y;
       }
