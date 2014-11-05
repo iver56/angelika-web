@@ -8,17 +8,23 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
   };
 
   var connectionLost = false;
+  var oldAlerts = [];
 
   function tick() {
     $http.get(cfg.apiUrl + "/alarms/")
       .success(function(data) {
-        $scope.playNotifySound();
         $scope.popAlert();
         if (connectionLost) {
           $scope.addAlert("server-connection-reestablished");
           connectionLost = false;
         }
+
+        if ($scope.assessNewAlert(data.results, oldAlerts)) {
+          $scope.playNotifySound();
+        }
+
         $scope.alarms = data.results;
+        oldAlerts  = $scope.alarms;
         $timeout(tick, 5000);
       })
       .error(function(data, status, headers, config) {
@@ -52,5 +58,12 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
 
   $scope.popAlert = function() {
     $scope.alerts.pop();
+  };
+
+  $scope.assessNewAlert = function(newAlerts, oldAlerts) {
+    if (oldAlerts == []) {
+      return false;
+    }
+    return (newAlerts.length > oldAlerts.length);
   }
 });
