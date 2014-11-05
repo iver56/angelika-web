@@ -49,8 +49,8 @@ angelikaControllers.controller('PatientInfoCtrl', function($scope, $http, cfg, $
     });
   };
 
-
 });
+
 
 angelikaControllers.controller('handleAlertModalInstanceCtrl', function($scope, $modalInstance, $http, cfg, alarm, patient) {
   $scope.alarm = alarm;
@@ -63,32 +63,22 @@ angelikaControllers.controller('handleAlertModalInstanceCtrl', function($scope, 
   };
 
   $scope.ok = function() {
-    if ($scope.motivationalText.text && $scope.motivationalText.text !== "") {
-      $scope.posting = true;
-      patient.motivation_texts.push({
-        id: null,
-        text: $scope.motivationalText.text
+    $http.post(
+        cfg.apiUrl + "/alarms/" + $scope.alarm.id + "/handle/",
+      {
+        'alarm': $scope.alarm,
+        'motivation_text': $scope.motivationalText
+      }
+    )
+      .success(function(data) {
+        $scope.posting = false;
+        $modalInstance.close($scope.alarm);
+      })
+      .error(function(data) {
+        $scope.posting = false;
+        console.error(data);
+        alert("Det oppstod en feil under lagring. Prøv igjen senere.");
       });
-      $http.patch(cfg.apiUrl + "/patients/" + patient.id + "/", patient)
-        .success(function(patientDB) {
-          for (var property in patientDB) {
-            if (patientDB.hasOwnProperty(property) && patient.hasOwnProperty(property)) {
-              patient[property] = patientDB[property];
-            }
-          }
-          $scope.posting = false;
-          $modalInstance.close($scope.alarm);
-        })
-        .error(function(data) {
-          $scope.posting = false;
-          console.error(data);
-          //TODO: Replace by a proper error message
-          alert("Det oppstod en feil under lagring. Prøv igjen.");
-        });
-    } else {
-      console.log("Close, nothing saved");
-      $modalInstance.close($scope.alarm);
-    }
   };
 
   $scope.cancel = function() {
