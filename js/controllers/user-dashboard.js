@@ -104,11 +104,9 @@ angelikaControllers.controller('UserDashboardCtrl', function ($scope, $http, cfg
       };
 
       if ($scope.patient.o2_access) {
-        $http.get(cfg.apiUrl + "/current-patient/measurements/?type=O")
+        $http.get(cfg.apiUrl + "/current-patient/graph_data/?type=O")
           .success(function (o2Data) {
-            $scope.chartO2Config.series[0].data = o2Data;
-            setPlotBands($scope.chartO2Config, $scope.patient.o2_min, null);
-            checkYAxisRange($scope.chartO2Config, $scope.patient.o2_min, null);
+            $scope.chartO2Config.series[0].data = o2Data.measurements;
           })
           .error(function (o2DataAPI, o2Status, o2Headers, o2Config) {
             console.log(o2DataAPI, o2Status, o2Headers, o2Config);
@@ -116,11 +114,9 @@ angelikaControllers.controller('UserDashboardCtrl', function ($scope, $http, cfg
       }
 
       if ($scope.patient.pulse_access) {
-        $http.get(cfg.apiUrl + "/current-patient/measurements/?type=P")
+        $http.get(cfg.apiUrl + "/current-patient/graph_data/?type=P")
           .success(function (heartRateData) {
-            $scope.chartHeartRateConfig.series[0].data = heartRateData;
-            setPlotBands($scope.chartHeartRateConfig, $scope.patient.pulse_min, $scope.patient.pulse_max);
-            checkYAxisRange($scope.chartHeartRateConfig, $scope.patient.pulse_min, $scope.patient.pulse_max);
+            $scope.chartHeartRateConfig.series[0].data = heartRateData.measurements;
           })
           .error(function (heartRateDataAPI, heartRateStatus, heartRateHeaders, heartRateConfig) {
             console.log(heartRateDataAPI, heartRateStatus, heartRateHeaders, heartRateConfig);
@@ -128,11 +124,9 @@ angelikaControllers.controller('UserDashboardCtrl', function ($scope, $http, cfg
       }
 
       if ($scope.patient.temperature_access) {
-        $http.get(cfg.apiUrl + "/current-patient/measurements/?type=T")
+        $http.get(cfg.apiUrl + "/current-patient/graph_data/?type=T")
           .success(function (temperatureData) {
-            $scope.chartTempConfig.series[0].data = temperatureData;
-            setPlotBands($scope.chartTempConfig, $scope.patient.temperature_min, $scope.patient.temperature_max);
-            checkYAxisRange($scope.chartTempConfig, $scope.patient.temperature_min, $scope.patient.temperature_max);
+            $scope.chartTempConfig.series[0].data = temperatureData.measurements;
           })
           .error(function (tempDataAPI, tempStatus, tempHeaders, tempConfig) {
             console.log(tempDataAPI, tempStatus, tempHeaders, tempConfig);
@@ -140,9 +134,9 @@ angelikaControllers.controller('UserDashboardCtrl', function ($scope, $http, cfg
       }
 
       if ($scope.patient.activity_access) {
-        $http.get(cfg.apiUrl + "/current-patient/measurements/?type=A")
+        $http.get(cfg.apiUrl + "/current-patient/graph_data/?type=A")
           .success(function (activityData) {
-            $scope.chartActivityConfig.series[0].data = activityData;
+            $scope.chartActivityConfig.series[0].data = activityData.measurements;
           })
           .error(function (activityDataAPI, activityStatus, activityHeaders, activityConfig) {
             console.log(activityDataAPI, activityStatus, activityHeaders, activityConfig);
@@ -157,65 +151,6 @@ angelikaControllers.controller('UserDashboardCtrl', function ($scope, $http, cfg
     AuthService.logOut();
     window.location.href = 'index.html';
   };
-
-  function setPlotBands(config, min, max) {
-    var plotBands = [];
-    plotBands.push({
-      color: 'rgba(245,127,127,0.2)', // red, low
-      from: '0',
-      to: min
-    });
-
-    if (max) {
-      var tmpMax = max;
-    } else {
-      var tmpMax = 1000;
-    }
-    plotBands.push({
-      color: 'rgba(125,235,121,0.2)', // green
-      from: min,
-      to: tmpMax
-    });
-
-    if (max) {
-      plotBands.push({
-        color: 'rgba(245,127,127,0.2)', // red, high
-        from: max,
-        to: 1000
-      });
-    }
-
-    config.options.yAxis.plotBands = plotBands;
-  }
-
-  function checkYAxisRange(config, min, max) {
-    var aboveMax = false;
-    var belowMin = false;
-    for (var i=0; i<config.series[0].data.length; i++) {
-      if (max) {
-        if (config.series[0].data[i].y > max) {
-          aboveMax = true;
-        }
-      }
-      if (config.series[0].data[i].y < min) {
-        belowMin = true;
-      }
-    }
-
-    var yAxisInterval;
-    if (max) {
-      yAxisInterval = (max - min) / 10;
-    } else {
-      yAxisInterval = (100 - min) / 10;
-    }
-
-    if (max && !aboveMax) {
-      config.options.yAxis.max = (max + yAxisInterval);
-    }
-    if (!belowMin) {
-      config.options.yAxis.min = (min - yAxisInterval);
-    }
-  }
 
   $scope.registerCallRequest = function() {
     var url = cfg.apiUrl + "/current-patient/call_me/";
