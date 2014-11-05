@@ -329,6 +329,9 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
 
 
   function getExtremeValues(data) {
+    if (0 === data.length) {
+      return { highest: null, lowest: null };
+    }
     var lowest = data[0].y;
     var highest = data[0].y;
     for (var i = 1; i < data.length; i++) {
