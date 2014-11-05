@@ -2,9 +2,16 @@
   margin: 40px;
 }
 
+img.logo {
+  width: 300px;
+  height: 75px;
+  display: block;
+  margin: 0 auto 20px;
+}
+
 .form-signin {
   max-width: 300px;
-  padding: 19px 29px 29px;
+  padding: 9px 29px 29px;
   margin: 0 auto 20px;
   background-color: #fff;
   border: 1px solid #e5e5e5;
@@ -30,5 +37,5 @@
 }
 
 .form-signin .alert {
-    margin-top: 20px;
+  margin-top: 20px;
 }
