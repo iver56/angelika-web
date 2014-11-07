@@ -117,7 +117,7 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
       }
       $scope.chartHeartRateConfig.series[0].data = heartRateData;
 
-      addBackgroundColors($scope.chartHeartRateConfig, heartRateDataAPI.lower_threshold_values, heartRateDataAPI.upper_threshold_values, 0, 200);
+      addBackgroundColors($scope.chartHeartRateConfig, heartRateDataAPI.lower_threshold_values, heartRateDataAPI.upper_threshold_values, 0, 1000);
       checkYAxisRange($scope.chartHeartRateConfig, heartRateDataAPI.lower_threshold_values, heartRateDataAPI.upper_threshold_values);
     });
 
