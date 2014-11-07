@@ -8,9 +8,10 @@
             <th>Tid</th>
             <th>Måling</th>
           </tr>
-          <tr ng-repeat="o2Measurement in o2Data | orderBy: '-x'">
-            <td>{{millisToUTCDate(o2Measurement.x) | date:'dd.M.yyyy kl. H:mm'}}</td>
-            <td ng-click="openAlertHandling(o2Measurement)" ng-class="{'danger clickable': (o2Measurement.y < 90)}">{{o2Measurement.y}}</td> <!-- replace by o2Measurement.alert -->
+          <tr ng-repeat="measurement in o2Data | orderBy: '-x'">
+            <td>{{ millisToUTCDate(measurement.x) | date:'dd.M.yyyy kl. H:mm' }}</td>
+            <td ng-click="openAlertHandling(measurement)"
+                ng-class="{'danger clickable': measurement.alarm}">{{ measurement.y }}</td>
           </tr>
         </table>
       </div>
@@ -23,9 +24,10 @@
             <th>Tid</th>
             <th>Måling</th>
           </tr>
-          <tr ng-repeat="heartRateMeasurement in heartRateData | orderBy: '-x'">
-            <td>{{millisToUTCDate(heartRateMeasurement.x) | date:'dd.M.yyyy kl. H:mm'}}</td>
-            <td ng-click="openAlertHandling(heartRateMeasurement)" ng-class="{'danger clickable': (heartRateMeasurement.y > 90)}">{{heartRateMeasurement.y}}</td> <!-- replace by heartRateMeasurement.alert -->
+          <tr ng-repeat="measurement in heartRateData | orderBy: '-x'">
+            <td>{{ millisToUTCDate(measurement.x) | date:'dd.M.yyyy kl. H:mm' }}</td>
+            <td ng-click="openAlertHandling(measurement)"
+                ng-class="{'danger clickable': measurement.alarm }">{{ measurement.y }}</td>
           </tr>
         </table>
       </div>
@@ -38,9 +40,10 @@
             <th>Tid</th>
             <th>Måling</th>
           </tr>
-          <tr ng-repeat="temperatureMeasurement in temperatureData | orderBy: '-x'">
-            <td>{{millisToUTCDate(temperatureMeasurement.x) | date:'dd.M.yyyy kl. H:mm'}}</td>
-            <td ng-click="openAlertHandling(temperatureMeasurement)" ng-class="{'danger clickable': (temperatureMeasurement.y > 38)}">{{temperatureMeasurement.y}}</td> <!-- replace by temperatureMeasurement.alert -->
+          <tr ng-repeat="measurement in temperatureData | orderBy: '-x'">
+            <td>{{ millisToUTCDate(measurement.x) | date:'dd.M.yyyy kl. H:mm' }}</td>
+            <td ng-click="openAlertHandling(measurement)"
+                ng-class="{'danger clickable': measurement.alarm}">{{ measurement.y }}</td>
           </tr>
         </table>
       </div>
@@ -53,9 +56,9 @@
             <th>Tid</th>
             <th>Måling</th>
           </tr>
-          <tr ng-repeat="activityMeasurement in activityData | orderBy: '-x'">
-            <td>{{millisToUTCDate(activityMeasurement.x) | date:'dd.M.yyyy kl. H:mm'}}</td>
-            <td>{{activityMeasurement.y}}</td>
+          <tr ng-repeat="measurement in activityData | orderBy: '-x'">
+            <td>{{ millisToUTCDate(measurement.x) | date:'dd.M.yyyy kl. H:mm' }}</td>
+            <td>{{ measurement.y }}</td>
           </tr>
         </table>
       </div>
