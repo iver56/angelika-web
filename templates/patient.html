@@ -1,6 +1,10 @@
 <tabset>
   <tab heading="Info" ng-controller="PatientInfoCtrl">
-    <div class="medium-padding" ng-include="'templates/patient-info.html'"></div>
+    <div class="loading-spinner" ng-show="loadingPatient"></div>
+    <div class="medium-padding">
+      <alert type="danger" ng-show="!loadingPatient && !patient">Kunne ikke laste inn data</alert>
+    </div>
+    <div class="medium-padding" ng-include="'templates/patient-info.html'" ng-show="!loadingPatient && patient"></div>
   </tab>
   <tab heading="Grafer" ng-controller="PatientGraphsCtrl" select="tabSelected()">
     <div class="medium-padding" ng-include="'templates/patient-graphs.html'"></div>

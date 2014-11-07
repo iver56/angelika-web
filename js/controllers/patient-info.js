@@ -1,8 +1,10 @@
 angelikaControllers.controller('PatientInfoCtrl', function($scope, $http, cfg, $modal) {
+  $scope.loadingPatient = true;
+  $scope.loadingAlarms = true;
 
   $scope.getPatient().then(function(patient) {
     $scope.patient = patient;
-    
+
     if (patient.motivation_texts.length > 0) {
       $scope.newestMotivationalText = patient.motivation_texts[0].text;
       $scope.motivationalTextsCount = " (" + patient.motivation_texts.length + " totalt)";
@@ -18,15 +20,19 @@ angelikaControllers.controller('PatientInfoCtrl', function($scope, $http, cfg, $
       $scope.newestInfoText = "Ingen informative tekster er skrevet inn";
       $scope.infoTextsCount = "";
     }
+  }).finally(function() {
+    $scope.loadingPatient = false;
   });
 
   $scope.getPatientId().then(function(patientId) {
     $http.get(cfg.apiUrl + "/alarms/?patient_id=" + patientId)
       .success(function(data) {
         $scope.alarms = data.results;
+        $scope.loadingAlarms = false;
       })
       .error(function(data, status, headers, config) {
         console.error(data, status, headers, config);
+        $scope.loadingAlarms = false;
       });
   });
 

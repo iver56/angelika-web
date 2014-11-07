@@ -1,6 +1,6 @@
 angelikaControllers.controller('PatientCtrl', function($scope, $http, cfg, $q) {
   $scope.patientId = -1;
-  $scope.patient = {};
+  $scope.patient = null;
 
   var asyncPatientId = $q.defer();
   $scope.init = function() {

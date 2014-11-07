@@ -134,3 +134,11 @@ form[name=patientForm] .ng-invalid.ng-dirty.form-control:focus {
 .setHandledBtn {
   margin-left: 20px;
 }
+
+.loading-spinner {
+  width: 200px;
+  height: 200px;
+  background-image: url('../img/spinner.gif');
+  background-position: center;
+  background-repeat: no-repeat;
+}
