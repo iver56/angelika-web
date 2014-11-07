@@ -1,28 +1,29 @@
-<button id="bottom" ng-click="newPatient()" class="btn btn-default">
-  <span class="glyphicon glyphicon-user-add"></span> Ny bruker
-</button>
+<div class="medium-padding">
+  <button id="bottom" ng-click="newPatient()" class="btn btn-default">
+    <span class="glyphicon glyphicon-user-add"></span> Ny bruker
+  </button>
 
-<div class="input-group">
-  <span class="input-group-addon">
-    <span class="glyphicon glyphicon-search">
+  <div class="input-group marginTop10">
+    <span class="input-group-addon">
+      <span class="glyphicon glyphicon-search">
+      </span>
     </span>
-  </span>
-  <input type="text" ng-model="search.$" class="form-control" placeholder="Søk etter bruker">
+    <input type="text" ng-model="search.$" class="form-control" placeholder="Søk etter bruker">
+  </div>
+
+  <table class="table table-bordered table-striped table-hover table-responsive marginTop10">
+    <tr>
+      <th>Navn</th>
+      <th>Personnummer</th>
+      <th>Alder</th>
+    </tr>
+    <tr ng-repeat="patient in patients | filter:search"
+        ng-click="openPatient(patient)"
+        class="clickable"
+        draggable-patient="patient">
+      <td>{{ patient.user.full_name }}</td>
+      <td>{{ patient.national_identification_number}}</td>
+      <td>{{ patient.age }} år</td>
+    </tr>
+  </table>
 </div>
-
-<table class="table table-bordered table-striped table-hover table-responsive">
-  <tr>
-    <th>Navn</th>
-    <th>Personnummer</th>
-    <th>Alder</th>
-  </tr>
-  <tr ng-repeat="patient in patients | filter:search"
-      ng-click="openPatient(patient)"
-      class="clickable"
-      draggable-patient="patient">
-    <td>{{ patient.user.full_name }}</td>
-    <td>{{ patient.national_identification_number}}</td>
-    <td>{{ patient.age }} år</td>
-  </tr>
-</table>
-
