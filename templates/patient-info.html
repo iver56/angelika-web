@@ -28,6 +28,9 @@
 </table>
 
 <h4>Pårørende:</h4>
+<div class="panel panel-default panel-body" ng-if="!patient.next_of_kin.length">
+  Ingen pårørende er registrert
+</div>
 <div class="panel panel-default" ng-repeat="contact in patient.next_of_kin">
   <div class="panel-body">
     <p ng-show="$index === 0"><span class="glyphicon glyphicon-star"></span> Hovedpårørende:</p>
