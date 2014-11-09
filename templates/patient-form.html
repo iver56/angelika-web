@@ -22,7 +22,9 @@
 
     <div class="row">
       <div class="col-md-3">
-        <input type="text" ng-model="patient.national_identification_number" class="form-control" required ng-minlength="11" ng-maxlength="11">
+        <input type="text" ng-model="patient.national_identification_number" class="form-control"
+               required ng-minlength="11" ng-maxlength="11"
+               ng-pattern="/^(0[1-9]|[12]\d|3[01])(0[1-9]|1[012])\d{7}$/">
       </div>
     </div>
 
