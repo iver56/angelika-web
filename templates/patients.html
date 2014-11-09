@@ -23,7 +23,7 @@
         draggable-patient="patient">
       <td>{{ patient.user.full_name }}</td>
       <td>{{ patient.national_identification_number}}</td>
-      <td>{{ patient.age }} år</td>
+      <td>{{ patient.age }} {{ patient.age ? 'år' : 'Ukjent' }}</td>
     </tr>
   </table>
 </div>

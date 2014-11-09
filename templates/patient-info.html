@@ -7,7 +7,7 @@
   </tr>
   <tr class="active">
     <td>Alder</td>
-    <td>{{ patient.age }} år</td>
+    <td>{{ patient.age }} {{ patient.age ? 'år' : 'Ukjent' }}</td>
   </tr>
   <tr class="active">
     <td>Telefonnummer</td>
