@@ -1,0 +1,49 @@
+<div class="modal-header">
+  <h3 class="modal-title">Håndter varsel</h3>
+</div>
+
+<div class="modal-body">
+  <form novalidate role="form">
+    <fieldset ng-disabled="posting">
+      <table>
+        <tr>
+          <td>Tid:</td>
+          <td>{{alarm.time_created | date : 'dd.MM.yyyy kl. HH:mm'}}</td>
+        </tr>
+        <tr>
+          <td>Type:</td>
+          <td>{{getAlertType(alarm.measurement.type)}}</td>
+        </tr>
+        <tr>
+          <td>Verdi:</td>
+          <td>{{alarm.measurement.value}}</td>
+        </tr>
+        <tr>
+          <td>Normalverdi:</td>
+          <td>{{getNormalValue(alarm.measurement.type, alarm.time_created)}}</td>
+        </tr>
+        <tr>
+          <td>Håndtert:</td>
+          <td><input type="checkbox" ng-model="alarm.is_treated"></td>
+        </tr>
+        <tr>
+          <td>Notis:</td>
+          <td><textarea rows="3" cols="50" ng-model="alarm.treated_text"></textarea></td>
+        </tr>
+        <tr>
+          <td>Legg inn ny motiverende tekst:</td>
+          <td><textarea rows="3" cols="50" ng-model="motivationalText.text"></textarea></td>
+        </tr>
+        <tr>
+          <td>Søkeord:</td>
+          <td><input type="text" ng-model="tag.text"></td>
+        </tr>
+      </table>
+    </fieldset>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-primary" ng-click="ok()">Lagre</button>
+  <button class="btn btn-warning" ng-click="cancel()">Avbryt</button>
+</div>

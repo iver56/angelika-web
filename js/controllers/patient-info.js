@@ -38,7 +38,7 @@ angelikaControllers.controller('PatientInfoCtrl', function($scope, $http, cfg, $
 
   $scope.open = function(size, idx) {
     var modalInstance = $modal.open({
-      templateUrl: 'handleAlertModalContent.html',
+      templateUrl: 'templates/modals/handle-alert.html',
       controller: 'HandleAlertCtrl',
       size: size,
       resolve: {
