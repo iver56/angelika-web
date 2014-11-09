@@ -96,7 +96,8 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
       $scope.chartO2Config.series[0].data = o2Data;
 
       addBackgroundColors($scope.chartO2Config, o2DataAPI.lower_threshold_values, o2DataAPI.upper_threshold_values, 0, 100);
-      checkYAxisRange($scope.chartO2Config, o2DataAPI.lower_threshold_values, o2DataAPI.upper_threshold_values);
+      var roof = 100; // O2 never goes above 100%
+      checkYAxisRange($scope.chartO2Config, o2DataAPI.lower_threshold_values, o2DataAPI.upper_threshold_values, roof);
     });
 
     $scope.getPatientHeartRateData().then(function(heartRateDataAPI) {
@@ -296,7 +297,7 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
     });
   }
 
-  function checkYAxisRange(config, lower_threshold_values, upper_threshold_values) {
+  function checkYAxisRange(config, lower_threshold_values, upper_threshold_values, roof) {
     var min = getLowestValue(lower_threshold_values);
     var max = getHighestValue(upper_threshold_values);
     var aboveMax = false;
@@ -313,15 +314,16 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
     }
 
     var yAxisInterval = (max - min) / 10;
-
-    if (aboveMax) {
-      config.options.yAxis.max = (extremeValues.highest + yAxisInterval);
+    if (typeof roof !== 'undefined') {
+      config.options.yAxis.max = roof;
+    } else if (aboveMax) {
+      config.options.yAxis.max = extremeValues.highest + yAxisInterval;
     } else {
       config.options.yAxis.max = (max + yAxisInterval);
     }
 
     if (belowMin) {
-      config.options.yAxis.min = (extremeValues.lowest - yAxisInterval);
+      config.options.yAxis.min = extremeValues.lowest - yAxisInterval;
     } else {
       config.options.yAxis.min = (min - yAxisInterval);
     }
