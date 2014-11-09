@@ -67,7 +67,7 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg) {
   };
 
   $scope.addInfoText = function() {
-    $scope.patient.info_texts.push({
+    $scope.patient.information_texts.push({
       id: null,
       text: ''
     });
@@ -82,7 +82,7 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg) {
   };
 
   $scope.removeInfoText = function(index) {
-    $scope.patient.info_texts.splice(index, 1);
+    $scope.patient.information_texts.splice(index, 1);
   };
 
   $scope.moveNextOfKinUp = function(index) {
