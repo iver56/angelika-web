@@ -39,7 +39,7 @@ angelikaControllers.controller('PatientInfoCtrl', function($scope, $http, cfg, $
   $scope.open = function(size, idx) {
     var modalInstance = $modal.open({
       templateUrl: 'handleAlertModalContent.html',
-      controller: 'handleAlertModalInstanceCtrl',
+      controller: 'HandleAlertCtrl',
       size: size,
       resolve: {
         alarm: function() {
@@ -50,68 +50,11 @@ angelikaControllers.controller('PatientInfoCtrl', function($scope, $http, cfg, $
         }
       }
     });
-    modalInstance.result.then(function(alarm) {
-      $scope.alarms[idx] = alarm;
+    modalInstance.result.then(function(data) {
+      $scope.alarms[idx] = data.alarm;
+      if (data.motivation_text.id) {
+        $scope.patient.motivation_texts.push(data.motivation_text);
+      }
     });
   };
-
-});
-
-
-angelikaControllers.controller('handleAlertModalInstanceCtrl', function($scope, $modalInstance, $http, cfg, alarm, patient) {
-  $scope.alarm = alarm;
-  $scope.posting = false;
-  $scope.motivationalText = {
-    text: ''
-  };
-  $scope.tag = {
-    text: ''
-  };
-
-  $scope.ok = function() {
-    $http.post(
-        cfg.apiUrl + "/alarms/" + $scope.alarm.id + "/handle/",
-      {
-        'alarm': $scope.alarm,
-        'motivation_text': $scope.motivationalText
-      }
-    )
-      .success(function(data) {
-        $scope.posting = false;
-        $modalInstance.close($scope.alarm);
-      })
-      .error(function(data) {
-        $scope.posting = false;
-        console.error(data);
-        alert("Det oppstod en feil under lagring. Prøv igjen senere.");
-      });
-  };
-
-  $scope.cancel = function() {
-    $modalInstance.dismiss('cancel');
-  };
-
-  $scope.getAlertType = function(typeChar) {
-    //TODO: compare value to normal value
-    var highOrLow = "lav ";
-    var type;
-    switch (typeChar) {
-      case "O":
-        type = "O2-metning";
-        break;
-      case "P":
-        type = "puls";
-        break;
-      case "T":
-        type = "temperatur";
-        break;
-    }
-    return "Unormalt " + highOrLow + type;
-  };
-
-  $scope.getNormalValue = function(type, time) {
-    //TODO: get old normal value
-
-    return "89% - 100%";
-  }
 });
