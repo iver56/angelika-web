@@ -81,11 +81,10 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
       var o2Data = o2DataAPI.measurements;
 
       for (var i = 0; i < o2Data.length; i++) {
-        if (false/*o2Data[i].alert*/) {
+        if (null !== o2Data[i].alert) {
           o2Data[i].events = {
             click: function(e) {
               console.log(e);
-              alert('test');
             }
           };
           o2Data[i].marker = {
@@ -104,11 +103,10 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
       var heartRateData = heartRateDataAPI.measurements;
 
       for (var i = 0; i < heartRateData.length; i++) {
-        if (false/*heartRateData[i].alert*/) {
+        if (null !== heartRateData[i].alert) {
           heartRateData[i].events = {
             click: function(e) {
               console.log(e);
-              alert('test');
             }
           };
           heartRateData[i].marker = {
@@ -126,11 +124,10 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
       var temperatureData = temperatureDataAPI.measurements;
 
       for (var i = 0; i < temperatureData.length; i++) {
-        if (false/*temperatureData[i].alert*/) {
+        if (null !== temperatureData[i].alert) {
           temperatureData[i].events = {
             click: function(e) {
               console.log(e);
-              alert('test');
             }
           };
           temperatureData[i].marker = {
