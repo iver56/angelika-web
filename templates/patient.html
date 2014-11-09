@@ -1,8 +1,8 @@
 <tabset>
   <tab heading="Info" ng-controller="PatientInfoCtrl">
     <div class="loading-spinner" ng-show="loadingPatient"></div>
-    <div class="medium-padding">
-      <alert type="danger" ng-show="!loadingPatient && !patient">Kunne ikke laste inn data</alert>
+    <div class="medium-padding" ng-show="!loadingPatient && !patient">
+      <alert type="danger">Kunne ikke laste inn data</alert>
     </div>
     <div class="medium-padding" ng-include="'templates/patient-info.html'" ng-show="!loadingPatient && patient"></div>
   </tab>
