@@ -1,4 +1,5 @@
-<div class="btn-group chartRangeBtns">
+<div class="btn-group marginTop20 marginLeft20"
+    ng-hide="!chartO2Config.series[0].data.length && !chartHeartRateConfig.series[0].data.length && !chartTempConfig.series[0].data.length && !chartActivityConfig.series[0].data.length">
   <label class="btn btn-primary" ng-model="chartRange.days"
          btn-radio="1" ng-change="updateChartRange()">Dag</label>
   <label class="btn btn-primary" ng-model="chartRange.days"
@@ -9,10 +10,15 @@
          btn-radio="365" ng-change="updateChartRange()">År</label>
 </div>
 
-<highchart config="chartO2Config"></highchart>
+<div class="panel panel-default panel-body"
+    ng-if="!chartO2Config.series[0].data.length && !chartHeartRateConfig.series[0].data.length && !chartTempConfig.series[0].data.length && !chartActivityConfig.series[0].data.length">
+  Det er ikke registrert noen målinger for denne brukeren
+</div>
+
+<highchart config="chartO2Config" ng-if="chartO2Config.series[0].data.length"></highchart>
 <br><br>
-<highchart config="chartHeartRateConfig"></highchart>
+<highchart config="chartHeartRateConfig" ng-if="chartHeartRateConfig.series[0].data.length"></highchart>
 <br><br>
-<highchart config="chartTempConfig"></highchart>
+<highchart config="chartTempConfig" ng-if="chartTempConfig.series[0].data.length"></highchart>
 <br><br>
-<highchart config="chartActivityConfig"></highchart>
+<highchart config="chartActivityConfig" ng-if="chartActivityConfig.series[0].data.length"></highchart>

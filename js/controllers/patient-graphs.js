@@ -168,6 +168,10 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
   $scope.updateChartRange();
 
   function addBackgroundColors(config, minValues, maxValues, floor, roof) {
+    if (!minValues.length || !maxValues.length) {
+      return;
+    }
+
     // High, red area
     if (maxValues) {
       var highArea = [];
@@ -298,6 +302,9 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
   }
 
   function checkYAxisRange(config, lower_threshold_values, upper_threshold_values, roof) {
+    if (!lower_threshold_values.length || !upper_threshold_values) {
+      return;
+    }
     var min = getLowestValue(lower_threshold_values);
     var max = getHighestValue(upper_threshold_values);
     var aboveMax = false;
