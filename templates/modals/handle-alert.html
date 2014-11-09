@@ -30,7 +30,8 @@
           <td>Notis:</td>
           <td><textarea rows="3" cols="50" ng-model="alarm.treated_text"></textarea></td>
         </tr>
-        <tr>
+
+        <tr ng-if="!editMode">
           <td>Legg inn ny motiverende tekst:</td>
           <td><textarea rows="3" cols="50" ng-model="motivationalText.text"></textarea></td>
         </tr>

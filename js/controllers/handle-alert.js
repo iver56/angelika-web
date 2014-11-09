@@ -1,5 +1,6 @@
-angelikaControllers.controller('HandleAlertCtrl', function($scope, $modalInstance, $http, cfg, alarm, patient) {
+angelikaControllers.controller('HandleAlertCtrl', function($scope, $modalInstance, $http, cfg, alarm, editMode) {
   $scope.alarm = alarm;
+  $scope.alarm.is_treated = true;
   $scope.posting = false;
   $scope.motivationalText = {
     text: ''
@@ -7,6 +8,7 @@ angelikaControllers.controller('HandleAlertCtrl', function($scope, $modalInstanc
   $scope.tag = {
     text: ''
   };
+  $scope.editMode = editMode;
 
   $scope.ok = function() {
     $http.post(

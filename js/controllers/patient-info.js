@@ -45,8 +45,8 @@ angelikaControllers.controller('PatientInfoCtrl', function($scope, $http, cfg, $
         alarm: function() {
           return angular.copy($scope.alarms[idx]);
         },
-        patient: function() {
-          return $scope.patient;
+        editMode: function() {
+          return $scope.alarms[idx].is_treated ? true : false
         }
       }
     });
