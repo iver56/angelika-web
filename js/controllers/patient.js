@@ -50,7 +50,7 @@ angelikaControllers.controller('PatientCtrl', function($scope, $http, cfg, $q) {
         console.error(data, status, headers, config);
       });
 
-    $http.get(cfg.apiUrl + "/patients/" + patientId + "/graph_data/"+ "?type=O")
+    $http.get(cfg.apiUrl + "/patients/" + patientId + "/graph_data/?type=O")
       .success(function(data) {
         asyncPatientO2Data.resolve(data);
       })
@@ -59,7 +59,7 @@ angelikaControllers.controller('PatientCtrl', function($scope, $http, cfg, $q) {
         console.error(data, status, headers, config);
       });
 
-    $http.get(cfg.apiUrl + "/patients/" + patientId + "/graph_data/"+ "?type=P")
+    $http.get(cfg.apiUrl + "/patients/" + patientId + "/graph_data/?type=P")
       .success(function(data) {
         asyncPatientHeartRateData.resolve(data);
       })
@@ -68,7 +68,7 @@ angelikaControllers.controller('PatientCtrl', function($scope, $http, cfg, $q) {
         console.error(data, status, headers, config);
       });
 
-    $http.get(cfg.apiUrl + "/patients/" + patientId + "/graph_data/"+ "?type=T")
+    $http.get(cfg.apiUrl + "/patients/" + patientId + "/graph_data/?type=T")
       .success(function(data) {
         asyncPatientTemperatureData.resolve(data);
       })
@@ -77,7 +77,7 @@ angelikaControllers.controller('PatientCtrl', function($scope, $http, cfg, $q) {
         console.error(data, status, headers, config);
       });
 
-    $http.get(cfg.apiUrl + "/patients/" + patientId + "/graph_data/"+ "?type=A")
+    $http.get(cfg.apiUrl + "/patients/" + patientId + "/graph_data/?type=A")
       .success(function(data) {
         asyncPatientActivityData.resolve(data);
       })

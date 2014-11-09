@@ -3,7 +3,12 @@
     <div class="col-md-3">
       <div id="measurementTableContainerO2" class="measurementTableContainer">
         <h2>O2-metning</h2>
-        <table class="table table-hover measurementTable">
+        <div class="panel panel-default panel-body"
+             ng-if="!loadingO2Data && !o2Data.length && !loadingO2DataFailed">
+          Ingen målinger
+        </div>
+        <alert type="danger" ng-if="loadingO2DataFailed">Kunne ikke laste målinger</alert>
+        <table class="table table-hover measurementTable" ng-if="o2Data.length">
           <tr class="active">
             <th>Tid</th>
             <th>Måling</th>
@@ -19,7 +24,12 @@
     <div class="col-md-3">
       <div class="measurementTableContainer">
         <h2>Puls</h2>
-        <table class="table table-hover measurementTable">
+        <div class="panel panel-default panel-body"
+             ng-if="!loadingHeartRateData && !heartRateData.length && !loadingHeartRateDataFailed">
+          Ingen målinger
+        </div>
+        <alert type="danger" ng-if="loadingHeartRateDataFailed">Kunne ikke laste målinger</alert>
+        <table class="table table-hover measurementTable" ng-if="heartRateData.length">
           <tr>
             <th>Tid</th>
             <th>Måling</th>
@@ -35,7 +45,12 @@
     <div class="col-md-3">
       <div class="measurementTableContainer">
         <h2>Temperatur</h2>
-        <table class="table table-hover measurementTable">
+        <div class="panel panel-default panel-body"
+             ng-if="!loadingTemperatureData && !temperatureData.length && !loadingTemperatureDataFailed">
+          Ingen målinger
+        </div>
+        <alert type="danger" ng-if="loadingTemperatureDataFailed">Kunne ikke laste målinger</alert>
+        <table class="table table-hover measurementTable" ng-if="temperatureData.length">
           <tr>
             <th>Tid</th>
             <th>Måling</th>
@@ -51,7 +66,12 @@
     <div class="col-md-3">
       <div class="measurementTableContainer">
         <h2>Aktivitet</h2>
-        <table class="table table-hover measurementTable">
+        <div class="panel panel-default panel-body"
+             ng-if="!loadingActivityData && !activityData.length && !loadingActivityDataFailed">
+          Ingen målinger
+        </div>
+        <alert type="danger" ng-if="loadingActivityDataFailed">Kunne ikke laste målinger</alert>
+        <table class="table table-hover measurementTable" ng-if="activityData.length">
           <tr>
             <th>Tid</th>
             <th>Måling</th>
