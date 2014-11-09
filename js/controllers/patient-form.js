@@ -99,21 +99,28 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg) {
 
   $scope.alerts = [];
 
+  $scope.clearAlerts = function() {
+    $scope.alerts = [];
+  };
+
   $scope.addErrorAlert = function() {
-    $scope.alerts.pop();
-    $scope.alerts.push({ type: 'danger', msg: 'Kommunikasjon med server feilet, ingenting ble lagret.'});
+    $scope.clearAlerts();
+    $scope.alerts.push({ type: 'danger', msg: 'Kommunikasjon med server feilet. Ingenting ble lagret.'});
   };
 
   $scope.validateForm = function(valid) {
     if (!valid) {
-      $scope.alerts.pop();
-      $scope.alerts.push({ type: 'danger', msg: 'Det er noe feil med utfyllingen av pasientinfo, ingenting ble lagret.'});
+      $scope.clearAlerts();
+      $scope.alerts.push({
+        type: 'danger',
+        msg: 'Det er noe feil med informasjonen (se røde felter). Ingenting ble lagret.'
+      });
     }
     return valid;
   };
 
   $scope.addSuccessAlert = function() {
-    $scope.alerts.pop();
+    $scope.clearAlerts();
     $scope.alerts.push({ type: 'success', msg: 'Endringer er lagret.'});
   };
 

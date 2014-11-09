@@ -100,18 +100,6 @@ ul.nav-tabs li {
   padding: 10px 15px;
 }
 
-/*
-.measurementTableContainer {
-  width: 20% !important;
-  min-width: 170px;
-  float: left;
-  margin-right: 4%;
-}
-
-#measurementTableContainerO2 {
-  margin-left: 4%;
-}
-*/
 .measurementTable {
   padding: 0 20px;
 }
@@ -126,10 +114,6 @@ form[name=patientForm] .ng-invalid.ng-dirty, .ng-invalid.ng-pristine {
 
 form[name=patientForm] .ng-invalid.ng-dirty.form-control:focus {
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(250, 120, 126, .6);
-}
-
-.setHandledBtn {
-  margin-left: 20px;
 }
 
 .loading-spinner {
