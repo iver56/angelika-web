@@ -35,7 +35,7 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
       }
     },
     series: [
-      {"name": ""}
+      {"name": "Målt verdi"}
     ]
   };
 
@@ -95,47 +95,51 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
     }
   }
 
+  function showO2Data(o2DataAPI) {
+    var o2Data = o2DataAPI.measurements;
+    for (var i = 0; i < o2Data.length; i++) {
+      setPointAppearance(o2Data[i]);
+    }
+    $scope.chartO2Config.series[0].data = o2Data;
+
+    addBackgroundColors($scope.chartO2Config, o2DataAPI.lower_threshold_values, o2DataAPI.upper_threshold_values, 0, 100);
+    var roof = 100; // O2 never goes above 100%
+    checkYAxisRange($scope.chartO2Config, o2DataAPI.lower_threshold_values, o2DataAPI.upper_threshold_values, roof);
+  }
+
+  function showHeartRateData(heartRateDataAPI) {
+    var heartRateData = heartRateDataAPI.measurements;
+
+    for (var i = 0; i < heartRateData.length; i++) {
+      setPointAppearance(heartRateData[i]);
+    }
+    $scope.chartHeartRateConfig.series[0].data = heartRateData;
+
+    addBackgroundColors($scope.chartHeartRateConfig, heartRateDataAPI.lower_threshold_values, heartRateDataAPI.upper_threshold_values, 0, 1000);
+    checkYAxisRange($scope.chartHeartRateConfig, heartRateDataAPI.lower_threshold_values, heartRateDataAPI.upper_threshold_values);
+  }
+
+  function showTemperatureData(temperatureDataAPI) {
+    var temperatureData = temperatureDataAPI.measurements;
+
+    for (var i = 0; i < temperatureData.length; i++) {
+      setPointAppearance(temperatureData[i]);
+    }
+
+    $scope.chartTempConfig.series[0].data = temperatureData;
+    addBackgroundColors($scope.chartTempConfig, temperatureDataAPI.lower_threshold_values, temperatureDataAPI.upper_threshold_values, 0, 100);
+    checkYAxisRange($scope.chartTempConfig, temperatureDataAPI.lower_threshold_values, temperatureDataAPI.upper_threshold_values);
+  }
+
+  function showActivityData(activityDataAPI) {
+    $scope.chartActivityConfig.series[0].data = activityDataAPI.measurements;
+  }
+
   $scope.getPatient().then(function(patient) {
-    $scope.getPatientO2Data().then(function(o2DataAPI) {
-      var o2Data = o2DataAPI.measurements;
-
-      for (var i = 0; i < o2Data.length; i++) {
-        setPointAppearance(o2Data[i]);
-      }
-      $scope.chartO2Config.series[0].data = o2Data;
-
-      addBackgroundColors($scope.chartO2Config, o2DataAPI.lower_threshold_values, o2DataAPI.upper_threshold_values, 0, 100);
-      var roof = 100; // O2 never goes above 100%
-      checkYAxisRange($scope.chartO2Config, o2DataAPI.lower_threshold_values, o2DataAPI.upper_threshold_values, roof);
-    });
-
-    $scope.getPatientHeartRateData().then(function(heartRateDataAPI) {
-      var heartRateData = heartRateDataAPI.measurements;
-
-      for (var i = 0; i < heartRateData.length; i++) {
-        setPointAppearance(heartRateData[i]);
-      }
-      $scope.chartHeartRateConfig.series[0].data = heartRateData;
-
-      addBackgroundColors($scope.chartHeartRateConfig, heartRateDataAPI.lower_threshold_values, heartRateDataAPI.upper_threshold_values, 0, 1000);
-      checkYAxisRange($scope.chartHeartRateConfig, heartRateDataAPI.lower_threshold_values, heartRateDataAPI.upper_threshold_values);
-    });
-
-    $scope.getPatientTemperatureData().then(function(temperatureDataAPI) {
-      var temperatureData = temperatureDataAPI.measurements;
-
-      for (var i = 0; i < temperatureData.length; i++) {
-        setPointAppearance(temperatureData[i]);
-      }
-
-      $scope.chartTempConfig.series[0].data = temperatureData;
-      addBackgroundColors($scope.chartTempConfig, temperatureDataAPI.lower_threshold_values, temperatureDataAPI.upper_threshold_values, 0, 100);
-      checkYAxisRange($scope.chartTempConfig, temperatureDataAPI.lower_threshold_values, temperatureDataAPI.upper_threshold_values);
-    });
-
-    $scope.getPatientActivityData().then(function(activityDataAPI) {
-      $scope.chartActivityConfig.series[0].data = activityDataAPI.measurements;
-    });
+    $scope.getPatientO2Data().then(showO2Data);
+    $scope.getPatientHeartRateData().then(showHeartRateData);
+    $scope.getPatientTemperatureData().then(showTemperatureData);
+    $scope.getPatientActivityData().then(showActivityData);
   });
 
   $scope.updateChartRange = function() {
