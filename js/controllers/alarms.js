@@ -26,7 +26,7 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
         }
 
         $scope.alarms = data.results;
-        oldAlerts  = $scope.alarms;
+        oldAlerts = $scope.alarms;
         $timeout(tick, 5000);
       })
       .error(function(data, status, headers, config) {
@@ -37,6 +37,7 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
         $timeout(tick, 20000);
       });
   }
+
   tick();
 
   $scope.openPatient = function(patient) {
@@ -49,7 +50,7 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
 
   $scope.addAlert = function(alertType) {
     $scope.alerts.pop();
-    switch(alertType) {
+    switch (alertType) {
       case "server-connection-lost":
         $scope.alerts.push({ type: 'danger', msg: 'Kommunikasjon med server feilet, nye alarmer vil ikke vises.'});
         break;

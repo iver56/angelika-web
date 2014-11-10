@@ -53,6 +53,7 @@ angelikaControllers.controller('PatientCtrl', function($scope, $http, cfg, $q, $
         }
       })
   }
+
   function periodicHeartRatePoll() {
     $http.get(cfg.apiUrl + "/patients/" + $scope.patientId + "/graph_data/?type=P")
       .success(function(data) {
@@ -61,6 +62,7 @@ angelikaControllers.controller('PatientCtrl', function($scope, $http, cfg, $q, $
         }
       })
   }
+
   function periodicTemperaturePoll() {
     $http.get(cfg.apiUrl + "/patients/" + $scope.patientId + "/graph_data/?type=T")
       .success(function(data) {
@@ -69,6 +71,7 @@ angelikaControllers.controller('PatientCtrl', function($scope, $http, cfg, $q, $
         }
       })
   }
+
   function periodicActivityPoll() {
     $http.get(cfg.apiUrl + "/patients/" + $scope.patientId + "/graph_data/?type=A")
       .success(function(data) {
