@@ -1,232 +1,238 @@
 <form name="patientForm" novalidate>
-  <fieldset ng-disabled="posting">
-  <tabset type="pills" justified="true">
-    <tab heading="Informasjon om bruker">
-      <h3>Info om bruker</h3>
-      <label>Fornavn</label>
+<fieldset ng-disabled="posting">
+<tabset type="pills" justified="true">
+<tab heading="Informasjon om bruker">
+  <div class="panel panel-default panel-body">
+    <label>Fornavn</label>
 
-      <div class="row">
+    <div class="row">
+      <div class="col-md-3">
+        <input type="text" ng-model="patient.user.first_name" class="form-control" required>
+      </div>
+    </div>
+
+    <label>Etternavn</label>
+
+    <div class="row">
+      <div class="col-md-3">
+        <input type="text" ng-model="patient.user.last_name" class="form-control" required>
+      </div>
+    </div>
+
+    <label>Fødselsnummer</label>
+
+    <div class="row">
+      <div class="col-md-3">
+        <input type="text" ng-model="patient.national_identification_number" class="form-control"
+               required ng-minlength="11" ng-maxlength="11"
+               ng-pattern="/^(0[1-9]|[12]\d|3[01])(0[1-9]|1[012])\d{7}$/">
+      </div>
+    </div>
+
+    <label>Telefonnummer</label>
+
+    <div class="row">
+      <div class="col-md-3">
+        <input type="text" ng-model="patient.phone_number" class="form-control">
+      </div>
+    </div>
+
+    <label>Adresse</label>
+
+    <div class="row">
+      <div class="col-md-3">
+        <input type="text" ng-model="patient.address" class="form-control">
+      </div>
+    </div>
+
+    <label>Postnummer</label>
+
+    <div class="row">
+      <div class="col-md-3">
+        <input type="text" ng-model="patient.zip_code" class="form-control" ng-minlength="4" ng-maxlength="4">
+      </div>
+    </div>
+
+    <label>Poststed</label>
+
+    <div class="row">
+      <div class="col-md-3">
+        <input type="text" ng-model="patient.city" class="form-control">
+      </div>
+    </div>
+  </div>
+</tab>
+
+<tab heading="Normalverdier">
+  <div class="panel panel-default panel-body">
+    <p>Det generes varsler hvis verdiene går utenfor disse grenseverdiene</p>
+
+    <div class="row">
+      <div class="col-md-3">
+        <h4>O2-metning</h4>
+      </div>
+      <div class="col-md-3">
+        <label class="control-label">Min (%)</label>
+        <input type="number" ng-model="patient.o2_min" class="form-control"
+               min="0" max="{{ patient.o2_max }}" required>
+      </div>
+      <div class="col-md-3">
+        <label class="control-label">Maks (%)</label>
+        <input type="number" ng-model="patient.o2_max" class="form-control"
+               min="{{ patient.o2_min }}" max="100" required>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <h4>Puls</h4>
+      </div>
+      <div class="col-md-3">
+        <label class="control-label">Min (slag/min.)</label>
+        <input type="number" ng-model="patient.pulse_min" class="form-control"
+               min="0" max="{{ patient.pulse_max }}" required>
+      </div>
+      <div class="col-md-3">
+        <label class="control-label">Maks (slag/min.)</label>
+        <input type="number" ng-model="patient.pulse_max" class="form-control"
+               min="{{ patient.pulse_min }}" max="300" required>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <h4>Temperatur</h4>
+      </div>
+      <div class="col-md-3">
+        <label class="control-label">Min (°C)</label>
+        <input type="number" ng-model="patient.temperature_min" class="form-control"
+               min="0" max="{{ patient.temperature_max }}" required>
+      </div>
+      <div class="col-md-3">
+        <label class="control-label">Maks (°C)</label>
+        <input type="number" ng-model="patient.temperature_max" class="form-control"
+               min="{{ patient.temperature_min }}" max="100" required>
+      </div>
+    </div>
+  </div>
+</tab>
+
+<tab heading="Synlige målinger">
+  <div class="panel panel-default panel-body">
+    <h3>Synlig for bruker</h3>
+
+    <div class="checkbox">
+      <label><input type="checkbox" ng-model="patient.activity_access">Aktivitetsmålinger</label>
+    </div>
+    <div class="checkbox">
+      <label><input type="checkbox" ng-model="patient.o2_access">O2-metning</label>
+    </div>
+    <div class="checkbox">
+      <label><input type="checkbox" ng-model="patient.pulse_access">Puls</label>
+    </div>
+    <div class="checkbox">
+      <label><input type="checkbox" ng-model="patient.temperature_access">Temperatur</label>
+    </div>
+  </div>
+</tab>
+
+<tab heading="Meldinger til bruker">
+  <div class="panel panel-default panel-body">
+    <h3>Motiverende tekster</h3>
+
+    <div ng-repeat="motivationalText in patient.motivation_texts">
+      <div class="row marginBottom20">
+        <div class="col-md-9">
+          <textarea ng-model="motivationalText.text" class="form-control" rows="2"/>
+        </div>
         <div class="col-md-3">
-          <input type="text" ng-model="patient.user.first_name" class="form-control" required>
+          <button ng-click="removeMotivationalText($index)" class="btn btn-danger btn-sm">
+            <span class="glyphicon glyphicon-remove"></span> Fjern
+          </button>
         </div>
       </div>
+    </div>
+    <button ng-click="addMotivationalText()" class="btn btn-success">
+      <span class="glyphicon glyphicon-plus"></span> Legg til ny motiverende tekst
+    </button>
 
-      <label>Etternavn</label>
+    <h3>Informative meldinger til bruker</h3>
 
-      <div class="row">
+    <div ng-repeat="infoText in patient.information_texts">
+      <div class="row marginBottom20">
+        <div class="col-md-9">
+          <textarea ng-model="infoText.text" class="form-control"/>
+        </div>
         <div class="col-md-3">
-          <input type="text" ng-model="patient.user.last_name" class="form-control" required>
+          <button ng-click="removeInfoText($index)" class="btn btn-danger btn-sm">
+            <span class="glyphicon glyphicon-remove"></span> Fjern
+          </button>
         </div>
       </div>
+    </div>
+    <button ng-click="addInfoText()" class="btn btn-success">
+      <span class="glyphicon glyphicon-plus"></span> Legg til ny informativ tekst
+    </button>
+  </div>
+</tab>
 
-      <label>Fødselsnummer</label>
+<tab heading="Pårørende">
+  <div class="panel panel-default panel-body">
+    <div class="panel panel-default panel-body" ng-repeat="contact in patient.next_of_kin">
+      <h4 ng-show="$index === 0"><span class="glyphicon glyphicon-star"></span> Hovedpårørende</h4>
+      <h4 ng-hide="$index === 0">Pårørende</h4>
 
-      <div class="row">
-        <div class="col-md-3">
-          <input type="text" ng-model="patient.national_identification_number" class="form-control"
-                 required ng-minlength="11" ng-maxlength="11"
-                 ng-pattern="/^(0[1-9]|[12]\d|3[01])(0[1-9]|1[012])\d{7}$/">
-        </div>
+      <div class="form-group">
+        <label>
+          Navn
+          <input type="text" ng-model="contact.full_name" class="form-control" required>
+        </label>
+      </div>
+      <div class="form-group">
+        <label>
+          Telefon
+          <input type="text" ng-model="contact.phone_number" class="form-control">
+        </label>
+      </div>
+      <div class="form-group">
+        <label>
+          Adresse
+          <input type="text" ng-model="contact.address" class="form-control">
+        </label>
+      </div>
+      <div class="form-group">
+        <label>
+          Rolle
+          <input type="text" ng-model="contact.relation" class="form-control">
+        </label>
       </div>
 
-      <label>Telefonnummer</label>
-
-      <div class="row">
-        <div class="col-md-3">
-          <input type="text" ng-model="patient.phone_number" class="form-control">
-        </div>
-      </div>
-
-      <label>Adresse</label>
-
-      <div class="row">
-        <div class="col-md-3">
-          <input type="text" ng-model="patient.address" class="form-control">
-        </div>
-      </div>
-
-      <label>Postnummer</label>
-
-      <div class="row">
-        <div class="col-md-3">
-          <input type="text" ng-model="patient.zip_code" class="form-control" ng-minlength="4" ng-maxlength="4">
-        </div>
-      </div>
-
-      <label>Poststed</label>
-
-      <div class="row">
-        <div class="col-md-3">
-          <input type="text" ng-model="patient.city" class="form-control">
-        </div>
-      </div>
-    </tab>
-
-    <tab heading="Normalverdier">
-      <h3>Normalverdier</h3>
-
-      <p>Det generes varsler hvis verdiene går utenfor disse grenseverdiene</p>
-
-      <div class="row">
-        <div class="col-md-3">
-          <h4>O2-metning</h4>
-        </div>
-        <div class="col-md-3">
-          <label class="control-label">Min (%)</label>
-          <input type="number" ng-model="patient.o2_min" class="form-control"
-                 min="0" max="{{ patient.o2_max }}" required>
-        </div>
-        <div class="col-md-3">
-          <label class="control-label">Maks (%)</label>
-          <input type="number" ng-model="patient.o2_max" class="form-control"
-                 min="{{ patient.o2_min }}" max="100" required>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-3">
-          <h4>Puls</h4>
-        </div>
-        <div class="col-md-3">
-          <label class="control-label">Min (slag/min.)</label>
-          <input type="number" ng-model="patient.pulse_min" class="form-control"
-                 min="0" max="{{ patient.pulse_max }}" required>
-        </div>
-        <div class="col-md-3">
-          <label class="control-label">Maks (slag/min.)</label>
-          <input type="number" ng-model="patient.pulse_max" class="form-control"
-                 min="{{ patient.pulse_min }}" max="300" required>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-3">
-          <h4>Temperatur</h4>
-        </div>
-        <div class="col-md-3">
-          <label class="control-label">Min (°C)</label>
-          <input type="number" ng-model="patient.temperature_min" class="form-control"
-                 min="0" max="{{ patient.temperature_max }}" required>
-        </div>
-        <div class="col-md-3">
-          <label class="control-label">Maks (°C)</label>
-          <input type="number" ng-model="patient.temperature_max" class="form-control"
-                 min="{{ patient.temperature_min }}" max="100" required>
-        </div>
-      </div>
-    </tab>
-
-    <tab heading="Synlige målinger">
-      <h3>Synlig for bruker</h3>
-
-      <div class="checkbox">
-        <label><input type="checkbox" ng-model="patient.activity_access">Aktivitetsmålinger</label>
-      </div>
-      <div class="checkbox">
-        <label><input type="checkbox" ng-model="patient.o2_access">O2-metning</label>
-      </div>
-      <div class="checkbox">
-        <label><input type="checkbox" ng-model="patient.pulse_access">Puls</label>
-      </div>
-      <div class="checkbox">
-        <label><input type="checkbox" ng-model="patient.temperature_access">Temperatur</label>
-      </div>
-    </tab>
-
-    <tab heading="Meldinger til bruker">
-      <h3>Motiverende tekster</h3>
-
-      <div ng-repeat="motivationalText in patient.motivation_texts">
-        <div class="row marginBottom20">
-          <div class="col-md-9">
-            <textarea ng-model="motivationalText.text" class="form-control" rows="2"/>
-          </div>
-          <div class="col-md-3">
-            <button ng-click="removeMotivationalText($index)" class="btn btn-danger btn-sm">
-              <span class="glyphicon glyphicon-remove"></span> Fjern
-            </button>
-          </div>
-        </div>
-      </div>
-      <button ng-click="addMotivationalText()" class="btn btn-success">
-        <span class="glyphicon glyphicon-plus"></span> Legg til ny motiverende tekst
+      <button ng-click="removeNextOfKin($index)" class="btn btn-danger">
+        <span class="glyphicon glyphicon-remove"></span> Fjern
       </button>
-
-      <h3>Informative meldinger til bruker</h3>
-      <div ng-repeat="infoText in patient.information_texts">
-        <div class="row marginBottom20">
-          <div class="col-md-9">
-            <textarea ng-model="infoText.text" class="form-control"/>
-          </div>
-          <div class="col-md-3">
-            <button ng-click="removeInfoText($index)" class="btn btn-danger btn-sm">
-              <span class="glyphicon glyphicon-remove"></span> Fjern
-            </button>
-          </div>
-        </div>
-      </div>
-      <button ng-click="addInfoText()" class="btn btn-success">
-        <span class="glyphicon glyphicon-plus"></span> Legg til ny informativ tekst
-      </button>
-    </tab>
-
-    <tab heading="Pårørende">
-      <h3>Pårørende</h3>
-
-      <div class="panel panel-default panel-body" ng-repeat="contact in patient.next_of_kin">
-        <h4 ng-show="$index === 0"><span class="glyphicon glyphicon-star"></span> Hovedpårørende</h4>
-        <h4 ng-hide="$index === 0">Pårørende</h4>
-
-        <div class="form-group">
-          <label>
-            Navn
-            <input type="text" ng-model="contact.full_name" class="form-control" required>
-          </label>
-        </div>
-        <div class="form-group">
-          <label>
-            Telefon
-            <input type="text" ng-model="contact.phone_number" class="form-control">
-          </label>
-        </div>
-        <div class="form-group">
-          <label>
-            Adresse
-            <input type="text" ng-model="contact.address" class="form-control">
-          </label>
-        </div>
-        <div class="form-group">
-          <label>
-            Rolle
-            <input type="text" ng-model="contact.relation" class="form-control">
-          </label>
-        </div>
-
-        <button ng-click="removeNextOfKin($index)" class="btn btn-danger">
-          <span class="glyphicon glyphicon-remove"></span> Fjern
+      <div class="btn-group">
+        <button ng-click="moveNextOfKinUp($index)" class="btn btn-default" ng-if="!$first">
+          <span class="glyphicon glyphicon-chevron-up"></span> Flytt opp
         </button>
-        <div class="btn-group">
-          <button ng-click="moveNextOfKinUp($index)" class="btn btn-default" ng-if="!$first">
-            <span class="glyphicon glyphicon-chevron-up"></span> Flytt opp
-          </button>
-          <button ng-click="moveNextOfKinDown($index)" class="btn btn-default" ng-if="!$last">
-            <span class="glyphicon glyphicon-chevron-down"></span> Flytt ned
-          </button>
-        </div>
+        <button ng-click="moveNextOfKinDown($index)" class="btn btn-default" ng-if="!$last">
+          <span class="glyphicon glyphicon-chevron-down"></span> Flytt ned
+        </button>
       </div>
-      <button ng-click="addNextOfKin()" class="btn btn-success">
-        <span class="glyphicon glyphicon-plus"></span> Legg til pårørende
-      </button>
-    </tab>
+    </div>
+    <button ng-click="addNextOfKin()" class="btn btn-success">
+      <span class="glyphicon glyphicon-plus"></span> Legg til pårørende
+    </button>
+  </div>
+</tab>
 </tabset>
 
-    <br>
-    <br>
-    <alert ng-repeat="alert in alerts" type="{{ alert.type }}" close="closeAlert($index)">{{ alert.msg }}</alert>
-    <button id="bottom" class="btn btn-primary btn-lg"
+<br>
+<br>
+<alert ng-repeat="alert in alerts" type="{{ alert.type }}" close="closeAlert($index)">{{ alert.msg }}</alert>
+<button id="bottom" class="btn btn-primary btn-lg"
         ng-click="validateForm(patientForm.$valid) && save()">
-      <span class="glyphicon glyphicon-ok"></span> Lagre
-    </button>
+  <span class="glyphicon glyphicon-ok"></span> Lagre
+</button>
     <span class="medium-padding" ng-show="posting">
       <img src="lib/graphics/spinner.gif" alt="Laster..." style="width:20px; height:20px">
     </span>
-  </fieldset>
+</fieldset>
 </form>
