@@ -2,6 +2,7 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
   $scope.alarms = [];
   $scope.alerts = [];
   $scope.measurementType = AlarmHelper.measurementType;
+  $scope.loadingAlarms = true;
 
   $scope.playNotifySound = function() {
     createjs.Sound.play("notify");
@@ -13,6 +14,7 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
   function tick() {
     $http.get(cfg.apiUrl + "/alarms/")
       .success(function(data) {
+        $scope.loadingAlarms = false;
         $scope.popAlert();
         if (connectionLost) {
           $scope.addAlert("server-connection-reestablished");
@@ -28,6 +30,7 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
         $timeout(tick, 5000);
       })
       .error(function(data, status, headers, config) {
+        $scope.loadingAlarms = false;
         connectionLost = true;
         $scope.addAlert("server-connection-lost");
         console.error(data, status, headers, config);

@@ -1,4 +1,8 @@
 <div class="medium-padding">
+  <div class="loading-spinner" ng-if="loadingAlarms"></div>
+  <alert ng-show="!loadingAlarms && 0 === alerts.length" type="success">
+    <span class="glyphicon glyphicon-ok"></span> Ingen varsler
+  </alert>
   <alert ng-repeat="alert in alerts" type="{{ alert.type }}" close="closeAlert($index)">{{ alert.msg }}</alert>
   <table class="table table-bordered table-striped table-hover table-responsive" ng-show="alarms.length">
     <tr>
