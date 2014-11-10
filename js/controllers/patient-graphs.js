@@ -78,21 +78,29 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
     $scope.chartActivityConfig.options.chart.width = width;
   };
 
+  function setPointAppearance(point) {
+    if (point.alarm) {
+      if (point.alarm.is_treated) {
+        point.color = '#BF0B23';
+      } else {
+        point.events = {
+          click: function(e) {
+            console.log(e);
+          }
+        };
+        point.marker = {
+          symbol: alertIconUrl
+        };
+      }
+    }
+  }
+
   $scope.getPatient().then(function(patient) {
     $scope.getPatientO2Data().then(function(o2DataAPI) {
       var o2Data = o2DataAPI.measurements;
 
       for (var i = 0; i < o2Data.length; i++) {
-        if (null !== o2Data[i].alert) {
-          o2Data[i].events = {
-            click: function(e) {
-              console.log(e);
-            }
-          };
-          o2Data[i].marker = {
-            symbol: alertIconUrl
-          };
-        }
+        setPointAppearance(o2Data[i]);
       }
       $scope.chartO2Config.series[0].data = o2Data;
 
@@ -105,16 +113,7 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
       var heartRateData = heartRateDataAPI.measurements;
 
       for (var i = 0; i < heartRateData.length; i++) {
-        if (null !== heartRateData[i].alert) {
-          heartRateData[i].events = {
-            click: function(e) {
-              console.log(e);
-            }
-          };
-          heartRateData[i].marker = {
-            symbol: alertIconUrl
-          };
-        }
+        setPointAppearance(heartRateData[i]);
       }
       $scope.chartHeartRateConfig.series[0].data = heartRateData;
 
@@ -126,16 +125,7 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
       var temperatureData = temperatureDataAPI.measurements;
 
       for (var i = 0; i < temperatureData.length; i++) {
-        if (null !== temperatureData[i].alert) {
-          temperatureData[i].events = {
-            click: function(e) {
-              console.log(e);
-            }
-          };
-          temperatureData[i].marker = {
-            symbol: alertIconUrl
-          };
-        }
+        setPointAppearance(temperatureData[i]);
       }
 
       $scope.chartTempConfig.series[0].data = temperatureData;
