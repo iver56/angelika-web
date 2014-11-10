@@ -79,7 +79,9 @@
       <div class="col-md-3">
         <label class="control-label">Maks (%)</label>
         <input type="number" ng-model="patient.o2_max" class="form-control"
-               min="{{ patient.o2_min }}" max="100" required>
+               min="{{ patient.o2_min }}" max="100" required
+               popover="Unntak: det genereres ikke varsler for O2-målinger som går over denne verdien"
+               popover-trigger="focus">
       </div>
     </div>
     <div class="row">
