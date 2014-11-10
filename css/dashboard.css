@@ -28,7 +28,7 @@ li.lm_active .lm_close_tab {
   top: 9px !important;
 }
 
-ul.nav-tabs li {
+ul.nav-tabs li, ul.nav-pills li {
   cursor: pointer;
 }
 
