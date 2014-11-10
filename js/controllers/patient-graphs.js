@@ -35,7 +35,39 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
       }
     },
     series: [
-      {"name": "Målt verdi"}
+      {
+        "name": "Målt verdi"
+      },
+      {
+        name: 'Unormalt lavt område',
+        type: 'arearange',
+        color: '#F57F7F', // red
+        fillOpacity: 0.3,
+        data: [],
+        zIndex: -1,
+        lineWidth: 0,
+        enableMouseTracking: false
+      },
+      {
+        name: 'OK område',
+        type: 'arearange',
+        color: '#73BF71', // green
+        fillOpacity: 0.3,
+        data: [],
+        zIndex: -2,
+        lineWidth: 0,
+        enableMouseTracking: false
+      },
+      {
+        name: 'Unormalt lavt område',
+        type: 'arearange',
+        color: '#F57F7F', // red
+        fillOpacity: 0.3,
+        data: [],
+        zIndex: -1,
+        lineWidth: 0,
+        enableMouseTracking: false
+      }
     ]
   };
 
@@ -46,6 +78,7 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
   $scope.chartActivityConfig = angular.copy(commonChartConfig);
 
   $scope.chartActivityConfig.options.chart.type = 'column';
+  $scope.chartActivityConfig.options.tooltip.xDateFormat = '%A %d.%m.%Y';
 
   // Set chart titles
   $scope.chartO2Config.options.title.text = "O2-metning";
@@ -95,37 +128,32 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
     }
   }
 
-  function showO2Data(o2DataAPI) {
+  var showO2Data = function(o2DataAPI) {
     var o2Data = o2DataAPI.measurements;
     for (var i = 0; i < o2Data.length; i++) {
       setPointAppearance(o2Data[i]);
     }
     $scope.chartO2Config.series[0].data = o2Data;
-
     addBackgroundColors($scope.chartO2Config, o2DataAPI.lower_threshold_values, o2DataAPI.upper_threshold_values, 0, 100);
     var roof = 100; // O2 never goes above 100%
     checkYAxisRange($scope.chartO2Config, o2DataAPI.lower_threshold_values, o2DataAPI.upper_threshold_values, roof);
-  }
+  };
 
   function showHeartRateData(heartRateDataAPI) {
     var heartRateData = heartRateDataAPI.measurements;
-
     for (var i = 0; i < heartRateData.length; i++) {
       setPointAppearance(heartRateData[i]);
     }
     $scope.chartHeartRateConfig.series[0].data = heartRateData;
-
     addBackgroundColors($scope.chartHeartRateConfig, heartRateDataAPI.lower_threshold_values, heartRateDataAPI.upper_threshold_values, 0, 1000);
     checkYAxisRange($scope.chartHeartRateConfig, heartRateDataAPI.lower_threshold_values, heartRateDataAPI.upper_threshold_values);
   }
 
   function showTemperatureData(temperatureDataAPI) {
     var temperatureData = temperatureDataAPI.measurements;
-
     for (var i = 0; i < temperatureData.length; i++) {
       setPointAppearance(temperatureData[i]);
     }
-
     $scope.chartTempConfig.series[0].data = temperatureData;
     addBackgroundColors($scope.chartTempConfig, temperatureDataAPI.lower_threshold_values, temperatureDataAPI.upper_threshold_values, 0, 100);
     checkYAxisRange($scope.chartTempConfig, temperatureDataAPI.lower_threshold_values, temperatureDataAPI.upper_threshold_values);
@@ -134,6 +162,11 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
   function showActivityData(activityDataAPI) {
     $scope.chartActivityConfig.series[0].data = activityDataAPI.measurements;
   }
+
+  $scope.o2DataListeners.push(showO2Data);
+  $scope.heartRateDataListeners.push(showHeartRateData);
+  $scope.temperatureDataListeners.push(showTemperatureData);
+  $scope.activityDataListeners.push(showActivityData);
 
   $scope.getPatient().then(function(patient) {
     $scope.getPatientO2Data().then(showO2Data);
@@ -184,16 +217,7 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
         }
       }
 
-      config.series.push({
-        name: 'Unormalt høyt område',
-        type: 'arearange',
-        color: '#F57F7F', // red
-        fillOpacity: 0.3,
-        data: highArea,
-        zIndex: -1,
-        lineWidth: 0,
-        enableMouseTracking: false
-      });
+      config.series[1].data = highArea;
     }
 
     // OK area
@@ -253,16 +277,7 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
       }
     }
 
-    config.series.push({
-      name: 'OK område',
-      type: 'arearange',
-      color: '#73BF71', // green
-      fillOpacity: 0.3,
-      data: okArea,
-      zIndex: -2,
-      lineWidth: 0,
-      enableMouseTracking: false
-    });
+    config.series[2].data = okArea;
 
     // Low, red area
     var lowArea = [];
@@ -282,16 +297,7 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
       }
     }
 
-    config.series.push({
-      name: 'Unormalt lavt område',
-      type: 'arearange',
-      color: '#F57F7F', // red
-      fillOpacity: 0.3,
-      data: lowArea,
-      zIndex: -1,
-      lineWidth: 0,
-      enableMouseTracking: false
-    });
+    config.series[3].data = lowArea;
   }
 
   function checkYAxisRange(config, lower_threshold_values, upper_threshold_values, roof) {
