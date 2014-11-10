@@ -1,7 +1,8 @@
 <form name="patientForm" novalidate>
-  <fieldset ng-disabled="posting">
-    <h3>Info om bruker</h3>
-
+<fieldset ng-disabled="posting">
+<tabset type="pills" justified="true">
+<tab heading="Informasjon om bruker">
+  <div class="panel panel-default panel-body">
     <label>Fornavn</label>
 
     <div class="row">
@@ -59,10 +60,11 @@
         <input type="text" ng-model="patient.city" class="form-control">
       </div>
     </div>
+  </div>
+</tab>
 
-
-    <h3>Normalverdier</h3>
-
+<tab heading="Normalverdier">
+  <div class="panel panel-default panel-body">
     <p>Det generes varsler hvis verdiene går utenfor disse grenseverdiene</p>
 
     <div class="row">
@@ -110,7 +112,11 @@
                min="{{ patient.temperature_min }}" max="100" required>
       </div>
     </div>
+  </div>
+</tab>
 
+<tab heading="Synlige målinger">
+  <div class="panel panel-default panel-body">
     <h3>Synlig for bruker</h3>
 
     <div class="checkbox">
@@ -125,7 +131,11 @@
     <div class="checkbox">
       <label><input type="checkbox" ng-model="patient.temperature_access">Temperatur</label>
     </div>
+  </div>
+</tab>
 
+<tab heading="Meldinger til bruker">
+  <div class="panel panel-default panel-body">
     <h3>Motiverende tekster</h3>
 
     <div ng-repeat="motivationalText in patient.motivation_texts">
@@ -145,6 +155,7 @@
     </button>
 
     <h3>Informative meldinger til bruker</h3>
+
     <div ng-repeat="infoText in patient.information_texts">
       <div class="row marginBottom20">
         <div class="col-md-9">
@@ -160,12 +171,14 @@
     <button ng-click="addInfoText()" class="btn btn-success">
       <span class="glyphicon glyphicon-plus"></span> Legg til ny informativ tekst
     </button>
+  </div>
+</tab>
 
-    <h3>Pårørende</h3>
-
+<tab heading="Pårørende">
+  <div class="panel panel-default panel-body">
     <div class="panel panel-default panel-body" ng-repeat="contact in patient.next_of_kin">
       <h4 ng-show="$index === 0"><span class="glyphicon glyphicon-star"></span> Hovedpårørende</h4>
-      <h4 ng-hide="$index === 0">{{ $index + 1 }}. pårørende</h4>
+      <h4 ng-hide="$index === 0">Pårørende</h4>
 
       <div class="form-group">
         <label>
@@ -207,16 +220,19 @@
     <button ng-click="addNextOfKin()" class="btn btn-success">
       <span class="glyphicon glyphicon-plus"></span> Legg til pårørende
     </button>
+  </div>
+</tab>
+</tabset>
 
-    <br>
-    <br>
-    <alert ng-repeat="alert in alerts" type="{{ alert.type }}" close="closeAlert($index)">{{ alert.msg }}</alert>
-    <button id="bottom" class="btn btn-primary btn-lg"
+<br>
+<br>
+<alert ng-repeat="alert in alerts" type="{{ alert.type }}" close="closeAlert($index)">{{ alert.msg }}</alert>
+<button id="bottom" class="btn btn-primary btn-lg"
         ng-click="validateForm(patientForm.$valid) && save()">
-      <span class="glyphicon glyphicon-ok"></span> Lagre
-    </button>
+  <span class="glyphicon glyphicon-ok"></span> Lagre
+</button>
     <span class="medium-padding" ng-show="posting">
       <img src="lib/graphics/spinner.gif" alt="Laster..." style="width:20px; height:20px">
     </span>
-  </fieldset>
+</fieldset>
 </form>
