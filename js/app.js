@@ -66,3 +66,8 @@ Highcharts.setOptions({
     numericSymbols: null
   }
 });
+
+if ('dashboard.html' === window.currentPage) {
+  createjs.Sound.alternateExtensions = ["ogg"];
+  createjs.Sound.registerSound("snd/ping.mp3", "notify");
+}
