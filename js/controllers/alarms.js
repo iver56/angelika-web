@@ -5,7 +5,9 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
   $scope.loadingAlarms = true;
 
   $scope.playNotifySound = function() {
-    createjs.Sound.play("notify");
+    if (simpleStorage.get('isSoundOn')) {
+      createjs.Sound.play("notify");
+    }
   };
 
   var connectionLost = false;

@@ -1,7 +1,16 @@
 <div class="medium-padding">
-  <button id="bottom" ng-click="newPatient()" class="btn btn-success btn-lg">
+  <button ng-click="newPatient()" class="btn btn-success btn-lg">
     <span class="glyphicon glyphicon-plus"></span> Ny bruker
   </button>
+  <br>
+  <div class="btn-group btn-group-lg marginTop10">
+    <label class="btn btn-primary" ng-model="isSoundOn.value" btn-radio="0" ng-change="setSoundSetting()">
+      <span class="glyphicon glyphicon-ban-circle"></span> Lyd av
+    </label>
+    <label class="btn btn-primary" ng-model="isSoundOn.value" btn-radio="1" ng-change="setSoundSetting()">
+      <span class="glyphicon glyphicon-bell"></span> Lyd på
+    </label>
+  </div>
   <br>
   <button ng-click="logOut()" class="btn btn-danger btn-lg marginTop10">
     <span class="glyphicon glyphicon-log-out"></span> Logg ut
