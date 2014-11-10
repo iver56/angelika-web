@@ -61,7 +61,7 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
   };
 
   $scope.assessNewAlert = function(newAlerts, oldAlerts) {
-    if (oldAlerts == []) {
+    if (0 === oldAlerts.length) {
       return false;
     }
     return (newAlerts.length > oldAlerts.length);
