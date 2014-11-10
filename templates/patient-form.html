@@ -117,19 +117,37 @@
 
 <tab heading="Synlige målinger">
   <div class="panel panel-default panel-body">
-    <h3>Synlig for bruker</h3>
+    <div class="col-md-6">
+      <h3>Synlig for bruker</h3>
 
-    <div class="checkbox">
-      <label><input type="checkbox" ng-model="patient.activity_access">Aktivitetsmålinger</label>
+      <div class="checkbox">
+        <label><input type="checkbox" ng-model="patient.activity_access">Aktivitetsmålinger</label>
+      </div>
+      <div class="checkbox">
+        <label><input type="checkbox" ng-model="patient.o2_access">O2-metning</label>
+      </div>
+      <div class="checkbox">
+        <label><input type="checkbox" ng-model="patient.pulse_access">Puls</label>
+      </div>
+      <div class="checkbox">
+        <label><input type="checkbox" ng-model="patient.temperature_access">Temperatur</label>
+      </div>
     </div>
-    <div class="checkbox">
-      <label><input type="checkbox" ng-model="patient.o2_access">O2-metning</label>
-    </div>
-    <div class="checkbox">
-      <label><input type="checkbox" ng-model="patient.pulse_access">Puls</label>
-    </div>
-    <div class="checkbox">
-      <label><input type="checkbox" ng-model="patient.temperature_access">Temperatur</label>
+    <div class="col-md-6">
+      <h3>Synlig for helsepersonell</h3>
+
+      <div class="checkbox">
+        <label><input type="checkbox" ng-model="patient.show_activity">Aktivitetsmålinger</label>
+      </div>
+      <div class="checkbox">
+        <label><input type="checkbox" ng-model="patient.show_o2">O2-metning</label>
+      </div>
+      <div class="checkbox">
+        <label><input type="checkbox" ng-model="patient.show_pulse">Puls</label>
+      </div>
+      <div class="checkbox">
+        <label><input type="checkbox" ng-model="patient.show_temperature">Temperatur</label>
+      </div>
     </div>
   </div>
 </tab>
