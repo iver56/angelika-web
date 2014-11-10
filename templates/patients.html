@@ -7,21 +7,23 @@
     <input type="text" ng-model="search.$" class="form-control" placeholder="Søk etter bruker">
   </div>
 
+  <div class="loading-spinner" ng-show="loadingPatients"></div>
   <alert ng-if="serverError" type="danger" class="marginTop10">Serverfeil: Kunne ikke laste inn brukere</alert>
+  <alert ng-show="!loadingPatients && 0 === filteredPatients.length" class="marginTop10">Ingen søkeresultater</alert>
 
   <table class="table table-bordered table-striped table-hover table-responsive marginTop10"
-      ng-show="patients.length">
+      ng-show="patients.length && filteredPatients.length">
     <tr>
       <th>Navn</th>
       <th>Personnummer</th>
       <th>Alder</th>
     </tr>
-    <tr ng-repeat="patient in patients | filter:search"
+    <tr ng-repeat="patient in filteredPatients = (patients | filter:search)"
         ng-click="openPatient(patient)"
         class="clickable"
         draggable-patient="patient">
       <td>{{ patient.user.full_name }}</td>
-      <td>{{ patient.national_identification_number}}</td>
+      <td>{{ patient.national_identification_number }}</td>
       <td>{{ patient.age }} {{ patient.age ? 'år' : 'Ukjent' }}</td>
     </tr>
   </table>
