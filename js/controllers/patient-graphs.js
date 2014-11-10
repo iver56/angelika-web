@@ -45,6 +45,8 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
   $scope.chartTempConfig = angular.copy(commonChartConfig);
   $scope.chartActivityConfig = angular.copy(commonChartConfig);
 
+  $scope.chartActivityConfig.options.chart.type = 'column';
+
   // Set chart titles
   $scope.chartO2Config.options.title.text = "O2-metning";
   $scope.chartHeartRateConfig.options.title.text = "Puls";
