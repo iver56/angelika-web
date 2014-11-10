@@ -4,33 +4,43 @@ angelikaControllers.controller('PatientListsCtrl', function($scope, DateTimeHelp
   $scope.loadingHeartRateData = true;
   $scope.loadingHeartRateDataFailed = false;
 
-  $scope.getPatientO2Data().then(function(o2DataAPI) {
+  function showO2Data(o2DataAPI) {
     $scope.o2Data = o2DataAPI.measurements;
-  }).catch(function() {
+  }
+  function showHeartRateData(heartRateDataAPI) {
+    $scope.heartRateData = heartRateDataAPI.measurements;
+  }
+  function showTemperatureData(temperatureDataAPI) {
+    $scope.temperatureData = temperatureDataAPI.measurements;
+  }
+  function showActivityData(activityDataAPI) {
+    $scope.activityData = activityDataAPI.measurements;
+  }
+
+  $scope.o2DataListeners.push(showO2Data);
+  $scope.heartRateDataListeners.push(showHeartRateData);
+  $scope.temperatureDataListeners.push(showTemperatureData);
+  $scope.activityDataListeners.push(showActivityData);
+
+  $scope.getPatientO2Data().then(showO2Data).catch(function() {
     $scope.loadingO2DataFailed = true;
   }).finally(function() {
     $scope.loadingO2Data = false;
   });
 
-  $scope.getPatientHeartRateData().then(function(heartRateDataAPI) {
-    $scope.heartRateData = heartRateDataAPI.measurements;
-  }).catch(function() {
+  $scope.getPatientHeartRateData().then(showHeartRateData).catch(function() {
     $scope.loadingHeartRateDataFailed = true;
   }).finally(function() {
     $scope.loadingHeartRateData = false;
   });
 
-  $scope.getPatientTemperatureData().then(function(temperatureDataAPI) {
-    $scope.temperatureData = temperatureDataAPI.measurements;
-  }).catch(function() {
+  $scope.getPatientTemperatureData().then(showTemperatureData).catch(function() {
     $scope.loadingTemperatureDataFailed = true;
   }).finally(function() {
     $scope.loadingTemperatureData = false;
   });
 
-  $scope.getPatientActivityData().then(function(activityDataAPI) {
-    $scope.activityData = activityDataAPI.measurements;
-  }).catch(function() {
+  $scope.getPatientActivityData().then(showActivityData).catch(function() {
     $scope.loadingActivityDataFailed = true;
   }).finally(function() {
     $scope.loadingActivityData = false;
@@ -39,7 +49,7 @@ angelikaControllers.controller('PatientListsCtrl', function($scope, DateTimeHelp
 
   $scope.openAlertHandling = function(measurement) {
     if (measurement.alert) {
-      alert("test for opening alert handling");
+      console.log("test for opening alert handling");
     }
   }
 });
