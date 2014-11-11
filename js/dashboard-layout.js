@@ -6,7 +6,7 @@ dashboardLayout = new GoldenLayout({
     popout: 'Åpne i nytt vindu'
   },
   dimensions: {
-    minItemWidth: 350,
+    minItemWidth: 370,
     minItemHeight: 200,
     dragProxyWidth: 400,
     dragProxyHeight: 250,
@@ -57,8 +57,14 @@ dashboardLayout.registerComponent('template', function(container, state) {
     + (state.patientId ? ' ng-init="patientId = ' + state.patientId + '; init()"' : '')
     + '></div>';
 
-  container.getElement().html(templateHtml);
+  if (state.patientId) {
+    container.on('resize', function() {
+      var element = container.getElement();
+      dashboardLayout.emit('resizePatient' + state.patientId, element.width(), element.height());
+    });
+  }
 
+  container.getElement().html(templateHtml);
 });
 
 dashboardLayout.on('initialised', function() {

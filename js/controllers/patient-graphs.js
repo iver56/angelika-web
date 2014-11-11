@@ -1,13 +1,37 @@
-angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg) {
+angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg, $element) {
   $scope.chartRange = {days: 7};
+  $scope.graphWidth = $($element).width() - 40;
+  $scope.graphHeight = 350;
+
+  function setChartDimensions() {
+    $scope.chartO2Config.size.width = $scope.graphWidth;
+    $scope.chartO2Config.size.height = $scope.graphHeight;
+    $scope.chartHeartRateConfig.size.width = $scope.graphWidth;
+    $scope.chartHeartRateConfig.size.height = $scope.graphHeight;
+    $scope.chartTempConfig.size.width = $scope.graphWidth;
+    $scope.chartTempConfig.size.height = $scope.graphHeight;
+    $scope.chartActivityConfig.size.width = $scope.graphWidth;
+    $scope.chartActivityConfig.size.height = $scope.graphHeight;
+  }
 
   $scope.getPatient().then(function(patient) {
     $scope.patient = patient;
   });
 
   $scope.tabSelected = function() {
-    $scope.setChartWidths();
+    if ($scope.graphWidth) {
+      setChartDimensions();
+    }
   };
+
+  $scope.getPatientId().then(function(patientId) {
+    dashboardLayout.on('resizePatient' + patientId, function(width, height) {
+      //$scope.graphHeight = Math.min(Math.max(250, Math.floor(height * 0.45)), 400);
+      $scope.graphWidth = width - 40;
+      setChartDimensions();
+      $scope.$apply();
+    });
+  });
 
   var commonChartConfig = {
     options: {
@@ -37,6 +61,10 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
         pointFormat: '{series.name}: <b>{point.y}</b>',
         xDateFormat: '%A %d.%m.%Y kl. %H:%M'
       }
+    },
+    size: {
+      width: null,
+      height: 350
     },
     series: [
       {
@@ -106,14 +134,6 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
   $scope.chartO2Config.options.yAxis.max = 100;
 
   var alertIconUrl = 'url(../../img/alert-icon.png)';
-
-  $scope.setChartWidths = function() {
-    var width = $("#charts").width();
-    $scope.chartO2Config.options.chart.width = width;
-    $scope.chartHeartRateConfig.options.chart.width = width;
-    $scope.chartTempConfig.options.chart.width = width;
-    $scope.chartActivityConfig.options.chart.width = width;
-  };
 
   function setPointAppearance(point) {
     if (point.alarm) {
@@ -216,7 +236,7 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
           ]);
         } else {
           highArea.push([
-            maxValues[i + 1].x - 1, maxValues[i].y, roof
+              maxValues[i + 1].x - 1, maxValues[i].y, roof
           ]);
         }
       }
@@ -276,7 +296,7 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
         ]);
       } else {
         okArea.push([
-          allValues[i + 1].x - 1, allValues[i].min, allValues[i].max
+            allValues[i + 1].x - 1, allValues[i].min, allValues[i].max
         ]);
       }
     }
@@ -296,7 +316,7 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg)
         ]);
       } else {
         lowArea.push([
-          minValues[i + 1].x - 1, floor, minValues[i].y
+            minValues[i + 1].x - 1, floor, minValues[i].y
         ]);
       }
     }
