@@ -45,6 +45,7 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, L
           LayoutUtils.openPatient(patient);
         }
 
+        dashboardLayout.emit('patientsChanged');
         $scope.posting = false;
         $scope.addSuccessAlert();
       })
