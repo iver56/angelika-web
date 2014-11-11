@@ -1,9 +1,6 @@
 body {
   padding: 30px;
   font-size: 24px !important;
-  background-image: url('../img/background.png');
-  background-size: cover;
-  background-attachment: fixed;
 }
 
 header {
