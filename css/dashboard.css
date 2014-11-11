@@ -77,3 +77,12 @@ form[name=patientForm] .ng-invalid.ng-dirty.form-control:focus {
   right: 0;
   margin: 5px;
 }
+
+div.component {
+  position: relative;
+  height: 100%;
+}
+
+.lm_dropTargetIndicator {
+  z-index: 3;
+}

@@ -8,8 +8,8 @@ dashboardLayout = new GoldenLayout({
   dimensions: {
     minItemWidth: 350,
     minItemHeight: 200,
-    dragProxyWidth: 350,
-    dragProxyHeight: 200,
+    dragProxyWidth: 400,
+    dragProxyHeight: 250,
     headerHeight: 30
   },
   content: [
@@ -51,7 +51,7 @@ dashboardLayout.registerComponent('template', function(container, state) {
     console.error('state.controller must be specified and must be a string');
   }
 
-  var templateHtml = '<div'
+  var templateHtml = '<div class="component"'
     + ' ng-include="\'templates/' + state.template + '\'"'
     + ' ng-controller="' + state.controller + '"'
     + (state.patientId ? ' ng-init="patientId = ' + state.patientId + '; init()"' : '')
@@ -70,9 +70,3 @@ dashboardLayout.init();
 dashboardLayout.getPatientParentComponent = function() {
   return dashboardLayout.root.contentItems[0];
 };
-
-dashboardLayout.on('tabCreated', function(tab) {
-  if (tab.contentItem.config.componentState.patientId) {
-    tab.element.attr('data-patient-id', tab.contentItem.config.componentState.patientId);
-  }
-});
