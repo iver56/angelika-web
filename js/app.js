@@ -69,5 +69,5 @@ Highcharts.setOptions({
 
 if ('dashboard.html' === window.currentPage) {
   createjs.Sound.alternateExtensions = ["ogg"];
-  createjs.Sound.registerSound("snd/ping.mp3", "notify");
+  createjs.Sound.registerSound("snd/notify.mp3", "notify");
 }
