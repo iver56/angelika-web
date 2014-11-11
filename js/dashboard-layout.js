@@ -59,8 +59,9 @@ dashboardLayout.registerComponent('template', function(container, state) {
 
   if (state.patientId) {
     container.on('resize', function() {
-      var element = container.getElement();
-      dashboardLayout.emit('resizePatient' + state.patientId, element.width(), element.height());
+      if (container.width > 0 && container.height > 0) {
+        dashboardLayout.emit('resizePatient' + state.patientId, container.width, container.height);
+      }
     });
   }
 
