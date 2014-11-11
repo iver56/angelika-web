@@ -1,9 +1,37 @@
 angelikaControllers.controller('PatientListsCtrl', function($scope, DateTimeHelper) {
   $scope.lists = [
-    {header:'O2-metning', data: [], loading: true, loadingFailed: false},
-    {header:'Puls', data: [], loading: true, loadingFailed: false},
-    {header:'Temperatur', data: [], loading: true, loadingFailed: false},
-    {header:'Aktivitet', data: [], loading: true, loadingFailed: false}
+    {
+      header:'O2-metning',
+      data: [],
+      loading: true,
+      loadingFailed: false,
+      showThresholdValues: true,
+      dateFormat: 'dd.M.yyyy kl. H.mm'
+    },
+    {
+      header:'Puls',
+      data: [],
+      loading: true,
+      loadingFailed: false,
+      showThresholdValues: true,
+      dateFormat: 'dd.M.yyyy kl. H.mm'
+    },
+    {
+      header:'Temperatur',
+      data: [],
+      loading: true,
+      loadingFailed: false,
+      showThresholdValues: true,
+      dateFormat: 'dd.M.yyyy kl. H.mm'
+    },
+    {
+      header:'Aktivitet',
+      data: [],
+      loading: true,
+      loadingFailed: false,
+      showThresholdValues: false,
+      dateFormat: 'dd.M.yyyy'
+    }
   ];
 
   $scope.shouldShow = function(list) {
@@ -16,6 +44,32 @@ angelikaControllers.controller('PatientListsCtrl', function($scope, DateTimeHelp
       }
     }
     return false;
+  };
+
+  $scope.getThresholdValue = function(list, isUpperThreshold) {
+    if (!$scope.patient) {
+      return null;
+    }
+    if ('O2-metning' === list.header) {
+      if (isUpperThreshold) {
+        return $scope.patient.o2_max;
+      } else {
+        return $scope.patient.o2_min;
+      }
+    } else if ('Puls' === list.header) {
+      if (isUpperThreshold) {
+        return $scope.patient.pulse_max;
+      } else {
+        return $scope.patient.pulse_min;
+      }
+    } else if ('Temperatur' === list.header) {
+      if (isUpperThreshold) {
+        return $scope.patient.temperature_max;
+      } else {
+        return $scope.patient.temperature_min;
+      }
+    }
+    return null;
   };
 
   $scope.getPatient().then(function(patient) {

@@ -8,6 +8,9 @@
             'col-md-12': 1 === filteredLists.length
            }">
       <h2>{{ list.header }}</h2>
+      <div ng-if="list.showThresholdValues" class="marginBottom10">
+        Nåværende normalverdier: {{ getThresholdValue(list, false) }}-{{ getThresholdValue(list, true) }}
+      </div>
 
       <div class="panel panel-default panel-body"
            ng-if="!list.loading && !list.data.length && !list.loadingFailed">
@@ -20,7 +23,7 @@
           <th>Måling</th>
         </tr>
         <tr ng-repeat="measurement in list.data | orderBy: '-x'">
-          <td>{{ millisToUTCDate(measurement.x) | date:'dd.M.yyyy kl. H:mm' }}</td>
+          <td>{{ millisToUTCDate(measurement.x) | date: list.dateFormat }}</td>
           <td ng-click="openAlertHandling(measurement)"
               ng-class="{'danger clickable': measurement.alarm}">{{ measurement.y }}
           </td>
