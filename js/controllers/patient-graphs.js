@@ -1,7 +1,15 @@
 angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg, $element) {
   $scope.chartRange = {days: 7};
-  $scope.graphWidth = $($element).width() - 40;
-  $scope.graphHeight = 350;
+
+  function getGraphWidth(containerWidth) {
+    return containerWidth - 40;
+  }
+
+  function getGraphHeight(containerHeight) {
+    return Math.min(Math.max(250, Math.floor(containerHeight * 0.45)), 400);
+  }
+
+  $scope.container = $($element).closest('.lm_content');
 
   function setChartDimensions() {
     $scope.chartO2Config.size.width = $scope.graphWidth;
@@ -19,15 +27,15 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg,
   });
 
   $scope.tabSelected = function() {
-    if ($scope.graphWidth) {
-      setChartDimensions();
-    }
+    $scope.graphWidth = getGraphWidth($scope.container.width());
+    $scope.graphHeight = getGraphHeight($scope.container.height());
+    setChartDimensions();
   };
 
   $scope.getPatientId().then(function(patientId) {
     dashboardLayout.on('resizePatient' + patientId, function(width, height) {
-      //$scope.graphHeight = Math.min(Math.max(250, Math.floor(height * 0.45)), 400);
-      $scope.graphWidth = width - 40;
+      $scope.graphWidth = getGraphWidth(width);
+      $scope.graphHeight = getGraphHeight(height);
       setChartDimensions();
       $scope.$apply();
     });
