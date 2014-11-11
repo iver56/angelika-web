@@ -1,5 +1,8 @@
 <div class="btn-group marginTop20 marginLeft20"
-    ng-hide="!chartO2Config.series[0].data.length && !chartHeartRateConfig.series[0].data.length && !chartTempConfig.series[0].data.length && !chartActivityConfig.series[0].data.length">
+    ng-show="chartO2Config.series[0].data.length && patient.show_o2
+      || chartHeartRateConfig.series[0].data.length && patient.show_pulse
+      || chartTempConfig.series[0].data.length && patient.show_temperature
+      || chartActivityConfig.series[0].data.length && patient.show_activity">
   <label class="btn btn-primary" ng-model="chartRange.days"
          btn-radio="1" ng-change="updateChartRange()">Dag</label>
   <label class="btn btn-primary" ng-model="chartRange.days"
@@ -10,15 +13,24 @@
          btn-radio="365" ng-change="updateChartRange()">År</label>
 </div>
 
-<div class="panel panel-default panel-body"
-    ng-if="!chartO2Config.series[0].data.length && !chartHeartRateConfig.series[0].data.length && !chartTempConfig.series[0].data.length && !chartActivityConfig.series[0].data.length">
+<div class="panel panel-default panel-body marginTop10"
+    ng-if="!chartO2Config.series[0].data.length && !chartHeartRateConfig.series[0].data.length
+      && !chartTempConfig.series[0].data.length && !chartActivityConfig.series[0].data.length">
   Det er ikke registrert noen målinger for denne brukeren
 </div>
+<div class="panel panel-default panel-body marginTop10"
+    ng-if="!patient.show_o2 && !patient.show_pulse && !patient.show_temperature && !patient.show_activity">
+  Ingen grafer er vist for denne brukeren. Gå til Rediger &rarr; Synlige målinger &rarr; Synlig for helsepersonell for å endre dette.
+</div>
 
-<highchart config="chartO2Config" ng-if="chartO2Config.series[0].data.length"></highchart>
+<highchart config="chartO2Config"
+           ng-show="chartO2Config.series[0].data.length && patient.show_o2"></highchart>
 <br><br>
-<highchart config="chartHeartRateConfig" ng-if="chartHeartRateConfig.series[0].data.length"></highchart>
+<highchart config="chartHeartRateConfig"
+           ng-show="chartHeartRateConfig.series[0].data.length && patient.show_pulse"></highchart>
 <br><br>
-<highchart config="chartTempConfig" ng-if="chartTempConfig.series[0].data.length"></highchart>
+<highchart config="chartTempConfig"
+           ng-show="chartTempConfig.series[0].data.length && patient.show_temperature"></highchart>
 <br><br>
-<highchart config="chartActivityConfig" ng-if="chartActivityConfig.series[0].data.length"></highchart>
+<highchart config="chartActivityConfig"
+           ng-show="chartActivityConfig.series[0].data.length && patient.show_activity"></highchart>

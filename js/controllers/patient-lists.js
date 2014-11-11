@@ -1,20 +1,38 @@
 angelikaControllers.controller('PatientListsCtrl', function($scope, DateTimeHelper) {
-  $scope.loadingO2Data = true;
-  $scope.loadingO2DataFailed = false;
-  $scope.loadingHeartRateData = true;
-  $scope.loadingHeartRateDataFailed = false;
+  $scope.lists = [
+    {header:'O2-metning', data: [], loading: true, loadingFailed: false},
+    {header:'Puls', data: [], loading: true, loadingFailed: false},
+    {header:'Temperatur', data: [], loading: true, loadingFailed: false},
+    {header:'Aktivitet', data: [], loading: true, loadingFailed: false}
+  ];
+
+  $scope.shouldShow = function(list) {
+    if ($scope.patient) {
+      if ('O2-metning' === list.header && $scope.patient.show_o2
+        || 'Puls' === list.header && $scope.patient.show_pulse
+        || 'Temperatur' === list.header && $scope.patient.show_temperature
+        || 'Aktivitet' === list.header && $scope.patient.show_activity) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  $scope.getPatient().then(function(patient) {
+    $scope.patient = patient;
+  });
 
   function showO2Data(o2DataAPI) {
-    $scope.o2Data = o2DataAPI.measurements;
+    $scope.lists[0].data = o2DataAPI.measurements;
   }
   function showHeartRateData(heartRateDataAPI) {
-    $scope.heartRateData = heartRateDataAPI.measurements;
+    $scope.lists[1].data = heartRateDataAPI.measurements;
   }
   function showTemperatureData(temperatureDataAPI) {
-    $scope.temperatureData = temperatureDataAPI.measurements;
+    $scope.lists[2].data = temperatureDataAPI.measurements;
   }
   function showActivityData(activityDataAPI) {
-    $scope.activityData = activityDataAPI.measurements;
+    $scope.lists[3].data = activityDataAPI.measurements;
   }
 
   $scope.o2DataListeners.push(showO2Data);
@@ -23,28 +41,29 @@ angelikaControllers.controller('PatientListsCtrl', function($scope, DateTimeHelp
   $scope.activityDataListeners.push(showActivityData);
 
   $scope.getPatientO2Data().then(showO2Data).catch(function() {
-    $scope.loadingO2DataFailed = true;
+    $scope.lists[0].loadingFailed = true;
   }).finally(function() {
-    $scope.loadingO2Data = false;
+    $scope.lists[0].loading = false;
   });
 
   $scope.getPatientHeartRateData().then(showHeartRateData).catch(function() {
-    $scope.loadingHeartRateDataFailed = true;
+    $scope.lists[1].loadingFailed = true;
   }).finally(function() {
-    $scope.loadingHeartRateData = false;
+    $scope.lists[1].loading = false;
   });
 
   $scope.getPatientTemperatureData().then(showTemperatureData).catch(function() {
-    $scope.loadingTemperatureDataFailed = true;
+    $scope.lists[2].loadingFailed = true;
   }).finally(function() {
-    $scope.loadingTemperatureData = false;
+    $scope.lists[2].loading = false;
   });
 
   $scope.getPatientActivityData().then(showActivityData).catch(function() {
-    $scope.loadingActivityDataFailed = true;
+    $scope.lists[3].loadingFailed = true;
   }).finally(function() {
-    $scope.loadingActivityData = false;
+    $scope.lists[3].loading = false;
   });
+
   $scope.millisToUTCDate = DateTimeHelper.millisToUTCDate;
 
   $scope.openAlertHandling = function(measurement) {

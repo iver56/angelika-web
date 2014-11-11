@@ -1,87 +1,31 @@
 <div class="container" style="width: inherit">
   <div class="row">
-    <div class="col-md-3">
-      <div id="measurementTableContainerO2" class="measurementTableContainer">
-        <h2>O2-metning</h2>
-        <div class="panel panel-default panel-body"
-             ng-if="!loadingO2Data && !o2Data.length && !loadingO2DataFailed">
-          Ingen målinger
-        </div>
-        <alert type="danger" ng-if="loadingO2DataFailed">Kunne ikke laste målinger</alert>
-        <table class="table table-hover measurementTable" ng-if="o2Data.length">
-          <tr class="active">
-            <th>Tid</th>
-            <th>Måling</th>
-          </tr>
-          <tr ng-repeat="measurement in o2Data | orderBy: '-x'">
-            <td>{{ millisToUTCDate(measurement.x) | date:'dd.M.yyyy kl. H:mm' }}</td>
-            <td ng-click="openAlertHandling(measurement)"
-                ng-class="{'danger clickable': measurement.alarm}">{{ measurement.y }}</td>
-          </tr>
-        </table>
+    <div ng-repeat="list in filteredLists = (lists | filter:shouldShow)"
+         ng-class="{
+            'col-md-3': 4 === filteredLists.length,
+            'col-md-4': 3 === filteredLists.length,
+            'col-md-6': 2 === filteredLists.length,
+            'col-md-12': 1 === filteredLists.length
+           }">
+      <h2>{{ list.header }}</h2>
+
+      <div class="panel panel-default panel-body"
+           ng-if="!list.loading && !list.data.length && !list.loadingFailed">
+        Ingen målinger
       </div>
-    </div>
-    <div class="col-md-3">
-      <div class="measurementTableContainer">
-        <h2>Puls</h2>
-        <div class="panel panel-default panel-body"
-             ng-if="!loadingHeartRateData && !heartRateData.length && !loadingHeartRateDataFailed">
-          Ingen målinger
-        </div>
-        <alert type="danger" ng-if="loadingHeartRateDataFailed">Kunne ikke laste målinger</alert>
-        <table class="table table-hover measurementTable" ng-if="heartRateData.length">
-          <tr>
-            <th>Tid</th>
-            <th>Måling</th>
-          </tr>
-          <tr ng-repeat="measurement in heartRateData | orderBy: '-x'">
-            <td>{{ millisToUTCDate(measurement.x) | date:'dd.M.yyyy kl. H:mm' }}</td>
-            <td ng-click="openAlertHandling(measurement)"
-                ng-class="{'danger clickable': measurement.alarm }">{{ measurement.y }}</td>
-          </tr>
-        </table>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="measurementTableContainer">
-        <h2>Temperatur</h2>
-        <div class="panel panel-default panel-body"
-             ng-if="!loadingTemperatureData && !temperatureData.length && !loadingTemperatureDataFailed">
-          Ingen målinger
-        </div>
-        <alert type="danger" ng-if="loadingTemperatureDataFailed">Kunne ikke laste målinger</alert>
-        <table class="table table-hover measurementTable" ng-if="temperatureData.length">
-          <tr>
-            <th>Tid</th>
-            <th>Måling</th>
-          </tr>
-          <tr ng-repeat="measurement in temperatureData | orderBy: '-x'">
-            <td>{{ millisToUTCDate(measurement.x) | date:'dd.M.yyyy kl. H:mm' }}</td>
-            <td ng-click="openAlertHandling(measurement)"
-                ng-class="{'danger clickable': measurement.alarm}">{{ measurement.y }}</td>
-          </tr>
-        </table>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="measurementTableContainer">
-        <h2>Aktivitet</h2>
-        <div class="panel panel-default panel-body"
-             ng-if="!loadingActivityData && !activityData.length && !loadingActivityDataFailed">
-          Ingen målinger
-        </div>
-        <alert type="danger" ng-if="loadingActivityDataFailed">Kunne ikke laste målinger</alert>
-        <table class="table table-hover measurementTable" ng-if="activityData.length">
-          <tr>
-            <th>Tid</th>
-            <th>Måling</th>
-          </tr>
-          <tr ng-repeat="measurement in activityData | orderBy: '-x'">
-            <td>{{ millisToUTCDate(measurement.x) | date:'dd.M.yyyy kl. H:mm' }}</td>
-            <td>{{ measurement.y }}</td>
-          </tr>
-        </table>
-      </div>
+      <alert type="danger" ng-if="list.loadingFailed">Kunne ikke laste målinger</alert>
+      <table class="table table-hover measurementTable" ng-if="list.data.length">
+        <tr class="active">
+          <th>Tid</th>
+          <th>Måling</th>
+        </tr>
+        <tr ng-repeat="measurement in list.data | orderBy: '-x'">
+          <td>{{ millisToUTCDate(measurement.x) | date:'dd.M.yyyy kl. H:mm' }}</td>
+          <td ng-click="openAlertHandling(measurement)"
+              ng-class="{'danger clickable': measurement.alarm}">{{ measurement.y }}
+          </td>
+        </tr>
+      </table>
     </div>
   </div>
 </div>

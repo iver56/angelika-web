@@ -1,6 +1,10 @@
 angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg) {
   $scope.chartRange = {days: 7};
 
+  $scope.getPatient().then(function(patient) {
+    $scope.patient = patient;
+  });
+
   $scope.tabSelected = function() {
     $scope.setChartWidths();
   };
