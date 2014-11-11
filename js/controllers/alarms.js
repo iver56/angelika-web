@@ -3,6 +3,7 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
   $scope.alerts = [];
   $scope.measurementType = AlarmHelper.measurementType;
   $scope.loadingAlarms = true;
+  $scope.$alarmsBadge = $('.alarms-badge');
 
   $scope.playNotifySound = function() {
     if (simpleStorage.get('isSoundOn')) {
@@ -36,6 +37,9 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
           $scope.playNotifySound();
         }
 
+        var numUntreatedAlarms = getNumUntreatedAlarms();
+        $scope.$alarmsBadge.text(numUntreatedAlarms > 0 ? numUntreatedAlarms : '');
+
         setOldAlarms($scope.alarms);
         $timeout(tick, 5000);
       })
@@ -46,6 +50,18 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
         console.error(data, status, headers, config);
         $timeout(tick, 20000);
       });
+  }
+
+  function getNumUntreatedAlarms() {
+    var result = 0;
+    for (var i = 0; i < $scope.alarms.length; i++) {
+      if (!$scope.alarms[i].is_treated) {
+        result++;
+      } else {
+        break;
+      }
+    }
+    return result;
   }
 
   tick();

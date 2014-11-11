@@ -92,3 +92,7 @@ div.component {
 .lm_dropTargetIndicator {
   z-index: 3 !important;
 }
+
+.alarms-badge {
+  background: #D55757 !important;
+}

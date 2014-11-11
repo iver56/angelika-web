@@ -20,7 +20,7 @@ dashboardLayout = new GoldenLayout({
         {
           type: 'component',
           componentName: 'template',
-          title: '<span class="glyphicon glyphicon-bell"></span> Varsler',
+          title: '<span class="glyphicon glyphicon-bell"></span> Varsler <span class="badge alarms-badge"></span>',
           componentState: { template: 'alarms.html', controller: 'AlarmsCtrl' },
           isClosable: false
         },
