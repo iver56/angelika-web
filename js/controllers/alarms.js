@@ -11,7 +11,14 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
   };
 
   var connectionLost = false;
-  var oldAlerts = [];
+  $scope.oldAlarms = {};
+
+  function setOldAlarms(list) {
+    $scope.oldAlarms = {};
+    for (var i = 0; i < list.length; i++) {
+      $scope.oldAlarms[list[i].id] = true;
+    }
+  }
 
   function tick() {
     $http.get(cfg.apiUrl + "/alarms/")
@@ -23,12 +30,13 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
           connectionLost = false;
         }
 
-        if ($scope.assessNewAlert(data.results, oldAlerts)) {
+        $scope.alarms = data.results;
+
+        if ($scope.assessNewAlarms()) {
           $scope.playNotifySound();
         }
 
-        $scope.alarms = data.results;
-        oldAlerts = $scope.alarms;
+        setOldAlarms($scope.alarms);
         $timeout(tick, 5000);
       })
       .error(function(data, status, headers, config) {
@@ -66,10 +74,16 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
     $scope.alerts.pop();
   };
 
-  $scope.assessNewAlert = function(newAlerts, oldAlerts) {
-    if (0 === oldAlerts.length) {
+  $scope.assessNewAlarms = function() {
+    if ($.isEmptyObject($scope.oldAlarms)) {
       return false;
     }
-    return (newAlerts.length > oldAlerts.length);
+    for (var i = 0; i < $scope.alarms.length; i++) {
+      var alarm = $scope.alarms[i];
+      if (!$scope.oldAlarms.hasOwnProperty(alarm.id) && !alarm.is_treated) {
+        return true;
+      }
+    }
+    return false;
   }
 });
