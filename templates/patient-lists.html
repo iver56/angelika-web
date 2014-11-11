@@ -9,7 +9,8 @@
            }">
       <h2>{{ list.header }}</h2>
       <div ng-if="list.showThresholdValues" class="marginBottom10">
-        Nåværende normalverdier: {{ getThresholdValue(list, false) }}-{{ getThresholdValue(list, true) }}
+        Nåværende normalverdier:
+        {{ getThresholdValue(list, false) }}-{{ getThresholdValue(list, true) }} {{ list.unit }}
       </div>
 
       <div class="panel panel-default panel-body"
@@ -25,7 +26,7 @@
         <tr ng-repeat="measurement in list.data | orderBy: '-x'">
           <td>{{ millisToUTCDate(measurement.x) | date: list.dateFormat }}</td>
           <td ng-click="openAlertHandling(measurement)"
-              ng-class="{'danger clickable': measurement.alarm}">{{ measurement.y }}
+              ng-class="{'danger clickable': measurement.alarm}">{{ measurement.y }} {{ list.unit }}
           </td>
         </tr>
       </table>

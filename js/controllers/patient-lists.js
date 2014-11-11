@@ -1,36 +1,40 @@
 angelikaControllers.controller('PatientListsCtrl', function($scope, DateTimeHelper) {
   $scope.lists = [
     {
-      header:'O2-metning',
+      header: 'O2-metning',
       data: [],
       loading: true,
       loadingFailed: false,
       showThresholdValues: true,
-      dateFormat: 'dd.M.yyyy kl. H.mm'
+      dateFormat: 'dd.M.yyyy kl. H.mm',
+      unit: '%'
     },
     {
-      header:'Puls',
+      header: 'Puls',
       data: [],
       loading: true,
       loadingFailed: false,
       showThresholdValues: true,
-      dateFormat: 'dd.M.yyyy kl. H.mm'
+      dateFormat: 'dd.M.yyyy kl. H.mm',
+      unit: 'slag/min'
     },
     {
-      header:'Temperatur',
+      header: 'Temperatur',
       data: [],
       loading: true,
       loadingFailed: false,
       showThresholdValues: true,
-      dateFormat: 'dd.M.yyyy kl. H.mm'
+      dateFormat: 'dd.M.yyyy kl. H.mm',
+      unit: '°C'
     },
     {
-      header:'Aktivitet',
+      header: 'Aktivitet',
       data: [],
       loading: true,
       loadingFailed: false,
       showThresholdValues: false,
-      dateFormat: 'dd.M.yyyy'
+      dateFormat: 'dd.M.yyyy',
+      unit: 'skritt/dag'
     }
   ];
 
@@ -79,12 +83,15 @@ angelikaControllers.controller('PatientListsCtrl', function($scope, DateTimeHelp
   function showO2Data(o2DataAPI) {
     $scope.lists[0].data = o2DataAPI.measurements;
   }
+
   function showHeartRateData(heartRateDataAPI) {
     $scope.lists[1].data = heartRateDataAPI.measurements;
   }
+
   function showTemperatureData(temperatureDataAPI) {
     $scope.lists[2].data = temperatureDataAPI.measurements;
   }
+
   function showActivityData(activityDataAPI) {
     $scope.lists[3].data = activityDataAPI.measurements;
   }
