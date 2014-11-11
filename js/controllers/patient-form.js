@@ -1,4 +1,4 @@
-angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg) {
+angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, LayoutUtils) {
   $scope.posting = false;
   $scope.patient = {
     id: null,
@@ -21,6 +21,8 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg) {
   $scope.save = function() {
     $scope.posting = true;
 
+    var activeContentItem = dashboardLayout.getPatientParentComponent().getActiveContentItem();
+
     var method = $scope.patient.id ? 'patch' : 'post';
     var url = cfg.apiUrl + "/patients/";
     if (method === 'patch') {
@@ -36,12 +38,11 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg) {
 
         if ('patch' === method) {
           var fullName = patient.user.first_name + " " + patient.user.last_name;
-          var $tab = $(".lm_tab[data-patient-id='" + $scope.patient.id + "']");
-          $tab.attr('title', fullName);
-          $tab.find('span.lm_title').text(fullName);
+          activeContentItem.setTitle(fullName);
         } else {
-          //a new patient has been created
-          //TODO: close current tab and open tab for the new patient
+          // A new patient has been created
+          activeContentItem.remove();
+          LayoutUtils.openPatient(patient);
         }
 
         $scope.posting = false;

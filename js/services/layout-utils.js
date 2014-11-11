@@ -24,7 +24,8 @@ angelikaServices.service('LayoutUtils', function() {
     if (foundIdx > 0) {
       dashboardLayout.getPatientParentComponent().setActiveContentItem(dashboardLayout.getPatientParentComponent().contentItems[foundIdx]);
     } else {
-      var patientComponentConfig = this.getPatientConfig(patient.id, patient.user.full_name);
+      var patientName = patient.user.full_name || patient.user.first_name + " " + patient.user.last_name;
+      var patientComponentConfig = this.getPatientConfig(patient.id, patientName);
       dashboardLayout.getPatientParentComponent().addChild(patientComponentConfig);
     }
   };
