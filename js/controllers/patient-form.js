@@ -3,7 +3,12 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg) {
   $scope.patient = {
     id: null,
     user: {},
-    next_of_kin: []
+    next_of_kin: [],
+    o2_max: 100,
+    show_activity: true,
+    show_o2: true,
+    show_pulse: true,
+    show_temperature: true
   };
 
   // getPatient is inherited from the parent scope (PatientCtrl). Available only if the patient already exists.
