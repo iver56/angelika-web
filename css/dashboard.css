@@ -68,6 +68,12 @@ form[name=patientForm] .ng-invalid.ng-dirty.form-control:focus {
   background-repeat: no-repeat;
 }
 
+.loading-spinner-medium {
+  width: 100px;
+  height: 100px;
+  background-size: 64px 64px;
+}
+
 .logo-bottom-right {
   width: 200px;
   height: 50px;
