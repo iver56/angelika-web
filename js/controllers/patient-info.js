@@ -38,8 +38,8 @@ angelikaControllers.controller('PatientInfoCtrl', function($scope, $http, cfg, $
 
   $scope.open = function(size, idx) {
     var modalInstance = $modal.open({
-      templateUrl: 'templates/modals/handle-alert.html',
-      controller: 'HandleAlertCtrl',
+      templateUrl: 'templates/modals/handle-alarm.html',
+      controller: 'HandleAlarmCtrl',
       size: size,
       resolve: {
         alarm: function() {

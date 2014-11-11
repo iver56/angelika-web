@@ -1,4 +1,4 @@
-angelikaControllers.controller('HandleAlertCtrl', function($scope, $modalInstance, $http, cfg, alarm, editMode) {
+angelikaControllers.controller('HandleAlarmCtrl', function($scope, $modalInstance, $http, cfg, alarm, editMode) {
   $scope.alarm = alarm;
   $scope.alarm.is_treated = true;
   $scope.posting = false;
