@@ -1,51 +1,58 @@
-<h1>{{ patient.user.first_name }} {{ patient.user.last_name }}</h1>
+<div class="row">
+  <div class="col-md-6">
+    <h1>{{ patient.user.first_name }} {{ patient.user.last_name }}</h1>
+    <div class="panel panel-default">
+      <table class="table table-responsive table-bordered">
+        <tr>
+          <td width="120px">Personnummer</td>
+          <td>{{ patient.national_identification_number }}</td>
+        </tr>
+        <tr>
+          <td>Alder</td>
+          <td>{{ patient.age }} {{ patient.age ? 'år' : 'Ukjent' }}</td>
+        </tr>
+        <tr>
+          <td>Telefonnummer</td>
+          <td>
+            {{ patient.phone_number }}
+            <i ng-hide="patient.phone_number">Ikke spesifisert</i>
+          </td>
+        </tr>
+        <tr>
+          <td>Adresse</td>
+          <td>
+            <i ng-hide="patient.address || patient.zip_code || patient.city">Ingen adresse er spesifisert</i>
+            <a ng-href="http://maps.google.com/?q={{patient.address}}, {{patient.zip_code}} {{patient.city}}, Norway"
+               target="_blank">
+              {{ patient.address }}{{ (patient.zip_code || patient.city) ? ', ' : '' }}{{ patient.zip_code }} {{ patient.city }}
+            </a>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
 
-<table class="table table-responsive">
-  <tr class="active">
-    <td width="120px">Personnummer</td>
-    <td>{{ patient.national_identification_number }}</td>
-  </tr>
-  <tr class="active">
-    <td>Alder</td>
-    <td>{{ patient.age }} {{ patient.age ? 'år' : 'Ukjent' }}</td>
-  </tr>
-  <tr class="active">
-    <td>Telefonnummer</td>
-    <td>
-      {{ patient.phone_number }}
-      <i ng-hide="patient.phone_number">Ikke spesifisert</i>
-    </td>
-  </tr>
-  <tr class="active">
-    <td>Adresse</td>
-    <td>
-      <a ng-href="http://maps.google.com/?q={{patient.address}}, {{patient.zip_code}} {{patient.city}}, Norway"
-         target="_blank">
-        {{ patient.address }}, {{ patient.zip_code }} {{ patient.city }}
-      </a>
-    </td>
-  </tr>
-</table>
-
-<h4>Pårørende:</h4>
-<div class="panel panel-default panel-body" ng-if="!patient.next_of_kin.length">
-  Ingen pårørende er registrert
-</div>
-<div class="panel panel-default" ng-repeat="contact in patient.next_of_kin">
-  <div class="panel-body">
-    <p ng-show="$index === 0"><span class="glyphicon glyphicon-star"></span> Hovedpårørende:</p>
-    <p ng-hide="$index === 0">{{ $index + 1 }}. pårørende:</p>
-    <p class="list-group-item-heading">
-      <span class="glyphicon glyphicon-user"></span>
-      {{ contact.full_name }} <span class="label label-info" ng-show="contact.relation">{{ contact.relation }}</span>
-    </p>
-    <p class="list-group-item-text" ng-show="contact.phone_number">
-      <span class="glyphicon glyphicon-earphone"></span> {{ contact.phone_number }}
-    </p>
-    <p class="list-group-item-text" ng-show="contact.address">
-      <span class="glyphicon glyphicon-map-marker"></span>
-      <a ng-href="http://maps.google.com/?q={{contact.address}}" target="_blank">{{ contact.address }}</a>
-    </p>
+  <div class="col-md-6">
+    <div class="panel panel-default panel-body" ng-if="!patient.next_of_kin.length">
+      Ingen pårørende er registrert
+    </div>
+    <div class="panel panel-default" ng-repeat="contact in patient.next_of_kin">
+      <div class="panel-body" ng-class="{ 'main-next-of-kin': $index === 0 }">
+        <p ng-show="$index === 0"><span class="glyphicon glyphicon-star"></span> Hovedpårørende:</p>
+        <p ng-hide="$index === 0">Pårørende:</p>
+        <p class="list-group-item-heading">
+          <span class="glyphicon glyphicon-user"></span>
+          {{ contact.full_name }} <span class="label label-info" ng-show="contact.relation">{{ contact.relation }}</span>
+        </p>
+        <p class="list-group-item-text" ng-show="contact.phone_number">
+          <span class="glyphicon glyphicon-earphone"></span> {{ contact.phone_number }}
+        </p>
+        <p class="list-group-item-text" ng-show="contact.address">
+          <span class="glyphicon glyphicon-map-marker"></span>
+          <a ng-href="http://maps.google.com/?q={{contact.address}}" target="_blank">{{ contact.address }}</a>
+        </p>
+      </div>
+    </div>
   </div>
 </div>
 
