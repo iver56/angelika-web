@@ -1,28 +1,31 @@
 body {
-    padding: 30px;
-    font-size: 24px !important;
+  padding: 30px;
+  font-size: 24px !important;
+  background-image: url('../img/background.png');
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 header {
-    text-align: right;
-    padding-bottom: 30px;
+  text-align: right;
+  padding-bottom: 30px;
 }
 
 #pageTitle {
-    margin-bottom: 50px;
+  margin-bottom: 50px;
 }
 
 .alertBoxIcon {
-    float: left;
-    margin-right: 32px;
-    margin-left: 16px;
+  float: left;
+  margin-right: 32px;
+  margin-left: 16px;
 }
 
 #charts {
-    width: 100%;
-    margin-top: 100px;
+  width: 100%;
+  margin-top: 100px;
 }
 
 .chartContainer {
-    margin-bottom: 100px;
+  margin-bottom: 100px;
 }
