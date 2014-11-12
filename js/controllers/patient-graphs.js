@@ -124,7 +124,7 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg,
   $scope.chartO2Config.options.title.text = "O2-metning";
   $scope.chartHeartRateConfig.options.title.text = "Puls";
   $scope.chartTempConfig.options.title.text = "Temperatur";
-  $scope.chartActivityConfig.options.title.text = "Aktivitet";
+  $scope.chartActivityConfig.options.title.text = "Fysisk aktivitet";
 
   // Set tooltip suffixes
   $scope.chartO2Config.options.tooltip.valueSuffix = " %";
@@ -136,7 +136,7 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg,
   $scope.chartO2Config.options.yAxis.title.text = "O2-metning (prosent)";
   $scope.chartHeartRateConfig.options.yAxis.title.text = "Puls (slag pr. minutt)";
   $scope.chartTempConfig.options.yAxis.title.text = "Temperatur (°C)";
-  $scope.chartActivityConfig.options.yAxis.title.text = "Aktivitet (Skritt pr. dag)";
+  $scope.chartActivityConfig.options.yAxis.title.text = "Antall skritt per dag";
 
   // Y-axis max
   $scope.chartO2Config.options.yAxis.max = 100;
