@@ -4,7 +4,6 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
   $scope.measurementType = AlarmHelper.measurementType;
   $scope.alarmReason = AlarmHelper.alarmReason;
   $scope.loadingAlarms = true;
-  $scope.$alarmsBadge = $('.alarms-badge');
   $scope.connectionLost = false;
   $scope.oldAlarms = {};
 
@@ -23,7 +22,7 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
 
   function updateNumUntreatedAlarmsBadge(assumeSorted) {
     var numUntreatedAlarms = getNumUntreatedAlarms(assumeSorted);
-    $scope.$alarmsBadge.text(numUntreatedAlarms > 0 ? numUntreatedAlarms : '');
+    $('.alarms-badge').text(numUntreatedAlarms > 0 ? numUntreatedAlarms : '');
   }
 
   function tick() {
