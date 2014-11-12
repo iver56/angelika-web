@@ -5,9 +5,6 @@ angelikaControllers.controller('HandleAlarmCtrl', function($scope, $modalInstanc
   $scope.motivationalText = {
     text: ''
   };
-  $scope.tag = {
-    text: ''
-  };
   $scope.editMode = editMode;
 
   $scope.ok = function() {
