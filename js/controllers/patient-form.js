@@ -1,4 +1,4 @@
-angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, LayoutUtils) {
+angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, LayoutUtils, $modal) {
   $scope.posting = false;
   $scope.patient = {
     id: null,
@@ -10,15 +10,76 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, L
     show_pulse: true,
     show_temperature: true
   };
+  $scope.patientBeforeChanges = {
+    o2_min: null,
+    o2_max: null,
+    pulse_min: null,
+    pulse_max: null,
+    temperature_min: null,
+    temperature_max: null
+  };
 
   // getPatient is inherited from the parent scope (PatientCtrl). Available only if the patient already exists.
   if ($scope.getPatient) {
     $scope.getPatient().then(function(patient) {
       $scope.patient = patient;
+      $scope.patientBeforeChanges = angular.copy(patient);
     });
   }
 
+  function getChangedThresholdValues() {
+    var o2MinChanged = $scope.patientBeforeChanges.o2_min !== $scope.patient.o2_min;
+    var o2MaxChanged = $scope.patientBeforeChanges.o2_max !== $scope.patient.o2_max;
+    var pulseMinChanged = $scope.patientBeforeChanges.pulse_min !== $scope.patient.pulse_min;
+    var pulseMaxChanged = $scope.patientBeforeChanges.pulse_max !== $scope.patient.pulse_max;
+    var temperatureMinChanged = $scope.patientBeforeChanges.temperature_min !== $scope.patient.temperature_min;
+    var temperatureMaxChanged = $scope.patientBeforeChanges.temperature_max !== $scope.patient.temperature_max;
+
+    if (o2MinChanged || o2MaxChanged || pulseMinChanged || pulseMaxChanged || temperatureMinChanged
+      || temperatureMaxChanged) {
+      return {
+        o2MinChanged: o2MinChanged,
+        o2MaxChanged: o2MaxChanged,
+        pulseMinChanged: pulseMinChanged,
+        pulseMaxChanged: pulseMaxChanged,
+        temperatureMinChanged: temperatureMinChanged,
+        temperatureMaxChanged: temperatureMaxChanged
+      };
+    } else {
+      return false;
+    }
+  }
+
+  function openConfirmModal(changedThresholdValues) {
+    var modalInstance = $modal.open({
+      templateUrl: 'templates/modals/confirm-threshold-values.html',
+      controller: 'ConfirmThresholdValuesCtrl',
+      size: null,
+      resolve: {
+        changedThresholdValues: function() {
+          return changedThresholdValues;
+        },
+        patientBeforeChanges: function() {
+          return $scope.patientBeforeChanges;
+        },
+        patient: function() {
+          return $scope.patient;
+        }
+      }
+    });
+    modalInstance.result.then(function() {
+      $scope.patientBeforeChanges = angular.copy($scope.patient);
+      $scope.save();
+    });
+  };
+
   $scope.save = function() {
+    var changedThresholdValues = getChangedThresholdValues();
+    if (changedThresholdValues) {
+      openConfirmModal(changedThresholdValues);
+      return;
+    }
+
     $scope.posting = true;
 
     var activeContentItem = dashboardLayout.getPatientParentComponent().getActiveContentItem();
@@ -46,8 +107,8 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, L
         }
 
         dashboardLayout.emit('patientsChanged');
-        $scope.posting = false;
         $scope.addSuccessAlert();
+        $scope.posting = false;
       })
       .error(function(data) {
         $scope.posting = false;

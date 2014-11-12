@@ -1,0 +1,48 @@
+<div class="modal-header">
+  <h4 class="modal-title">Bekreft normalverdier</h4>
+</div>
+
+<div class="modal-body">
+  <table class="table table-bordered">
+    <tr ng-if="patientBeforeChanges.id">
+      <th></th>
+      <th>Gammel verdi</th>
+      <th>Ny verdi</th>
+    </tr>
+    <tr ng-if="changedThresholdValues.o2MinChanged">
+      <td>O2-metning min</td>
+      <td ng-if="patientBeforeChanges.id">{{ patientBeforeChanges.o2_min }} {{ measurementTypeUnit['O'] }}</td>
+      <td>{{ patient.o2_min }} {{ measurementTypeUnit['O'] }}</td>
+    </tr>
+    <tr ng-if="changedThresholdValues.o2MaxChanged">
+      <td>O2-metning maks</td>
+      <td ng-if="patientBeforeChanges.id">{{ patientBeforeChanges.o2_max }} {{ measurementTypeUnit['O'] }}</td>
+      <td>{{ patient.o2_max }} {{ measurementTypeUnit['O'] }}</td>
+    </tr>
+    <tr ng-if="changedThresholdValues.pulseMinChanged">
+      <td>Puls min</td>
+      <td ng-if="patientBeforeChanges.id">{{ patientBeforeChanges.pulse_min }} {{ measurementTypeUnit['P'] }}</td>
+      <td>{{ patient.pulse_min }} {{ measurementTypeUnit['P'] }}</td>
+    </tr>
+    <tr ng-if="changedThresholdValues.pulseMaxChanged">
+      <td>Puls maks</td>
+      <td ng-if="patientBeforeChanges.id">{{ patientBeforeChanges.pulse_max }} {{ measurementTypeUnit['P'] }}</td>
+      <td>{{ patient.pulse_max }} {{ measurementTypeUnit['P'] }}</td>
+    </tr>
+    <tr ng-if="changedThresholdValues.temperatureMinChanged">
+      <td>Temperatur min</td>
+      <td ng-if="patientBeforeChanges.id">{{ patientBeforeChanges.temperature_min }} {{ measurementTypeUnit['T'] }}</td>
+      <td>{{ patient.temperature_min }} {{ measurementTypeUnit['T'] }}</td>
+    </tr>
+    <tr ng-if="changedThresholdValues.temperatureMaxChanged">
+      <td>Temperatur maks</td>
+      <td ng-if="patientBeforeChanges.id">{{ patientBeforeChanges.temperature_max }} {{ measurementTypeUnit['T'] }}</td>
+      <td>{{ patient.temperature_max }} {{ measurementTypeUnit['T'] }}</td>
+    </tr>
+  </table>
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-primary" ng-click="ok()">OK</button>
+  <button class="btn btn-warning" ng-click="cancel()">Avbryt</button>
+</div>
