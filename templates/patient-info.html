@@ -68,6 +68,7 @@
     <th>Håndtert</th>
     <th>Endre/håndter</th>
     <th>Notis</th>
+    <th>Søkeord</th>
   </tr>
   <tr ng-repeat="alarm in alarms">
     <td>{{ alarm.time_created | date : 'dd.MM.yyyy HH:mm' }}</td>
@@ -87,6 +88,7 @@
       </button>
     </td>
     <td>{{ alarm.treated_text }}</td>
+    <td>{{ alarm.search_tag }}</td>
   </tr>
 </table>
 
