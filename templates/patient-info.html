@@ -24,7 +24,7 @@
         <tr>
           <td>Adresse</td>
           <td>
-            <i ng-hide="patient.address || patient.zip_code || patient.city">Ingen adresse er spesifisert</i>
+            <i ng-hide="patient.address || patient.zip_code || patient.city">Ikke spesifisert</i>
             <a ng-href="http://maps.google.com/?q={{patient.address}}, {{patient.zip_code}} {{patient.city}}, Norway"
                target="_blank">
               {{ patient.address }}{{ (patient.zip_code || patient.city) ? ', ' : '' }}{{ patient.zip_code }} {{ patient.city }}
@@ -39,8 +39,9 @@
     <div class="panel panel-default panel-body" ng-if="!patient.next_of_kin.length">
       Ingen pårørende er registrert
     </div>
-    <div class="panel panel-default" ng-repeat="contact in patient.next_of_kin | limitTo: nextOfKinLimit">
-      <div class="panel-body" ng-class="{ 'main-next-of-kin': $index === 0 }">
+    <div class="panel panel-default" style="margin-bottom:15px;"
+         ng-repeat="contact in patient.next_of_kin | limitTo: nextOfKinLimit">
+      <div class="panel-body" ng-class="{ 'main-next-of-kin': $index === 0 }" style="padding: 12px">
         <p ng-show="$index === 0"><span class="glyphicon glyphicon-star"></span> Hovedpårørende:</p>
         <p ng-hide="$index === 0">Pårørende:</p>
         <p class="list-group-item-heading">
@@ -99,24 +100,18 @@
   </tr>
 </table>
 
-<div class="panel panel-success">
+<div class="panel panel-success" ng-if="patient.motivation_texts.length">
   <div class="panel-heading">
     <h3 class="panel-title">Motiverende beskjeder:</h3>
   </div>
-  <div ng-repeat="motivationalText in patient.motivation_texts">
-    <div class="panel-body">
-      {{motivationalText.text}}
-    </div>
-  </div>
+  <div class="marginTop20 marginLeft20 preserve-whitespace" ng-class="{'marginBottom20': $last}"
+       ng-repeat="motivationalText in patient.motivation_texts">{{ motivationalText.text }}<hr ng-if="!$last" class="marginBottom0"></div>
 </div>
 
-<div class="panel panel-info">
+<div class="panel panel-info" ng-if="patient.information_texts.length">
   <div class="panel-heading">
     <h3 class="panel-title">Informative beskjeder:</h3>
   </div>
-  <div ng-repeat="informationalText in patient.information_texts">
-    <div class="panel-body">
-      {{informationalText.text}}
-    </div>
-  </div>
+  <div class="marginTop20 marginLeft20 preserve-whitespace" ng-class="{'marginBottom20': $last}"
+       ng-repeat="infoText in patient.information_texts">{{ infoText.text }}<hr ng-if="!$last" class="marginBottom0"></div>
 </div>

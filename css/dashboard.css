@@ -104,3 +104,12 @@ div.component {
 .alarms-badge {
   background: #D55757 !important;
 }
+
+.preserve-whitespace {
+  white-space: pre;
+}
+
+h1 {
+  font-size: 30px !important;
+  margin-top: 10px !important;
+}
