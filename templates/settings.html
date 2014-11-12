@@ -14,6 +14,17 @@
     </label>
   </div>
   <br>
+  <div class="btn-group btn-group-lg marginTop10"
+       popover="Skru på denne innstillingen for å se kun uhåndterte varsler i &quot;Varsler&quot;-fanen"
+       popover-trigger="mouseenter" popover-placement="right">
+    <label class="btn btn-primary" ng-model="filterAlarms.value" btn-radio="0" ng-change="setFilterAlarmsSetting()">
+      <span class="glyphicon glyphicon-ban-circle"></span> Ikke filtrer varsler
+    </label>
+    <label class="btn btn-primary" ng-model="filterAlarms.value" btn-radio="1" ng-change="setFilterAlarmsSetting()">
+      <span class="glyphicon glyphicon-filter"></span> Vis kun uhåndterte varsler
+    </label>
+  </div>
+  <br>
   <button ng-click="logOut()" class="btn btn-danger btn-lg marginTop10">
     <span class="glyphicon glyphicon-log-out"></span> Logg ut
   </button>

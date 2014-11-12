@@ -27,7 +27,11 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
   }
 
   function tick() {
-    $http.get(cfg.apiUrl + "/alarms/")
+    var url = cfg.apiUrl + "/alarms/";
+    if (simpleStorage.get('filterAlarms')) {
+      url += "?only_untreated=1";
+    }
+    $http.get(url)
       .success(function(data) {
         $scope.loadingAlarms = false;
         $scope.popAlert();

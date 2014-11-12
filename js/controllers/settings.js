@@ -11,6 +11,11 @@ angelikaControllers.controller('SettingsCtrl', function($scope, AuthService, Lay
 
   $scope.isSoundOn = { value: (simpleStorage.get('isSoundOn') ? 1 : 0) };
   $scope.setSoundSetting = function() {
-    simpleStorage.set('isSoundOn', $scope.isSoundOn.value, {TTL: 31540000000 /*one year*/});
+    simpleStorage.set('isSoundOn', $scope.isSoundOn.value, {TTL: 157700000000 /*five years*/});
+  };
+
+  $scope.filterAlarms = { value: (simpleStorage.get('filterAlarms') ? 1 : 0) };
+  $scope.setFilterAlarmsSetting = function() {
+    simpleStorage.set('filterAlarms', $scope.filterAlarms.value, {TTL: 157700000000 /*five years*/});
   };
 });
