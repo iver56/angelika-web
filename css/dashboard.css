@@ -105,3 +105,7 @@ h1 {
   font-size: 30px !important;
   margin-top: 10px !important;
 }
+
+.table-medium-width-limit {
+  max-width: 738px !important;
+}

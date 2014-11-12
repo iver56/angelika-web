@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <meta name="msapplication-TileColor" content="#9f00a7">
   <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- css -->
   <link href="css/spacing.css" rel="stylesheet">
@@ -46,7 +47,7 @@
         <span class="glyphicon glyphicon-user"></span>
       </span>
       <input type="text" class="form-control" placeholder="Brukernavn"
-             ng-model="loginData.username" required autofocus>
+             ng-model="loginData.username" required autofocus autocapitalize="off" autocorrect="off">
     </div>
 
     <div class="input-group input-group-lg marginTop20">
