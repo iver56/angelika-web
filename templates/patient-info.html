@@ -17,8 +17,10 @@
         <tr>
           <td>Telefonnummer</td>
           <td>
-            {{ patient.phone_number }}
-            <i ng-hide="patient.phone_number">Ikke spesifisert</i>
+            <a ng-if="patient.phone_number" ng-href="tel:{{ patient.phone_number | nospace }}">
+              {{ patient.phone_number }}
+            </a>
+            <i ng-if="!patient.phone_number">Ikke spesifisert</i>
           </td>
         </tr>
         <tr>
