@@ -5,15 +5,14 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
   $scope.alarmReason = AlarmHelper.alarmReason;
   $scope.loadingAlarms = true;
   $scope.$alarmsBadge = $('.alarms-badge');
+  $scope.connectionLost = false;
+  $scope.oldAlarms = {};
 
   $scope.playNotifySound = function() {
     if (simpleStorage.get('isSoundOn')) {
       createjs.Sound.play("notify");
     }
   };
-
-  var connectionLost = false;
-  $scope.oldAlarms = {};
 
   function setOldAlarms(list) {
     $scope.oldAlarms = {};
@@ -32,9 +31,9 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
       .success(function(data) {
         $scope.loadingAlarms = false;
         $scope.popAlert();
-        if (connectionLost) {
+        if ($scope.connectionLost) {
           $scope.addAlert("server-connection-reestablished");
-          connectionLost = false;
+          $scope.connectionLost = false;
         }
 
         $scope.alarms = data.results;
@@ -50,7 +49,7 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
       })
       .error(function(data, status, headers, config) {
         $scope.loadingAlarms = false;
-        connectionLost = true;
+        $scope.connectionLost = true;
         $scope.addAlert("server-connection-lost");
         console.error(data, status, headers, config);
         $timeout(tick, 20000);
@@ -93,10 +92,10 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
     $scope.alerts.pop();
     switch (alertType) {
       case "server-connection-lost":
-        $scope.alerts.push({ type: 'danger', msg: 'Kommunikasjon med server feilet, nye alarmer vil ikke vises.'});
+        $scope.alerts.push({ type: 'danger', msg: 'Kommunikasjon med server feilet. Prøver å gjenopprette forbindelsen...'});
         break;
       case "server-connection-reestablished":
-        $scope.alerts.push({ type: 'success', msg: 'Kommunikasjon med server gjenopprettet, nye alarmer vil vises.'});
+        $scope.alerts.push({ type: 'success', msg: 'Kommunikasjon med server gjenopprettet'});
         break;
     }
   };
