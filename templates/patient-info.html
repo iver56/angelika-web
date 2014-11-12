@@ -70,6 +70,7 @@
 <table class="table table-bordered table-striped table-hover table-responsive" ng-if="alarms.length > 0">
   <tr>
     <th>Tid</th>
+    <th>Type</th>
     <th>Håndtert</th>
     <th>Endre/håndter</th>
     <th>Notis</th>
@@ -77,6 +78,7 @@
   </tr>
   <tr ng-repeat="alarm in alarms">
     <td>{{ alarm.time_created | date : 'dd.MM.yyyy HH:mm' }}</td>
+    <td>{{ alarm.is_measurement_too_high ? 'Høy' : 'Lav' }} {{ measurementType[alarm.measurement.type] }}</td>
     <td>
       <span ng-if="alarm.is_treated">
         <span class="glyphicon glyphicon-ok iconGreen"></span> Ja

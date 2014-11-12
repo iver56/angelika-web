@@ -1,4 +1,4 @@
-angelikaControllers.controller('HandleAlarmCtrl', function($scope, $modalInstance, $http, cfg, alarm, editMode) {
+angelikaControllers.controller('HandleAlarmCtrl', function($scope, $modalInstance, $http, cfg, alarm, editMode, patient, AlarmHelper) {
   $scope.alarm = alarm;
   $scope.alarm.is_treated = true;
   $scope.posting = false;
@@ -6,6 +6,8 @@ angelikaControllers.controller('HandleAlarmCtrl', function($scope, $modalInstanc
     text: ''
   };
   $scope.editMode = editMode;
+  $scope.measurementType = AlarmHelper.lowerCaseMeasurementType;
+  $scope.measurementTypeUnit = AlarmHelper.measurementTypeUnit;
 
   $scope.ok = function() {
     $scope.posting = true;
@@ -31,27 +33,26 @@ angelikaControllers.controller('HandleAlarmCtrl', function($scope, $modalInstanc
     $modalInstance.dismiss('cancel');
   };
 
-  $scope.getAlertType = function(typeChar) {
-    //TODO: compare value to normal value
-    var highOrLow = "lav ";
-    var type;
-    switch (typeChar) {
-      case "O":
-        type = "O2-metning";
-        break;
-      case "P":
-        type = "puls";
-        break;
-      case "T":
-        type = "temperatur";
-        break;
+
+  $scope.getLowerThresholdValue = function() {
+    if ('O' === $scope.alarm.measurement.type) {
+      return patient.o2_min;
+    } else if ('P' === $scope.alarm.measurement.type) {
+      return patient.pulse_min;
+    } else if ('T' === $scope.alarm.measurement.type) {
+      return patient.temperature_min;
     }
-    return "Unormalt " + highOrLow + type;
+    return null;
   };
 
-  $scope.getNormalValue = function(type, time) {
-    //TODO: get old normal value
-
-    return "89% - 100%";
-  }
+  $scope.getUpperThresholdValue = function() {
+    if ('O' === $scope.alarm.measurement.type) {
+      return patient.o2_max;
+    } else if ('P' === $scope.alarm.measurement.type) {
+      return patient.pulse_max;
+    } else if ('T' === $scope.alarm.measurement.type) {
+      return patient.temperature_max;
+    }
+    return null;
+  };
 });

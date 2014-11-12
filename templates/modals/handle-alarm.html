@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h3 class="modal-title">Håndter varsel</h3>
+  <h4 class="modal-title">Håndter varsel</h4>
 </div>
 
 <div class="modal-body">
@@ -8,19 +8,23 @@
       <table>
         <tr>
           <td>Tid:</td>
-          <td>{{alarm.time_created | date : 'dd.MM.yyyy kl. HH:mm'}}</td>
+          <td>{{ alarm.time_created | date : 'dd.MM.yyyy kl. HH:mm' }}</td>
         </tr>
         <tr>
           <td>Type:</td>
-          <td>{{getAlertType(alarm.measurement.type)}}</td>
+          <td>
+            {{ alarm.is_measurement_too_high ? 'Høy' : 'Lav' }} {{ measurementType[alarm.measurement.type] }}
+          </td>
         </tr>
         <tr>
           <td>Verdi:</td>
-          <td>{{alarm.measurement.value}}</td>
+          <td>{{ alarm.measurement.value }} {{ measurementTypeUnit[alarm.measurement.type] }}</td>
         </tr>
         <tr>
-          <td>Normalverdi:</td>
-          <td>{{getNormalValue(alarm.measurement.type, alarm.time_created)}}</td>
+          <td>Nåværende normalverdi:</td>
+          <td>
+            {{ getLowerThresholdValue() }}-{{ getUpperThresholdValue() }} {{ measurementTypeUnit[alarm.measurement.type] }}
+          </td>
         </tr>
         <tr>
           <td>Håndtert:</td>

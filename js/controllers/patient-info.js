@@ -1,7 +1,8 @@
-angelikaControllers.controller('PatientInfoCtrl', function($scope, $http, cfg, $modal) {
+angelikaControllers.controller('PatientInfoCtrl', function($scope, $http, cfg, $modal, AlarmHelper) {
   $scope.loadingPatient = true;
   $scope.loadingAlarms = true;
   $scope.nextOfKinLimit = 1;
+  $scope.measurementType = AlarmHelper.lowerCaseMeasurementType;
 
   $scope.showAllNextOfKin = function() {
     $scope.nextOfKinLimit = 999;
@@ -52,6 +53,9 @@ angelikaControllers.controller('PatientInfoCtrl', function($scope, $http, cfg, $
         },
         editMode: function() {
           return $scope.alarms[idx].is_treated ? true : false
+        },
+        patient: function() {
+          return $scope.patient
         }
       }
     });
