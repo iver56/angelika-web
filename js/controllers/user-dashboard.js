@@ -90,7 +90,7 @@ angelikaControllers.controller('UserDashboardCtrl', function ($scope, $http, cfg
       $scope.chartO2Config.options.yAxis.title.text = "O2-metning (prosent)";
       $scope.chartHeartRateConfig.options.yAxis.title.text = "Puls (slag pr. minutt)";
       $scope.chartTempConfig.options.yAxis.title.text = "Temperatur (°C)";
-      $scope.chartActivityConfig.options.yAxis.title.text = "Aktivitet (Skritt pr. dag)";
+      $scope.chartActivityConfig.options.yAxis.title.text = "Aktivitet (Skritt per dag)";
 
       // Y-axis max
       $scope.chartO2Config.options.yAxis.max = 100;

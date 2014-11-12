@@ -26,3 +26,7 @@ header {
 .chartContainer {
   margin-bottom: 100px;
 }
+
+.preserve-whitespace {
+  white-space: pre;
+}

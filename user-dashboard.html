@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <!-- css -->
   <link href="css/user-dashboard.css" rel="stylesheet">
+  <link href="css/spacing.css" rel="stylesheet">
 
   <!-- libs -->
   <script src="lib/jQuery/jquery.min.js"></script>
@@ -37,10 +38,9 @@
 
 <body ng-app="angelika" ng-controller="UserDashboardCtrl">
 <header>
+  <h1 style="float: left" class="marginTop5">Hei {{ patient.user.full_name }}!</h1>
   <button ng-click="logOut()" class="btn btn-danger btn-lg">Logg ut</button>
 </header>
-
-<h1>Hei {{ patient.user.full_name }}!</h1>
 
 <div class="alert alert-warning" role="alert">
   <p>Er alt i orden? Ikke nøl med å ta kontakt hvis du trenger hjelp!<br>
@@ -59,11 +59,11 @@
 </div>
 
 <div ng-repeat="motivationalText in patient.motivation_texts">
-  <div class="alert alert-success" role="alert">{{ motivationalText.text }}</div>
+  <div class="alert alert-success preserve-whitespace" role="alert">{{ motivationalText.text }}</div>
 </div>
 
 <div ng-repeat="informationText in patient.information_texts">
-  <div class="alert alert-info" role="alert">{{ informationText.text }}</div>
+  <div class="alert alert-info preserve-whitespace" role="alert">{{ informationText.text }}</div>
 </div>
 
 <div id="charts">
@@ -84,7 +84,7 @@
   </div>
 
   <div ng-if="patient.activity_access && chartActivityConfig.series[0].data.length">
-    <strong>Oversikt over ditt aktivitetsnivå den siste uka:</strong>
+    <strong>Oversikt over din fysiske aktivitet den siste uka:</strong>
     <highchart class="chartContainer" config="chartActivityConfig"></highchart>
   </div>
 </div>
