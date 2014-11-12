@@ -2,6 +2,7 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
   $scope.alarms = [];
   $scope.alerts = [];
   $scope.measurementType = AlarmHelper.measurementType;
+  $scope.alarmReason = AlarmHelper.alarmReason;
   $scope.loadingAlarms = true;
   $scope.$alarmsBadge = $('.alarms-badge');
 

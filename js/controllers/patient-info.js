@@ -2,7 +2,8 @@ angelikaControllers.controller('PatientInfoCtrl', function($scope, $http, cfg, $
   $scope.loadingPatient = true;
   $scope.loadingAlarms = true;
   $scope.nextOfKinLimit = 1;
-  $scope.measurementType = AlarmHelper.lowerCaseMeasurementType;
+  $scope.measurementType = AlarmHelper.measurementType;
+  $scope.alarmReason = AlarmHelper.alarmReason;
 
   $scope.showAllNextOfKin = function() {
     $scope.nextOfKinLimit = 999;

@@ -13,14 +13,14 @@
         <tr>
           <td>Type:</td>
           <td>
-            {{ alarm.is_measurement_too_high ? 'Høy' : 'Lav' }} {{ measurementType[alarm.measurement.type] }}
+            {{ alarmReason[alarm.reason] }} {{ measurementType[alarm.measurement.type] }}
           </td>
         </tr>
-        <tr>
+        <tr ng-if="alarm.measurement.type !== 'C'">
           <td>Verdi:</td>
           <td>{{ alarm.measurement.value }} {{ measurementTypeUnit[alarm.measurement.type] }}</td>
         </tr>
-        <tr>
+        <tr ng-if="alarm.measurement.type !== 'C'">
           <td>Nåværende normalverdi:</td>
           <td>
             {{ getLowerThresholdValue() }}-{{ getUpperThresholdValue() }} {{ measurementTypeUnit[alarm.measurement.type] }}

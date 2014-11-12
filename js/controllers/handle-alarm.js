@@ -6,7 +6,8 @@ angelikaControllers.controller('HandleAlarmCtrl', function($scope, $modalInstanc
     text: ''
   };
   $scope.editMode = editMode;
-  $scope.measurementType = AlarmHelper.lowerCaseMeasurementType;
+  $scope.measurementType = AlarmHelper.measurementType;
+  $scope.alarmReason = AlarmHelper.alarmReason;
   $scope.measurementTypeUnit = AlarmHelper.measurementTypeUnit;
 
   $scope.ok = function() {

@@ -1,14 +1,7 @@
 angelikaServices.service('AlarmHelper', function() {
   this.measurementType = {
-    A: 'Aktivitet',
-    C: 'Ring meg',
-    O: 'O2-metning',
-    P: 'Puls',
-    T: 'Temperatur'
-  };
-  this.lowerCaseMeasurementType = {
     A: 'aktivitet',
-    C: 'ring meg',
+    C: 'Ring meg',
     O: 'O2-metning',
     P: 'puls',
     T: 'temperatur'
@@ -19,4 +12,9 @@ angelikaServices.service('AlarmHelper', function() {
     P: 'slag per minutt',
     T: '°C'
   };
+  this.alarmReason = {
+    null: '',
+    false: 'Lav',
+    true: 'Høy'
+  }
 });

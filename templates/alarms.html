@@ -17,7 +17,7 @@
         draggable-patient="alarm.measurement.patient">
       <td>{{ alarm.measurement.patient.user.full_name }}</td>
       <td>{{ alarm.time_created | date:'dd.MM.yyyy HH:mm'}}</td>
-      <td>{{ measurementType[alarm.measurement.type] }}</td>
+      <td>{{ alarmReason[alarm.reason] }} {{ measurementType[alarm.measurement.type] }}</td>
       <td>{{ alarm.is_treated ? 'Ja' : 'Nei'}}</td>
     </tr>
   </table>
