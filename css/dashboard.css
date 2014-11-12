@@ -44,14 +44,6 @@ ul.nav-tabs li, ul.nav-pills li {
   padding: 10px 15px;
 }
 
-.measurementTable {
-  padding: 0 20px;
-}
-
-.measurementTable th, .measurementTable th:hover {
-  background-color: #F5F5F5 !important;
-}
-
 form[name=patientForm] .ng-invalid.ng-dirty, .ng-invalid.ng-pristine {
   border-color: #FA787E;
 }
