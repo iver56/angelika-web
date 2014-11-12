@@ -1,6 +1,11 @@
 angelikaControllers.controller('PatientInfoCtrl', function($scope, $http, cfg, $modal) {
   $scope.loadingPatient = true;
   $scope.loadingAlarms = true;
+  $scope.nextOfKinLimit = 1;
+
+  $scope.showAllNextOfKin = function() {
+    $scope.nextOfKinLimit = 999;
+  };
 
   $scope.getPatient().then(function(patient) {
     $scope.patient = patient;
