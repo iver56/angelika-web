@@ -20,6 +20,7 @@ angelikaControllers.controller('HandleAlarmCtrl', function($scope, $modalInstanc
     )
       .success(function(data) {
         $scope.posting = false;
+        dashboardLayout.emit('handledAlarm', $scope.alarm);
         $modalInstance.close(data);
       })
       .error(function(data) {

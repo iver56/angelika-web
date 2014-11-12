@@ -21,6 +21,11 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
     }
   }
 
+  function updateNumUntreatedAlarmsBadge(assumeSorted) {
+    var numUntreatedAlarms = getNumUntreatedAlarms(assumeSorted);
+    $scope.$alarmsBadge.text(numUntreatedAlarms > 0 ? numUntreatedAlarms : '');
+  }
+
   function tick() {
     $http.get(cfg.apiUrl + "/alarms/")
       .success(function(data) {
@@ -37,8 +42,7 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
           $scope.playNotifySound();
         }
 
-        var numUntreatedAlarms = getNumUntreatedAlarms();
-        $scope.$alarmsBadge.text(numUntreatedAlarms > 0 ? numUntreatedAlarms : '');
+        updateNumUntreatedAlarmsBadge(true);
 
         setOldAlarms($scope.alarms);
         $timeout(tick, 5000);
@@ -52,12 +56,12 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
       });
   }
 
-  function getNumUntreatedAlarms() {
+  function getNumUntreatedAlarms(assumeSorted) {
     var result = 0;
     for (var i = 0; i < $scope.alarms.length; i++) {
       if (!$scope.alarms[i].is_treated) {
         result++;
-      } else {
+      } else if (assumeSorted) {
         break;
       }
     }
@@ -65,6 +69,16 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
   }
 
   tick();
+
+  dashboardLayout.on('handledAlarm', function(alarm) {
+    for (var i = 0; i < $scope.alarms.length; i++) {
+      if ($scope.alarms[i].id === alarm.id) {
+        $scope.alarms[i].is_treated = alarm.is_treated;
+        updateNumUntreatedAlarmsBadge(false);
+        return;
+      }
+    }
+  });
 
   $scope.openPatient = function(patient) {
     LayoutUtils.openPatient(patient);
