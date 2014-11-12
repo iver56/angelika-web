@@ -66,12 +66,20 @@ form[name=patientForm] .ng-invalid.ng-dirty.form-control:focus {
   background-image: url('../img/spinner.gif');
   background-position: center;
   background-repeat: no-repeat;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .loading-spinner-medium {
   width: 100px;
   height: 100px;
   background-size: 64px 64px;
+}
+
+.loading-spinner-small {
+  width: 32px;
+  height: 32px;
+  background-size: 20px 20px;
 }
 
 .logo-bottom-right {

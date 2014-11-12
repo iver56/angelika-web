@@ -245,14 +245,11 @@
 </tabset>
 
 <br>
-<br>
 <alert ng-repeat="alert in alerts" type="{{ alert.type }}" close="closeAlert($index)">{{ alert.msg }}</alert>
 <button class="btn btn-primary btn-lg"
         ng-click="validateForm(patientForm.$valid) && save()">
   <span class="glyphicon glyphicon-ok"></span> Lagre
 </button>
-    <span class="medium-padding" ng-show="posting">
-      <img src="lib/graphics/spinner.gif" alt="Laster..." style="width:20px; height:20px">
-    </span>
+<div class="loading-spinner loading-spinner-small" ng-show="posting"></div>
 </fieldset>
 </form>

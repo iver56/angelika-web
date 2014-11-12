@@ -11,6 +11,7 @@ angelikaControllers.controller('HandleAlarmCtrl', function($scope, $modalInstanc
   $scope.editMode = editMode;
 
   $scope.ok = function() {
+    $scope.posting = true;
     $http.post(
         cfg.apiUrl + "/alarms/" + $scope.alarm.id + "/handle/",
       {
