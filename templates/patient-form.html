@@ -1,4 +1,4 @@
-<form name="patientForm" novalidate ng-init="setFormScope(this)">
+<form name="patientForm" novalidate ng-init="setFormScope(this)" class="medium-padding">
 <fieldset ng-disabled="posting">
 <tabset type="pills" justified="true">
 <tab>
@@ -259,7 +259,7 @@
 
 <br>
 <alert ng-repeat="alert in alerts" type="{{ alert.type }}" close="closeAlert($index)">{{ alert.msg }}</alert>
-<button class="btn btn-primary btn-lg"
+<button class="btn btn-primary btn-lg marginBottom20"
         ng-click="validateForm(patientForm.$valid) && save()">
   <span class="glyphicon glyphicon-ok"></span> Lagre
 </button>
