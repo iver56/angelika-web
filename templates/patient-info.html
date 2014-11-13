@@ -27,7 +27,7 @@
           <td>Adresse</td>
           <td>
             <i ng-hide="patient.address || patient.zip_code || patient.city">Ikke spesifisert</i>
-            <a ng-href="http://maps.google.com/?q={{patient.address}}, {{patient.zip_code}} {{patient.city}}, Norway"
+            <a ng-href="http://maps.google.no/?q={{patient.address}}, {{patient.zip_code}} {{patient.city}}, Norway"
                target="_blank">
               {{ patient.address }}{{ (patient.zip_code || patient.city) ? ', ' : '' }}{{ patient.zip_code }} {{ patient.city }}
             </a>
@@ -55,7 +55,7 @@
         </p>
         <p class="list-group-item-text" ng-show="contact.address">
           <span class="glyphicon glyphicon-map-marker"></span>
-          <a ng-href="http://maps.google.com/?q={{contact.address}}" target="_blank">{{ contact.address }}</a>
+          <a ng-href="http://maps.google.no/?q={{contact.address}}" target="_blank">{{ contact.address }}</a>
         </p>
       </div>
     </div>
