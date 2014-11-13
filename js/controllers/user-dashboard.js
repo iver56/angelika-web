@@ -3,7 +3,8 @@ angelikaControllers.controller('UserDashboardCtrl', function($scope, $http, cfg,
     .success(function(patientData) {
       $scope.patient = patientData;
       $scope.callRequest = {
-        registered: false
+        registered: false,
+        posting: false
       };
 
       var now = new Date().getTime();
@@ -154,12 +155,15 @@ angelikaControllers.controller('UserDashboardCtrl', function($scope, $http, cfg,
 
   $scope.registerCallRequest = function() {
     var url = cfg.apiUrl + "/current-patient/call_me/";
+    $scope.callRequest.posting = true;
     $http['post'](url)
       .success(function(result) {
         $scope.callRequest.registered = true;
+        $scope.callRequest.posting = false;
       })
       .error(function(data) {
         console.error("Call request error", data);
+        $scope.callRequest.posting = false;
         alert("Noe gikk galt. Oppringnings-forespørsel ble ikke registrert.");
       });
   }

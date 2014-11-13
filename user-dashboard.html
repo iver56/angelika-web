@@ -57,6 +57,7 @@
     <p>
       Eller trykk her, så ringer vi deg:
       <button ng-click="registerCallRequest()" class="btn btn-default btn-lg">Ring meg</button>
+      <span class="loading-spinner loading-spinner-small" ng-show="callRequest.posting"></span>
     </p>
   </div>
   <div ng-if="callRequest.registered">
