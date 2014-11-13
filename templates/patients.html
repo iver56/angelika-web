@@ -12,7 +12,7 @@
   <alert ng-show="!loadingPatients && 0 === filteredPatients.length" class="marginTop10">Ingen søkeresultater</alert>
 
   <table class="table table-bordered table-striped table-hover table-responsive marginTop10 table-medium-width-limit"
-         ng-show="patients.length && filteredPatients.length">
+         ng-show="patients.length && filteredPatients.length && search.$">
     <tr>
       <th>Navn</th>
       <th>Personnummer</th>
