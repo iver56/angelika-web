@@ -1,6 +1,6 @@
-angelikaControllers.controller('UserDashboardCtrl', function ($scope, $http, cfg, AuthService) {
+angelikaControllers.controller('UserDashboardCtrl', function($scope, $http, cfg, AuthService) {
   $http.get(cfg.apiUrl + "/current-patient/")
-    .success(function (patientData) {
+    .success(function(patientData) {
       $scope.patient = patientData;
       $scope.motivationalMsg = "Motiverende melding skrevet av helsepersonell kommer her.";
       $scope.otherMsg = "Annen informasjon skrevet av helsepersonell kommer her.";
@@ -12,7 +12,7 @@ angelikaControllers.controller('UserDashboardCtrl', function ($scope, $http, cfg
       var msPerDay = 86400000;
       var min = now - (msPerDay * 7); // 7 days ago
 
-      $scope.tabSelected = function () {
+      $scope.tabSelected = function() {
         $scope.setChartWidths();
       };
 
@@ -70,7 +70,9 @@ angelikaControllers.controller('UserDashboardCtrl', function ($scope, $http, cfg
            }*/
         },
         series: [
-          {"name": ""}
+          {
+            "name": "Målt verdi"
+          }
         ]
       };
 
@@ -79,6 +81,9 @@ angelikaControllers.controller('UserDashboardCtrl', function ($scope, $http, cfg
       $scope.chartHeartRateConfig = angular.copy(commonChartConfig);
       $scope.chartTempConfig = angular.copy(commonChartConfig);
       $scope.chartActivityConfig = angular.copy(commonChartConfig);
+
+      $scope.chartActivityConfig.options.chart.type = 'column';
+      $scope.chartActivityConfig.options.tooltip.xDateFormat = '%A %d.%m.%Y';
 
       // Set tooltip suffixes
       $scope.chartO2Config.options.tooltip.valueSuffix = " %";
@@ -95,7 +100,7 @@ angelikaControllers.controller('UserDashboardCtrl', function ($scope, $http, cfg
       // Y-axis max
       $scope.chartO2Config.options.yAxis.max = 100;
 
-      $scope.setChartWidths = function () {
+      $scope.setChartWidths = function() {
         var width = $("#charts").width();
         $scope.chartO2Config.options.chart.width = width;
         $scope.chartHeartRateConfig.options.chart.width = width;
@@ -105,49 +110,49 @@ angelikaControllers.controller('UserDashboardCtrl', function ($scope, $http, cfg
 
       if ($scope.patient.o2_access) {
         $http.get(cfg.apiUrl + "/current-patient/graph_data/?type=O")
-          .success(function (o2Data) {
+          .success(function(o2Data) {
             $scope.chartO2Config.series[0].data = o2Data.measurements;
           })
-          .error(function (o2DataAPI, o2Status, o2Headers, o2Config) {
+          .error(function(o2DataAPI, o2Status, o2Headers, o2Config) {
             console.log(o2DataAPI, o2Status, o2Headers, o2Config);
           });
       }
 
       if ($scope.patient.pulse_access) {
         $http.get(cfg.apiUrl + "/current-patient/graph_data/?type=P")
-          .success(function (heartRateData) {
+          .success(function(heartRateData) {
             $scope.chartHeartRateConfig.series[0].data = heartRateData.measurements;
           })
-          .error(function (heartRateDataAPI, heartRateStatus, heartRateHeaders, heartRateConfig) {
+          .error(function(heartRateDataAPI, heartRateStatus, heartRateHeaders, heartRateConfig) {
             console.log(heartRateDataAPI, heartRateStatus, heartRateHeaders, heartRateConfig);
           });
       }
 
       if ($scope.patient.temperature_access) {
         $http.get(cfg.apiUrl + "/current-patient/graph_data/?type=T")
-          .success(function (temperatureData) {
+          .success(function(temperatureData) {
             $scope.chartTempConfig.series[0].data = temperatureData.measurements;
           })
-          .error(function (tempDataAPI, tempStatus, tempHeaders, tempConfig) {
+          .error(function(tempDataAPI, tempStatus, tempHeaders, tempConfig) {
             console.log(tempDataAPI, tempStatus, tempHeaders, tempConfig);
           });
       }
 
       if ($scope.patient.activity_access) {
         $http.get(cfg.apiUrl + "/current-patient/graph_data/?type=A")
-          .success(function (activityData) {
+          .success(function(activityData) {
             $scope.chartActivityConfig.series[0].data = activityData.measurements;
           })
-          .error(function (activityDataAPI, activityStatus, activityHeaders, activityConfig) {
+          .error(function(activityDataAPI, activityStatus, activityHeaders, activityConfig) {
             console.log(activityDataAPI, activityStatus, activityHeaders, activityConfig);
           });
       }
     })
-    .error(function (data, status, headers, config) {
+    .error(function(data, status, headers, config) {
       console.log(data, status, headers, config);
     });
 
-  $scope.logOut = function () {
+  $scope.logOut = function() {
     AuthService.logOut();
     window.location.href = 'index.html';
   };
