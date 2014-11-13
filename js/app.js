@@ -64,6 +64,9 @@ Highcharts.setOptions({
     decimalPoint: ',',
     contextButtonTitle: null,
     numericSymbols: null
+  },
+  global: {
+    useUTC: false
   }
 });
 
