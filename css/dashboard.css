@@ -99,3 +99,7 @@ h1 {
 .table-vcenter td {
   vertical-align: middle !important;
 }
+
+.borderless tbody tr td, .borderless thead tr th {
+  border: none !important;
+}
