@@ -95,3 +95,7 @@ h1 {
 .visibility-hidden {
   visibility: hidden;
 }
+
+.table-vcenter td {
+  vertical-align: middle !important;
+}
