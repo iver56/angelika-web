@@ -24,7 +24,7 @@
           <th>Måling</th>
         </tr>
         <tr ng-repeat="measurement in list.data | orderBy: '-x' | limitTo: list.limitTo">
-          <td>{{ millisToUTCDate(measurement.x) | date: list.dateFormat }}</td>
+          <td>{{ timestampToDate(measurement.x) | date: list.dateFormat }}</td>
           <td ng-click="openAlertHandling(measurement)"
               ng-class="{'danger clickable': measurement.alarm}">{{ measurement.y }} {{ list.unit }}
           </td>

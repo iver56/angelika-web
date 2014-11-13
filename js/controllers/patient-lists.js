@@ -1,6 +1,8 @@
 angelikaControllers.controller('PatientListsCtrl', function($scope, DateTimeHelper, AlarmHelper) {
   $scope.measurementType = AlarmHelper.measurementType;
   $scope.measurementTypeUnit = AlarmHelper.measurementTypeUnit;
+  $scope.timestampToDate = DateTimeHelper.timestampToDate;
+
   $scope.lists = [
     {
       type: 'O',
@@ -130,8 +132,6 @@ angelikaControllers.controller('PatientListsCtrl', function($scope, DateTimeHelp
   }).finally(function() {
     $scope.lists[3].loading = false;
   });
-
-  $scope.millisToUTCDate = DateTimeHelper.millisToUTCDate;
 
   $scope.openAlertHandling = function(measurement) {
     if (measurement.alert) {
