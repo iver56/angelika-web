@@ -8,7 +8,7 @@
             'col-md-12': 1 === filteredLists.length
            }">
       <h2>{{ measurementType[list.type] | capitalize }}</h2>
-      <div ng-if="list.showThresholdValues" class="marginBottom10">
+      <div ng-class="{'visibility-hidden': !list.showThresholdValues}" class="marginBottom10">
         Nåværende normalverdier:
         {{ getThresholdValue(list, false) }}-{{ getThresholdValue(list, true) }} {{ measurementTypeUnit[list.type] }}
       </div>

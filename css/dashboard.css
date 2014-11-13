@@ -91,3 +91,7 @@ h1 {
 .highcharts-markers image {
   cursor: pointer;
 }
+
+.visibility-hidden {
+  visibility: hidden;
+}

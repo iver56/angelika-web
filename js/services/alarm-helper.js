@@ -7,9 +7,9 @@ angelikaServices.service('AlarmHelper', function() {
     T: 'temperatur'
   };
   this.measurementTypeUnit = {
-    A: 'skritt per dag',
+    A: 'skritt/dag',
     O: '%',
-    P: 'slag per minutt',
+    P: 'slag/min',
     T: '°C'
   };
   this.alarmReason = {
