@@ -18,18 +18,20 @@
         Ingen målinger
       </div>
       <alert type="danger" ng-if="list.loadingFailed">Kunne ikke laste målinger</alert>
-      <table class="table measurementTable" ng-if="list.data.length">
+      <table class="table measurementTable table-condensed" ng-if="list.data.length">
         <tr class="active">
           <th>Tid</th>
           <th>Måling</th>
         </tr>
-        <tr ng-repeat="measurement in list.data | orderBy: '-x'">
+        <tr ng-repeat="measurement in list.data | orderBy: '-x' | limitTo: list.limitTo">
           <td>{{ millisToUTCDate(measurement.x) | date: list.dateFormat }}</td>
           <td ng-click="openAlertHandling(measurement)"
               ng-class="{'danger clickable': measurement.alarm}">{{ measurement.y }} {{ list.unit }}
           </td>
         </tr>
       </table>
+      <button class="btn btn-default" ng-show="list.data.length > list.limitTo"
+              ng-click="incrementLimitTo(list)">Vis flere målinger</button>
     </div>
   </div>
 </div>

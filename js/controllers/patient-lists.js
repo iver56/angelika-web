@@ -7,6 +7,7 @@ angelikaControllers.controller('PatientListsCtrl', function($scope, DateTimeHelp
       loadingFailed: false,
       showThresholdValues: true,
       dateFormat: 'dd.M.yyyy kl. H.mm',
+      limitTo: 15,
       unit: '%'
     },
     {
@@ -16,6 +17,7 @@ angelikaControllers.controller('PatientListsCtrl', function($scope, DateTimeHelp
       loadingFailed: false,
       showThresholdValues: true,
       dateFormat: 'dd.M.yyyy kl. H.mm',
+      limitTo: 15,
       unit: 'slag/min'
     },
     {
@@ -25,6 +27,7 @@ angelikaControllers.controller('PatientListsCtrl', function($scope, DateTimeHelp
       loadingFailed: false,
       showThresholdValues: true,
       dateFormat: 'dd.M.yyyy kl. H.mm',
+      limitTo: 15,
       unit: '°C'
     },
     {
@@ -34,9 +37,14 @@ angelikaControllers.controller('PatientListsCtrl', function($scope, DateTimeHelp
       loadingFailed: false,
       showThresholdValues: false,
       dateFormat: 'dd.M.yyyy',
+      limitTo: 15,
       unit: 'skritt/dag'
     }
   ];
+
+  $scope.incrementLimitTo = function(list) {
+    list.limitTo += 200;
+  };
 
   $scope.shouldShow = function(list) {
     if ($scope.patient) {
