@@ -5,7 +5,8 @@ var angelika = angular.module(
     'angelika.directives',
     'angelika.services',
     'highcharts-ng',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'ui.validate'
   ]
 ).config(function($httpProvider) {
     //Enable cross domain calls

@@ -1,5 +1,6 @@
-angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, LayoutUtils, $modal) {
+angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, LayoutUtils, $modal, FormHelper) {
   $scope.posting = false;
+  $scope.isNationalIdentificationNumberValid = FormHelper.isNationalIdentificationNumberValid;
   $scope.patient = {
     id: null,
     user: {},
