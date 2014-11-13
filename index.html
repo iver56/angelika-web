@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- css -->
-  <link href="css/spacing.css" rel="stylesheet">
+  <link href="css/common.css" rel="stylesheet">
   <link href="css/login.css" rel="stylesheet">
 
   <!-- libs -->
@@ -59,6 +59,8 @@
     </div>
 
     <button class="btn btn-lg btn-primary marginTop20" type="submit">Logg inn</button>
+    <div class="loading-spinner loading-spinner-small loading-spinner-login"
+         ng-show="posting"></div>
     <alert ng-if="loginFailed" type="danger">Feil brukernavn/passord</alert>
     <alert ng-if="serverError" type="danger">Får ikke kontakt med serveren</alert>
   </form>

@@ -21,40 +21,59 @@
 .marginBottom5 { margin-bottom: 5px; }
 .marginBottom10 { margin-bottom: 10px; }
 .marginBottom20 { margin-bottom: 20px; }
-.marginBottom50 { margin-bottom: 50px; }
 
 /* Margin left */
 .marginLeft5 { margin-left: 5px; }
 .marginLeft10 { margin-left: 10px; }
 .marginLeft20 { margin-left: 20px; }
-.marginLeft50 { margin-left: 50px; }
 
 /* Margin right */
 .marginRight5 { margin-right: 5px; }
 .marginRight10 { margin-right: 10px; }
 .marginRight20 { margin-right: 20px; }
-.marginRight50 { margin-right: 50px; }
 
 /* Padding top */
 .paddingTop5 { padding-top: 5px; }
 .paddingTop10 { padding-top: 10px; }
 .paddingTop20 { padding-top: 20px; }
-.paddingTop50 { padding-top: 50px; }
 
 /* Padding bottom */
 .paddingBottom5 { padding-bottom: 5px; }
 .paddingBottom10 { padding-bottom: 10px; }
 .paddingBottom20 { padding-bottom: 20px; }
-.paddingBottom50 { padding-bottom: 50px; }
 
 /* Padding left */
 .paddingLeft5 { padding-left: 5px; }
 .paddingLeft10 { padding-left: 10px; }
 .paddingLeft20 { padding-left: 20px; }
-.paddingLeft50 { padding-left: 50px; }
 
 /* Padding right */
 .paddingRight5 { padding-right: 5px; }
 .paddingRight10 { padding-right: 10px; }
 .paddingRight20 { padding-right: 20px; }
-.paddingRight50 { padding-right: 50px; }
+
+.loading-spinner {
+  width: 200px;
+  height: 200px;
+  background-image: url('../img/spinner.gif');
+  background-position: center;
+  background-repeat: no-repeat;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.loading-spinner-medium {
+  width: 100px;
+  height: 100px;
+  background-size: 64px 64px;
+}
+
+.loading-spinner-small {
+  width: 32px;
+  height: 32px;
+  background-size: 20px 20px;
+}
+
+.preserve-whitespace {
+  white-space: pre;
+}

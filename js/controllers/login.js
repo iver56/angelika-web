@@ -4,11 +4,11 @@ angelikaControllers.controller('LoginCtrl', function($scope, AuthService) {
     username: "",
     password: ""
   };
-  $scope.age = 38;
+  $scope.posting = false;
 
   $scope.login = function() {
+    $scope.posting = true;
     AuthService.login($scope.loginData.username, $scope.loginData.password, function(data) {
-
       if (data.status === "success") {
         if ('patients' === data.group) {
           window.location.href = 'user-dashboard.html';
@@ -22,7 +22,7 @@ angelikaControllers.controller('LoginCtrl', function($scope, AuthService) {
         $scope.loginFailed = false;
         $scope.serverError = true;
       }
-
+      $scope.posting = false;
     });
   };
 });
