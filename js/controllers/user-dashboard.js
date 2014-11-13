@@ -2,8 +2,6 @@ angelikaControllers.controller('UserDashboardCtrl', function($scope, $http, cfg,
   $http.get(cfg.apiUrl + "/current-patient/")
     .success(function(patientData) {
       $scope.patient = patientData;
-      $scope.motivationalMsg = "Motiverende melding skrevet av helsepersonell kommer her.";
-      $scope.otherMsg = "Annen informasjon skrevet av helsepersonell kommer her.";
       $scope.callRequest = {
         registered: false
       };
@@ -64,10 +62,7 @@ angelikaControllers.controller('UserDashboardCtrl', function($scope, $http, cfg,
           tooltip: {
             pointFormat: '{series.name}: <b>{point.y} </b>',
             xDateFormat: '%A %d.%m.%Y kl. %H:%M'
-          }/*,
-           rangeSelector: {
-           enabled: true
-           }*/
+          }
         },
         series: [
           {
@@ -114,7 +109,7 @@ angelikaControllers.controller('UserDashboardCtrl', function($scope, $http, cfg,
             $scope.chartO2Config.series[0].data = o2Data.measurements;
           })
           .error(function(o2DataAPI, o2Status, o2Headers, o2Config) {
-            console.log(o2DataAPI, o2Status, o2Headers, o2Config);
+            console.error(o2DataAPI, o2Status, o2Headers, o2Config);
           });
       }
 
@@ -124,7 +119,7 @@ angelikaControllers.controller('UserDashboardCtrl', function($scope, $http, cfg,
             $scope.chartHeartRateConfig.series[0].data = heartRateData.measurements;
           })
           .error(function(heartRateDataAPI, heartRateStatus, heartRateHeaders, heartRateConfig) {
-            console.log(heartRateDataAPI, heartRateStatus, heartRateHeaders, heartRateConfig);
+            console.error(heartRateDataAPI, heartRateStatus, heartRateHeaders, heartRateConfig);
           });
       }
 
@@ -134,7 +129,7 @@ angelikaControllers.controller('UserDashboardCtrl', function($scope, $http, cfg,
             $scope.chartTempConfig.series[0].data = temperatureData.measurements;
           })
           .error(function(tempDataAPI, tempStatus, tempHeaders, tempConfig) {
-            console.log(tempDataAPI, tempStatus, tempHeaders, tempConfig);
+            console.error(tempDataAPI, tempStatus, tempHeaders, tempConfig);
           });
       }
 
@@ -144,12 +139,12 @@ angelikaControllers.controller('UserDashboardCtrl', function($scope, $http, cfg,
             $scope.chartActivityConfig.series[0].data = activityData.measurements;
           })
           .error(function(activityDataAPI, activityStatus, activityHeaders, activityConfig) {
-            console.log(activityDataAPI, activityStatus, activityHeaders, activityConfig);
+            console.error(activityDataAPI, activityStatus, activityHeaders, activityConfig);
           });
       }
     })
     .error(function(data, status, headers, config) {
-      console.log(data, status, headers, config);
+      console.error(data, status, headers, config);
     });
 
   $scope.logOut = function() {
@@ -161,7 +156,6 @@ angelikaControllers.controller('UserDashboardCtrl', function($scope, $http, cfg,
     var url = cfg.apiUrl + "/current-patient/call_me/";
     $http['post'](url)
       .success(function(result) {
-        console.log("Call request success: ", result);
         $scope.callRequest.registered = true;
       })
       .error(function(data) {
