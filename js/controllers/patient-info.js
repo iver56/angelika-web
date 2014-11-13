@@ -4,6 +4,7 @@ angelikaControllers.controller('PatientInfoCtrl', function($scope, $http, cfg, $
   $scope.nextOfKinLimit = 1;
   $scope.measurementType = AlarmHelper.measurementType;
   $scope.alarmReason = AlarmHelper.alarmReason;
+  $scope.alarms = [];
 
   $scope.showAllNextOfKin = function() {
     $scope.nextOfKinLimit = 999;
@@ -41,6 +42,15 @@ angelikaControllers.controller('PatientInfoCtrl', function($scope, $http, cfg, $
         console.error(data, status, headers, config);
         $scope.loadingAlarms = false;
       });
+  });
+
+  dashboardLayout.on('handledAlarm', function(alarm) {
+    for (var i = 0; i < $scope.alarms.length; i++) {
+      if ($scope.alarms[i].id === alarm.id) {
+        $scope.alarms[i] = alarm;
+        return;
+      }
+    }
   });
 
   $scope.open = function(size, idx) {

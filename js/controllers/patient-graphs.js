@@ -1,4 +1,4 @@
-angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg, $element) {
+angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg, $element, $modal, $timeout) {
   $scope.chartRange = {days: 7};
 
   function getGraphWidth(containerWidth) {
@@ -143,14 +143,107 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg,
 
   var alertIconUrl = 'url(../../img/alert-icon.png)';
 
+  $scope.handleAlarm = function(alarm) {
+    $http.get(cfg.apiUrl + "/alarms/" + alarm.id + "/")
+      .success(function(data) {
+        alarm = data;
+        $scope.openAlarmModal(alarm);
+      })
+      .error(function(data) {
+        alert('Kunne ikke laste informasjon om varselet');
+      });
+  };
+
+  function getConfigByAlarm(alarm) {
+    var type = alarm.measurement.type;
+    var config = null;
+    if ('O' === type) {
+      config = $scope.chartO2Config;
+    } else if ('P' === type) {
+      config = $scope.chartHeartRateConfig;
+    } else if ('T' === type) {
+      config = $scope.chartTempConfig;
+    }
+    return config;
+  }
+
+  function getDataPointByAlarm(alarm, config) {
+    for (var i = config.series[0].data.length - 1; i >= 0; i--) {
+      if (config.series[0].data[i].alarm && config.series[0].data[i].alarm.id === alarm.id) {
+        return config.series[0].data[i];
+      }
+    }
+    return null;
+  }
+
+  $scope.disableIcon = function(alarm) {
+    var config = getConfigByAlarm(alarm);
+    if (null === config) {
+      return;
+    }
+    var point = getDataPointByAlarm(alarm, config);
+
+    if (point) {
+      point.marker.symbol = null;
+      delete point.events;
+      $scope.redrawChart(config);
+    }
+  };
+
+  $scope.redrawChart = function(config) {
+    var tempData = config.series[0].data;
+    config.series[0].data = [
+      {x: 0, y: 0}
+    ];
+    if(!$scope.$$phase) {
+      $scope.$apply();
+    }
+    $timeout(function() {
+      config.series[0].data = tempData;
+    }, 0);
+  };
+
+  dashboardLayout.on('handledAlarm', function(alarm) {
+    if (alarm.is_treated) {
+      $scope.disableIcon(alarm);
+    }
+  });
+
+  $scope.openAlarmModal = function(alarm) {
+    var modalInstance = $modal.open({
+      templateUrl: 'templates/modals/handle-alarm.html',
+      controller: 'HandleAlarmCtrl',
+      size: null,
+      resolve: {
+        alarm: function() {
+          return angular.copy(alarm);
+        },
+        editMode: function() {
+          return alarm.is_treated ? true : false
+        },
+        patient: function() {
+          return $scope.patient
+        }
+      }
+    });
+    modalInstance.result.then(function(data) {
+      if (data.alarm.is_treated) {
+        $scope.disableIcon(data.alarm);
+      }
+      if (data.motivation_text.id) {
+        $scope.patient.motivation_texts.push(data.motivation_text);
+      }
+      $scope.chartO2Config.series[0] = angular.copy($scope.chartO2Config.series[0]);
+    });
+  };
+
   function setPointAppearance(point) {
     if (point.alarm) {
-      if (point.alarm.is_treated) {
-        point.color = '#BF0B23';
-      } else {
+      point.color = '#BF0B23';
+      if (!point.alarm.is_treated) {
         point.events = {
           click: function(e) {
-            console.log(e);
+            $scope.handleAlarm(e.currentTarget.alarm);
           }
         };
         point.marker = {

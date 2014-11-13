@@ -87,3 +87,7 @@ h1 {
 .table-medium-width-limit {
   max-width: 738px !important;
 }
+
+.highcharts-markers image {
+  cursor: pointer;
+}

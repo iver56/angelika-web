@@ -82,7 +82,7 @@ angelikaControllers.controller('PatientCtrl', function($scope, $http, cfg, $q, $
   }
 
   function getRandomInterval() {
-    return 22000 + 10000 * Math.random() | 0;
+    return 10000 + 5000 * Math.random() | 0;
   }
 
   $scope.getPatientId().then(function(patientId) {
