@@ -204,7 +204,11 @@
   </div>
 </tab>
 
-<tab heading="Pårørende">
+<tab>
+  <tab-heading>
+    Pårørende
+    <i class="glyphicon glyphicon-exclamation-sign red-fore-color" ng-hide="isNextOfKinTabValid()"></i>
+  </tab-heading>
   <div class="panel panel-default panel-body">
     <div class="panel panel-default panel-body" ng-repeat="contact in patient.next_of_kin">
       <h4 ng-show="$index === 0"><span class="glyphicon glyphicon-star"></span> Hovedpårørende</h4>
@@ -213,19 +217,22 @@
       <div class="form-group">
         <label>
           Navn
-          <input type="text" ng-model="contact.full_name" class="form-control" required maxlength="160">
+          <input type="text" ng-model="contact.full_name" class="form-control" required maxlength="160"
+                 name="contact[{{ $index }}].fullName">
         </label>
       </div>
       <div class="form-group">
         <label>
           Telefon
-          <input type="text" ng-model="contact.phone_number" class="form-control" required maxlength="16">
+          <input type="text" ng-model="contact.phone_number" class="form-control" required maxlength="16"
+                 name="contact[{{ $index }}].phoneNumber">
         </label>
       </div>
       <div class="form-group">
         <label>
           Rolle
-          <input type="text" ng-model="contact.relation" class="form-control" required maxlength="40">
+          <input type="text" ng-model="contact.relation" class="form-control" required maxlength="40"
+                 name="contact[{{ $index }}].relation">
         </label>
       </div>
       <div class="form-group">

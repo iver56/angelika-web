@@ -221,4 +221,15 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, L
   $scope.isThresholdValuesTabValid = function() {
     return isFieldCollectionValid(['o2Min', 'o2Max', 'pulseMin', 'pulseMax', 'temperatureMin', 'temperatureMax']);
   };
+
+  $scope.isNextOfKinTabValid = function() {
+    var fields = [];
+    for (var i = 0; i < $scope.patient.next_of_kin.length; i++) {
+      var prefix = "contact[" + i + "].";
+      fields.push(prefix + "fullName");
+      fields.push(prefix + "phoneNumber");
+      fields.push(prefix + "relation");
+    }
+    return isFieldCollectionValid(fields);
+  };
 });
