@@ -4,14 +4,15 @@
       <span class="glyphicon glyphicon-search">
       </span>
     </span>
-    <input type="search" ng-model="search.$" class="form-control" placeholder="Søk etter bruker">
+    <input type="search" ng-model="search.$" class="form-control medium-width-limit"
+           placeholder="Søk etter bruker">
   </div>
 
   <div class="loading-spinner" ng-show="loadingPatients"></div>
   <alert ng-if="serverError" type="danger" class="marginTop10">Serverfeil: Kunne ikke laste inn brukere</alert>
   <alert ng-show="!loadingPatients && 0 === filteredPatients.length" class="marginTop10">Ingen søkeresultater</alert>
 
-  <table class="table table-bordered table-striped table-hover table-responsive marginTop10 table-medium-width-limit"
+  <table class="table table-bordered table-striped table-hover table-responsive marginTop10 medium-width-limit"
          ng-show="patients.length && filteredPatients.length && search.$">
     <tr>
       <th>Navn</th>

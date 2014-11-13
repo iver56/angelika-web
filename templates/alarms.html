@@ -4,7 +4,7 @@
     <span class="glyphicon glyphicon-ok"></span> Ingen varsler
   </alert>
   <alert ng-repeat="alert in alerts" type="{{ alert.type }}" close="closeAlert($index)">{{ alert.msg }}</alert>
-  <table class="table table-bordered table-striped table-hover table-responsive table-medium-width-limit"
+  <table class="table table-bordered table-striped table-hover table-responsive medium-width-limit"
          ng-show="alarms.length">
     <tr>
       <th>Navn</th>
