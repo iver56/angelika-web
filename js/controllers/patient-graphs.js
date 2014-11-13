@@ -46,7 +46,8 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg,
   var commonChartConfig = {
     options: {
       chart: {
-        type: 'spline'
+        type: 'spline',
+        zoomType: 'x'
       },
       credits: {
         enabled: false
