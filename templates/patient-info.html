@@ -17,7 +17,8 @@
         <tr>
           <td>Telefonnummer</td>
           <td>
-            <a ng-if="patient.phone_number" ng-href="tel:{{ patient.phone_number | nospace }}">
+            <a ng-if="patient.phone_number" ng-href="tel:{{ patient.phone_number | nospace }}"
+               class="inherit-fore-color">
               {{ patient.phone_number }}
             </a>
             <i ng-if="!patient.phone_number">Ikke spesifisert</i>
@@ -51,7 +52,10 @@
           {{ contact.full_name }} <span class="label label-info" ng-show="contact.relation">{{ contact.relation }}</span>
         </p>
         <p class="list-group-item-text" ng-show="contact.phone_number">
-          <span class="glyphicon glyphicon-earphone"></span> {{ contact.phone_number }}
+          <span class="glyphicon glyphicon-earphone"></span>
+          <a ng-href="tel:{{ contact.phone_number | nospace }}" class="inherit-fore-color">
+            {{ contact.phone_number }}
+          </a>
         </p>
         <p class="list-group-item-text" ng-show="contact.address">
           <span class="glyphicon glyphicon-map-marker"></span>
