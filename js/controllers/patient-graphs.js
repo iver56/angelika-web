@@ -37,7 +37,9 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg,
       $scope.graphWidth = getGraphWidth(width);
       $scope.graphHeight = getGraphHeight(height);
       setChartDimensions();
-      $scope.$apply();
+      if (!$scope.$$phase) {
+        $scope.$apply();
+      }
     });
   });
 
@@ -195,7 +197,7 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg,
     config.series[0].data = [
       {x: 0, y: 0}
     ];
-    if(!$scope.$$phase) {
+    if (!$scope.$$phase) {
       $scope.$apply();
     }
     $timeout(function() {
