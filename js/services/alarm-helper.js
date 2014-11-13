@@ -2,7 +2,7 @@ angelikaServices.service('AlarmHelper', function() {
   this.measurementType = {
     A: 'aktivitet',
     C: 'Ring meg',
-    O: 'O2-metning',
+    O: 'O₂-metning',
     P: 'puls',
     T: 'temperatur'
   };

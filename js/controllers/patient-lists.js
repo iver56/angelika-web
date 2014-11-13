@@ -1,44 +1,42 @@
-angelikaControllers.controller('PatientListsCtrl', function($scope, DateTimeHelper) {
+angelikaControllers.controller('PatientListsCtrl', function($scope, DateTimeHelper, AlarmHelper) {
+  $scope.measurementType = AlarmHelper.measurementType;
+  $scope.measurementTypeUnit = AlarmHelper.measurementTypeUnit;
   $scope.lists = [
     {
-      header: 'O2-metning',
+      type: 'O',
       data: [],
       loading: true,
       loadingFailed: false,
       showThresholdValues: true,
       dateFormat: 'dd.M.yyyy kl. H.mm',
-      limitTo: 15,
-      unit: '%'
+      limitTo: 15
     },
     {
-      header: 'Puls',
+      type: 'P',
       data: [],
       loading: true,
       loadingFailed: false,
       showThresholdValues: true,
       dateFormat: 'dd.M.yyyy kl. H.mm',
-      limitTo: 15,
-      unit: 'slag/min'
+      limitTo: 15
     },
     {
-      header: 'Temperatur',
+      type: 'T',
       data: [],
       loading: true,
       loadingFailed: false,
       showThresholdValues: true,
       dateFormat: 'dd.M.yyyy kl. H.mm',
-      limitTo: 15,
-      unit: '°C'
+      limitTo: 15
     },
     {
-      header: 'Aktivitet',
+      type: 'A',
       data: [],
       loading: true,
       loadingFailed: false,
       showThresholdValues: false,
       dateFormat: 'dd.M.yyyy',
-      limitTo: 15,
-      unit: 'skritt/dag'
+      limitTo: 15
     }
   ];
 
@@ -48,10 +46,10 @@ angelikaControllers.controller('PatientListsCtrl', function($scope, DateTimeHelp
 
   $scope.shouldShow = function(list) {
     if ($scope.patient) {
-      if ('O2-metning' === list.header && $scope.patient.show_o2
-        || 'Puls' === list.header && $scope.patient.show_pulse
-        || 'Temperatur' === list.header && $scope.patient.show_temperature
-        || 'Aktivitet' === list.header && $scope.patient.show_activity) {
+      if ('O' === list.type && $scope.patient.show_o2
+        || 'P' === list.type && $scope.patient.show_pulse
+        || 'T' === list.type && $scope.patient.show_temperature
+        || 'A' === list.type && $scope.patient.show_activity) {
         return true;
       }
     }
@@ -62,19 +60,19 @@ angelikaControllers.controller('PatientListsCtrl', function($scope, DateTimeHelp
     if (!$scope.patient) {
       return null;
     }
-    if ('O2-metning' === list.header) {
+    if ('O' === list.type) {
       if (isUpperThreshold) {
         return $scope.patient.o2_max;
       } else {
         return $scope.patient.o2_min;
       }
-    } else if ('Puls' === list.header) {
+    } else if ('P' === list.type) {
       if (isUpperThreshold) {
         return $scope.patient.pulse_max;
       } else {
         return $scope.patient.pulse_min;
       }
-    } else if ('Temperatur' === list.header) {
+    } else if ('T' === list.type) {
       if (isUpperThreshold) {
         return $scope.patient.temperature_max;
       } else {

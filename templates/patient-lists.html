@@ -7,10 +7,10 @@
             'col-md-6': 2 === filteredLists.length,
             'col-md-12': 1 === filteredLists.length
            }">
-      <h2>{{ list.header }}</h2>
+      <h2>{{ measurementType[list.type] | capitalize }}</h2>
       <div ng-if="list.showThresholdValues" class="marginBottom10">
         Nåværende normalverdier:
-        {{ getThresholdValue(list, false) }}-{{ getThresholdValue(list, true) }} {{ list.unit }}
+        {{ getThresholdValue(list, false) }}-{{ getThresholdValue(list, true) }} {{ measurementTypeUnit[list.type] }}
       </div>
 
       <div class="panel panel-default panel-body"
