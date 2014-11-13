@@ -8,7 +8,9 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, L
     show_activity: true,
     show_o2: true,
     show_pulse: true,
-    show_temperature: true
+    show_temperature: true,
+    motivation_texts: [],
+    information_texts: []
   };
   $scope.patientBeforeChanges = {
     o2_min: null,
@@ -194,5 +196,29 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, L
 
   $scope.closeAlert = function(index) {
     $scope.alerts.splice(index, 1);
+  };
+
+  $scope.setFormScope = function(scope) {
+    $scope.formScope = scope;
+  };
+
+  function isFieldCollectionValid(fields) {
+    if ($scope.formScope) {
+      for (var i = 0; i < fields.length; i++) {
+        if (!$scope.formScope.patientForm[fields[i]].$valid) {
+          return false;
+        }
+      }
+      return true;
+    }
+    return null;
+  }
+
+  $scope.isInfoTabValid = function() {
+    return isFieldCollectionValid(['firstName', 'lastName', 'nationalIdentificationNumber']);
+  };
+
+  $scope.isThresholdValuesTabValid = function() {
+    return isFieldCollectionValid(['o2Min', 'o2Max', 'pulseMin', 'pulseMax', 'temperatureMin', 'temperatureMax']);
   };
 });

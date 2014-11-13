@@ -1,13 +1,17 @@
-<form name="patientForm" novalidate>
+<form name="patientForm" novalidate ng-init="setFormScope(this)">
 <fieldset ng-disabled="posting">
 <tabset type="pills" justified="true">
-<tab heading="Informasjon om bruker">
+<tab>
+  <tab-heading>
+    Informasjon om bruker
+    <i class="glyphicon glyphicon-exclamation-sign red-fore-color" ng-hide="isInfoTabValid()"></i>
+  </tab-heading>
   <div class="panel panel-default panel-body">
     <label>Fornavn</label>
 
     <div class="row">
       <div class="col-md-3">
-        <input type="text" ng-model="patient.user.first_name" class="form-control" required>
+        <input type="text" ng-model="patient.user.first_name" class="form-control" required name="firstName">
       </div>
     </div>
 
@@ -15,7 +19,7 @@
 
     <div class="row">
       <div class="col-md-3">
-        <input type="text" ng-model="patient.user.last_name" class="form-control" required>
+        <input type="text" ng-model="patient.user.last_name" class="form-control" required name="lastName">
       </div>
     </div>
 
@@ -25,7 +29,8 @@
       <div class="col-md-3">
         <input type="text" ng-model="patient.national_identification_number" class="form-control"
                required ng-minlength="11" ng-maxlength="11"
-               ng-pattern="/^(0[1-9]|[12]\d|3[01])(0[1-9]|1[012])\d{7}$/">
+               ng-pattern="/^(0[1-9]|[12]\d|3[01])(0[1-9]|1[012])\d{7}$/"
+               name="nationalIdentificationNumber">
       </div>
     </div>
 
@@ -33,7 +38,7 @@
 
     <div class="row">
       <div class="col-md-3">
-        <input type="text" ng-model="patient.phone_number" class="form-control">
+        <input type="text" ng-model="patient.phone_number" class="form-control" maxlength="14">
       </div>
     </div>
 
@@ -41,7 +46,7 @@
 
     <div class="row">
       <div class="col-md-3">
-        <input type="text" ng-model="patient.address" class="form-control">
+        <input type="text" ng-model="patient.address" class="form-control" maxlength="255">
       </div>
     </div>
 
@@ -49,7 +54,8 @@
 
     <div class="row">
       <div class="col-md-3">
-        <input type="text" ng-model="patient.zip_code" class="form-control" ng-minlength="4" ng-maxlength="4">
+        <input type="text" ng-model="patient.zip_code" class="form-control"
+               ng-minlength="4" ng-maxlength="4" maxlength="4">
       </div>
     </div>
 
@@ -57,13 +63,17 @@
 
     <div class="row">
       <div class="col-md-3">
-        <input type="text" ng-model="patient.city" class="form-control">
+        <input type="text" ng-model="patient.city" class="form-control" maxlength="120">
       </div>
     </div>
   </div>
 </tab>
 
-<tab heading="Normalverdier">
+<tab>
+  <tab-heading>
+    Normalverdier
+    <i class="glyphicon glyphicon-exclamation-sign red-fore-color" ng-hide="isThresholdValuesTabValid()"></i>
+  </tab-heading>
   <div class="panel panel-default panel-body">
     <p>Det generes varsler hvis verdiene går utenfor disse grenseverdiene</p>
 
@@ -74,14 +84,14 @@
       <div class="col-md-3">
         <label class="control-label">Min (%)</label>
         <input type="number" ng-model="patient.o2_min" class="form-control"
-               min="0" max="{{ patient.o2_max }}" required>
+               min="0" max="{{ patient.o2_max }}" required name="o2Min">
       </div>
       <div class="col-md-3">
         <label class="control-label">Maks (%)</label>
         <input type="number" ng-model="patient.o2_max" class="form-control"
                min="{{ patient.o2_min }}" max="100" required
                popover="Unntak: det genereres ikke varsler for O₂-målinger som går over denne verdien"
-               popover-trigger="focus">
+               popover-trigger="focus" name="o2Max">
       </div>
     </div>
     <div class="row">
@@ -91,12 +101,12 @@
       <div class="col-md-3">
         <label class="control-label">Min (slag/min.)</label>
         <input type="number" ng-model="patient.pulse_min" class="form-control"
-               min="0" max="{{ patient.pulse_max }}" required>
+               min="0" max="{{ patient.pulse_max }}" required name="pulseMin">
       </div>
       <div class="col-md-3">
         <label class="control-label">Maks (slag/min.)</label>
         <input type="number" ng-model="patient.pulse_max" class="form-control"
-               min="{{ patient.pulse_min }}" max="240" required>
+               min="{{ patient.pulse_min }}" max="240" required name="pulseMax">
       </div>
     </div>
     <div class="row">
@@ -106,12 +116,12 @@
       <div class="col-md-3">
         <label class="control-label">Min (°C)</label>
         <input type="number" ng-model="patient.temperature_min" class="form-control"
-               min="0" max="{{ patient.temperature_max }}" required>
+               min="0" max="{{ patient.temperature_max }}" required name="temperatureMin">
       </div>
       <div class="col-md-3">
         <label class="control-label">Maks (°C)</label>
         <input type="number" ng-model="patient.temperature_max" class="form-control"
-               min="{{ patient.temperature_min }}" max="100" required>
+               min="{{ patient.temperature_min }}" max="100" required name="temperatureMax">
       </div>
     </div>
   </div>
