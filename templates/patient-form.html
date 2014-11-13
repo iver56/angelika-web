@@ -8,23 +8,22 @@
   </tab-heading>
   <div class="panel panel-default panel-body">
     <label>Fornavn</label>
-
     <div class="row">
       <div class="col-md-3">
-        <input type="text" ng-model="patient.user.first_name" class="form-control" required name="firstName">
+        <input type="text" ng-model="patient.user.first_name" class="form-control" required name="firstName"
+               ng-minlength="2">
       </div>
     </div>
 
     <label>Etternavn</label>
-
     <div class="row">
       <div class="col-md-3">
-        <input type="text" ng-model="patient.user.last_name" class="form-control" required name="lastName">
+        <input type="text" ng-model="patient.user.last_name" class="form-control" required name="lastName"
+               ng-minlength="2">
       </div>
     </div>
 
     <label>Fødselsnummer</label>
-
     <div class="row">
       <div class="col-md-3">
         <input type="text" ng-model="patient.national_identification_number" class="form-control"
@@ -35,15 +34,14 @@
     </div>
 
     <label>Telefonnummer</label>
-
     <div class="row">
       <div class="col-md-3">
-        <input type="tel" ng-model="patient.phone_number" class="form-control" maxlength="14">
+        <input type="tel" ng-model="patient.phone_number" class="form-control" maxlength="14"
+               ng-pattern="/^[0-9+\(\)#\.\s\/ext-]+$/" ng-minlength="3">
       </div>
     </div>
 
     <label>Adresse</label>
-
     <div class="row">
       <div class="col-md-3">
         <input type="text" ng-model="patient.address" class="form-control" maxlength="255">
@@ -51,7 +49,6 @@
     </div>
 
     <label>Postnummer</label>
-
     <div class="row">
       <div class="col-md-3">
         <input type="text" ng-model="patient.zip_code" class="form-control"
@@ -60,7 +57,6 @@
     </div>
 
     <label>Poststed</label>
-
     <div class="row">
       <div class="col-md-3">
         <input type="text" ng-model="patient.city" class="form-control" maxlength="120">
@@ -218,21 +214,21 @@
         <label>
           Navn
           <input type="text" ng-model="contact.full_name" class="form-control" required maxlength="160"
-                 name="contact[{{ $index }}].fullName">
+                 name="contact[{{ $index }}].fullName" ng-minlength="2">
         </label>
       </div>
       <div class="form-group">
         <label>
           Telefon
           <input type="tel" ng-model="contact.phone_number" class="form-control" required maxlength="16"
-                 name="contact[{{ $index }}].phoneNumber">
+                 name="contact[{{ $index }}].phoneNumber" ng-pattern="/^[0-9+\(\)#\.\s\/ext-]+$/" ng-minlength="3">
         </label>
       </div>
       <div class="form-group">
         <label>
           Rolle
           <input type="text" ng-model="contact.relation" class="form-control" required maxlength="40"
-                 name="contact[{{ $index }}].relation">
+                 name="contact[{{ $index }}].relation" ng-minlength="2">
         </label>
       </div>
       <div class="form-group">
