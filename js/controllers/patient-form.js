@@ -203,7 +203,7 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, L
   };
 
   function isFieldCollectionValid(fields) {
-    if ($scope.formScope) {
+    if ($scope.formScope && $scope.formScope.patientForm) {
       for (var i = 0; i < fields.length; i++) {
         if ($scope.formScope.patientForm[fields[i]] && !$scope.formScope.patientForm[fields[i]].$valid) {
           return false;
