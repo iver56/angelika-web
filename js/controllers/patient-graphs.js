@@ -273,8 +273,9 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg,
       setPointAppearance(heartRateData[i]);
     }
     $scope.chartHeartRateConfig.series[0].data = heartRateData;
-    addBackgroundColors($scope.chartHeartRateConfig, heartRateDataAPI.lower_threshold_values, heartRateDataAPI.upper_threshold_values, 0, 1000);
-    checkYAxisRange($scope.chartHeartRateConfig, heartRateDataAPI.lower_threshold_values, heartRateDataAPI.upper_threshold_values);
+    addBackgroundColors($scope.chartHeartRateConfig, heartRateDataAPI.lower_threshold_values, heartRateDataAPI.upper_threshold_values, 0, 300);
+    var roof = 200; // heart rate above 200 is unlikely for our users
+    checkYAxisRange($scope.chartHeartRateConfig, heartRateDataAPI.lower_threshold_values, heartRateDataAPI.upper_threshold_values, roof);
   }
 
   function showTemperatureData(temperatureDataAPI) {
@@ -428,6 +429,12 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg,
     config.series[3].data = lowArea;
   }
 
+  /**
+   * @param config
+   * @param lower_threshold_values
+   * @param upper_threshold_values
+   * @param roof (the max y value won't exceed this value)
+   */
   function checkYAxisRange(config, lower_threshold_values, upper_threshold_values, roof) {
     if (!lower_threshold_values.length || !upper_threshold_values) {
       return;
@@ -446,15 +453,16 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg,
         belowMin = true;
       }
     }
-
     var yAxisInterval = (max - min) / 10;
-    if (typeof roof !== 'undefined') {
-      config.options.yAxis.max = roof;
-    } else if (aboveMax) {
-      config.options.yAxis.max = extremeValues.highest + yAxisInterval;
-    } else {
-      config.options.yAxis.max = (max + yAxisInterval);
+    var determinedMax = max;
+    if (aboveMax) {
+      determinedMax = extremeValues.highest;
     }
+    determinedMax += yAxisInterval;
+    if (typeof roof !== 'undefined' && determinedMax > roof) {
+      determinedMax = roof;
+    }
+    config.options.yAxis.max = determinedMax;
 
     if (belowMin) {
       config.options.yAxis.min = extremeValues.lowest - yAxisInterval;
