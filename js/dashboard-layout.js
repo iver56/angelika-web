@@ -15,7 +15,7 @@ dashboardLayout = new GoldenLayout({
     minItemHeight: 200,
     dragProxyWidth: 500,
     dragProxyHeight: 300,
-    headerHeight: 30
+    headerHeight: 42
   },
   content: [
     {
@@ -63,6 +63,7 @@ dashboardLayout.registerComponent('template', function(container, state) {
     + '></div>';
 
   if (state.patientId) {
+    container.setTitle('<span class="glyphicon glyphicon-user"></span> ' + container._config.title);
     container.on('resize', function() {
       if (container.width > 0 && container.height > 0) {
         dashboardLayout.emit('resizePatient' + state.patientId, container.width, container.height);

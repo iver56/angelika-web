@@ -6,32 +6,6 @@
   color: #3D8A36;
 }
 
-div.lm_content {
-  overflow-y: auto;
-  background-color: white;
-}
-
-li.lm_active {
-  color: #fff !important;
-  background-color: #428BCA !important;
-  box-shadow: none !important;
-}
-
-li.lm_active .lm_close_tab {
-  color: white !important;
-}
-
-.lm_item .lm_header .lm_tab {
-  border-radius: 4px 4px 0 0;
-  height: 24px !important;
-  line-height: 26px;
-  font-size: 14px !important;
-}
-
-.lm_header .lm_tab .lm_close_tab {
-  top: 9px !important;
-}
-
 ul.nav-tabs li, ul.nav-pills li {
   cursor: pointer;
 }
@@ -69,10 +43,6 @@ form[name=patientForm] .ng-invalid.ng-dirty.form-control:focus {
 div.component {
   position: relative;
   height: 100%;
-}
-
-.lm_dropTargetIndicator {
-  z-index: 3 !important;
 }
 
 .alarms-badge {
