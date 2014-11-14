@@ -16,7 +16,7 @@
          ng-show="patients.length && filteredPatients.length && search.$">
     <tr>
       <th>Navn</th>
-      <th>Personnummer</th>
+      <th>Fødselsnummer</th>
       <th>Alder</th>
     </tr>
     <tr ng-repeat="patient in filteredPatients = (patients | filter:search)"
