@@ -37,7 +37,8 @@ angelikaServices.service('LayoutUtils', function() {
       title: 'Ny bruker',
       componentState: {
         template: 'patient-form.html',
-        controller: 'PatientFormCtrl'
+        controller: 'PatientFormCtrl',
+        padding: true
       }
     }
   };

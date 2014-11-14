@@ -56,7 +56,7 @@ dashboardLayout.registerComponent('template', function(container, state) {
     console.error('state.controller must be specified and must be a string');
   }
 
-  var templateHtml = '<div class="component"'
+  var templateHtml = '<div class="component' + (state.padding ? ' medium-padding' : '') + '"'
     + ' ng-include="\'templates/' + state.template + '\'"'
     + ' ng-controller="' + state.controller + '"'
     + (state.patientId ? ' ng-init="patientId = ' + state.patientId + '; init()"' : '')
