@@ -76,6 +76,14 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, L
     });
   };
 
+  function setProperties(source, destination) {
+    for (var property in source) {
+      if (source.hasOwnProperty(property) && destination.hasOwnProperty(property)) {
+        destination[property] = source[property];
+      }
+    }
+  }
+
   $scope.save = function() {
     var changedThresholdValues = getChangedThresholdValues();
     if (changedThresholdValues) {
@@ -94,15 +102,12 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, L
     }
     $http[method](url, $scope.patient)
       .success(function(patient) {
-        for (var property in patient) {
-          if (patient.hasOwnProperty(property) && $scope.patient.hasOwnProperty(property)) {
-            $scope.patient[property] = patient[property];
-          }
-        }
+        setProperties(patient, $scope.patient);
 
         if ('patch' === method) {
           var fullName = patient.user.first_name + " " + patient.user.last_name;
           activeContentItem.setTitle(fullName);
+          $scope.patientBeforeChanges = angular.copy($scope.patient);
         } else {
           // A new patient has been created
           activeContentItem.remove();
@@ -111,6 +116,7 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, L
 
         dashboardLayout.emit('patientsChanged');
         $scope.addSuccessAlert();
+        $scope.formScope.patientForm.$setPristine();
         $scope.posting = false;
       })
       .error(function(data) {
@@ -232,5 +238,20 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, L
       fields.push(prefix + "relation");
     }
     return isFieldCollectionValid(fields);
+  };
+
+  $scope.resetForm = function() {
+    if (confirm('Dette vil tilbakestille skjemaet til tilstanden det var i forrige gang det ble lagret. Er du sikker?')) {
+      setProperties($scope.patientBeforeChanges, $scope.patient);
+      $scope.formScope.patientForm.$setPristine();
+    }
+  };
+
+  $scope.closeTab = function() {
+    var isConfirmNeeded = $scope.formScope.patientForm.$dirty;
+    if (!isConfirmNeeded || confirm('Dette lukke fanen, og du vil miste data du har skrevet inn. Er du sikker?')) {
+      var activeContentItem = dashboardLayout.getPatientParentComponent().getActiveContentItem();
+      activeContentItem.remove();
+    }
   };
 });

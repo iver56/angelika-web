@@ -260,8 +260,20 @@
 <br>
 <alert ng-repeat="alert in alerts" type="{{ alert.type }}" close="closeAlert($index)">{{ alert.msg }}</alert>
 <button class="btn btn-primary btn-lg marginBottom20"
-        ng-click="validateForm(patientForm.$valid) && save()">
-  <span class="glyphicon glyphicon-ok"></span> Lagre
+        ng-click="validateForm(patientForm.$valid) && save()"
+        ng-disabled="patientForm.$pristine">
+  <span class="glyphicon glyphicon-floppy-disk"></span> Lagre
+</button>
+<button class="btn btn-warning btn-lg marginBottom20"
+        ng-click="resetForm()"
+        ng-if="patientBeforeChanges.id"
+        ng-disabled="patientForm.$pristine">
+  <span class="glyphicon glyphicon-remove"></span> Tilbakestill
+</button>
+<button class="btn btn-warning btn-lg marginBottom20"
+        ng-click="closeTab()"
+        ng-if="!patientBeforeChanges.id">
+  <span class="glyphicon glyphicon-remove"></span> Avbryt
 </button>
 <div class="loading-spinner loading-spinner-small" ng-show="posting"></div>
 </fieldset>
