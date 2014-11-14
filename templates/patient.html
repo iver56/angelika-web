@@ -4,15 +4,15 @@
     <div class="medium-padding" ng-show="!loadingPatient && !patient">
       <alert type="danger">Kunne ikke laste inn data</alert>
     </div>
-    <div class="medium-padding" ng-include="'templates/patient-info.html'" ng-show="!loadingPatient && patient"></div>
+    <div ng-include="'templates/patient-info.html'" ng-show="!loadingPatient && patient"></div>
   </tab>
   <tab heading="Grafer" ng-controller="PatientGraphsCtrl" select="tabSelected()">
-    <div class="medium-padding" ng-include="'templates/patient-graphs.html'"></div>
+    <div ng-include="'templates/patient-graphs.html'"></div>
   </tab>
   <tab heading="Lister" ng-controller="PatientListsCtrl">
-    <div class="medium-padding" ng-include="'templates/patient-lists.html'"></div>
+    <div ng-include="'templates/patient-lists.html'"></div>
   </tab>
   <tab heading="Rediger" ng-controller="PatientFormCtrl" select="closeAlert(0)">
-    <div class="medium-padding" ng-include="'templates/patient-form.html'"></div>
+    <div ng-include="'templates/patient-form.html'"></div>
   </tab>
 </tabset>

@@ -1,12 +1,13 @@
-<form name="patientForm" novalidate ng-init="setFormScope(this)" class="medium-padding">
+<form name="patientForm" novalidate ng-init="setFormScope(this)">
 <fieldset ng-disabled="posting">
-<tabset type="pills" justified="true">
+<tabset justified="true" class="marginTop10">
 <tab>
   <tab-heading>
     Informasjon om bruker
-    <i class="glyphicon glyphicon-exclamation-sign red-fore-color" ng-hide="isInfoTabValid()"></i>
+    <i class="glyphicon glyphicon-exclamation-sign red-fore-color"
+       ng-class="{'visibility-hidden': isInfoTabValid()}"></i>
   </tab-heading>
-  <div class="panel panel-default panel-body">
+  <div class="panel panel-default panel-body tab-panel">
     <label>Fornavn</label>
     <div class="row">
       <div class="col-md-3">
@@ -68,9 +69,10 @@
 <tab>
   <tab-heading>
     Normalverdier
-    <i class="glyphicon glyphicon-exclamation-sign red-fore-color" ng-hide="isThresholdValuesTabValid()"></i>
+    <i class="glyphicon glyphicon-exclamation-sign red-fore-color"
+       ng-class="{'visibility-hidden': isThresholdValuesTabValid()}"></i>
   </tab-heading>
-  <div class="panel panel-default panel-body">
+  <div class="panel panel-default panel-body tab-panel">
     <p>Det generes varsler hvis verdiene går utenfor disse grenseverdiene</p>
 
     <div class="row">
@@ -125,7 +127,7 @@
 </tab>
 
 <tab heading="Synlige målinger">
-  <div class="panel panel-default panel-body">
+  <div class="panel panel-default panel-body tab-panel">
     <div class="col-md-6">
       <h3>Synlig for bruker</h3>
 
@@ -162,7 +164,7 @@
 </tab>
 
 <tab heading="Meldinger til bruker">
-  <div class="panel panel-default panel-body">
+  <div class="panel panel-default panel-body tab-panel">
     <h3>Motiverende tekster</h3>
 
     <div ng-repeat="motivationalText in patient.motivation_texts">
@@ -204,9 +206,10 @@
 <tab>
   <tab-heading>
     Pårørende
-    <i class="glyphicon glyphicon-exclamation-sign red-fore-color" ng-hide="isNextOfKinTabValid()"></i>
+    <i class="glyphicon glyphicon-exclamation-sign red-fore-color"
+       ng-class="{'visibility-hidden': isNextOfKinTabValid()}"></i>
   </tab-heading>
-  <div class="panel panel-default panel-body">
+  <div class="panel panel-default panel-body tab-panel">
     <div class="panel panel-default panel-body" ng-repeat="contact in patient.next_of_kin">
       <h4 ng-show="$index === 0"><span class="glyphicon glyphicon-star"></span> Hovedpårørende</h4>
       <h4 ng-hide="$index === 0">Pårørende</h4>

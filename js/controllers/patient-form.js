@@ -216,9 +216,8 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, L
           return false;
         }
       }
-      return true;
     }
-    return null;
+    return true;
   }
 
   $scope.isInfoTabValid = function() {

@@ -73,3 +73,9 @@ h1 {
 .borderless tbody tr td, .borderless thead tr th {
   border: none !important;
 }
+
+.tab-panel {
+  border-top: none !important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
