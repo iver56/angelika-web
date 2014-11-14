@@ -22,11 +22,14 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, L
     temperature_max: null
   };
 
+  $scope.isReady = true;
   // getPatient is inherited from the parent scope (PatientCtrl). Available only if the patient already exists.
   if ($scope.getPatient) {
+    $scope.isReady = false;
     $scope.getPatient().then(function(patient) {
       $scope.patient = patient;
       $scope.patientBeforeChanges = angular.copy(patient);
+      $scope.isReady = true;
     });
   }
 
@@ -210,7 +213,7 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, L
   };
 
   function isFieldCollectionValid(fields) {
-    if ($scope.formScope && $scope.formScope.patientForm) {
+    if ($scope.formScope && $scope.formScope.patientForm && $scope.isReady) {
       for (var i = 0; i < fields.length; i++) {
         if ($scope.formScope.patientForm[fields[i]] && !$scope.formScope.patientForm[fields[i]].$valid) {
           return false;
