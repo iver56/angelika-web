@@ -1,18 +1,34 @@
 <tabset class="medium-padding">
-  <tab heading="Info" ng-controller="PatientInfoCtrl">
+  <tab ng-controller="PatientInfoCtrl">
+    <tab-heading>
+      <i class="glyphicon glyphicon-info-sign"></i>
+      Info
+    </tab-heading>
     <div class="loading-spinner" ng-show="loadingPatient"></div>
     <div class="medium-padding" ng-show="!loadingPatient && !patient">
       <alert type="danger">Kunne ikke laste inn data</alert>
     </div>
     <div ng-include="'templates/patient-info.html'" ng-show="!loadingPatient && patient"></div>
   </tab>
-  <tab heading="Grafer" ng-controller="PatientGraphsCtrl" select="tabSelected()">
+  <tab ng-controller="PatientGraphsCtrl" select="tabSelected()">
+    <tab-heading>
+      <i class="glyphicon glyphicon-stats"></i>
+      Grafer
+    </tab-heading>
     <div ng-include="'templates/patient-graphs.html'"></div>
   </tab>
-  <tab heading="Lister" ng-controller="PatientListsCtrl">
+  <tab ng-controller="PatientListsCtrl">
+    <tab-heading>
+      <i class="glyphicon glyphicon-list"></i>
+      Lister
+    </tab-heading>
     <div ng-include="'templates/patient-lists.html'"></div>
   </tab>
-  <tab heading="Rediger" ng-controller="PatientFormCtrl" select="closeAlert(0)">
+  <tab ng-controller="PatientFormCtrl" select="closeAlert(0)">
+    <tab-heading>
+      <i class="glyphicon glyphicon-edit"></i>
+      Rediger
+    </tab-heading>
     <div ng-include="'templates/patient-form.html'"></div>
   </tab>
 </tabset>
