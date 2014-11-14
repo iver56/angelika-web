@@ -7,7 +7,8 @@ dashboardLayout = new GoldenLayout({
   },
   settings: {
     showPopoutIcon: false,
-    showMaximiseIcon: false
+    showMaximiseIcon: false,
+    showCloseIcon: false
   },
   dimensions: {
     minItemWidth: 370,
