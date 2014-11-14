@@ -5,6 +5,10 @@ dashboardLayout = new GoldenLayout({
     minimise: 'Minimer',
     popout: 'Åpne i nytt vindu'
   },
+  settings: {
+    showPopoutIcon: false,
+    showMaximiseIcon: false
+  },
   dimensions: {
     minItemWidth: 370,
     minItemHeight: 200,
