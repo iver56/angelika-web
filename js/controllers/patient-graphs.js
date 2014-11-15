@@ -1,14 +1,5 @@
-angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg, $element, $modal, $timeout) {
+angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg, $element, $modal, $timeout, ChartHelper) {
   $scope.chartRange = {days: 7};
-
-  function getGraphWidth(containerWidth) {
-    return containerWidth - 40;
-  }
-
-  function getGraphHeight(containerHeight) {
-    return Math.min(Math.max(250, Math.floor(containerHeight * 0.45)), 400);
-  }
-
   $scope.container = $($element).closest('.lm_content');
 
   function setChartDimensions() {
@@ -27,15 +18,15 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg,
   });
 
   $scope.tabSelected = function() {
-    $scope.graphWidth = getGraphWidth($scope.container.width());
-    $scope.graphHeight = getGraphHeight($scope.container.height());
+    $scope.graphWidth = ChartHelper.getGraphWidth($scope.container.width());
+    $scope.graphHeight = ChartHelper.getGraphHeight($scope.container.height());
     setChartDimensions();
   };
 
   $scope.getPatientId().then(function(patientId) {
     dashboardLayout.on('resizePatient' + patientId, function(width, height) {
-      $scope.graphWidth = getGraphWidth(width);
-      $scope.graphHeight = getGraphHeight(height);
+      $scope.graphWidth = ChartHelper.getGraphWidth(width);
+      $scope.graphHeight = ChartHelper.getGraphHeight(height);
       setChartDimensions();
       if (!$scope.$$phase) {
         $scope.$apply();
@@ -144,8 +135,6 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg,
   // Y-axis max
   $scope.chartO2Config.options.yAxis.max = 100;
 
-  var alertIconUrl = 'url(../../img/alert-icon.png)';
-
   $scope.handleAlarm = function(alarm) {
     $http.get(cfg.apiUrl + "/alarms/" + alarm.id + "/")
       .success(function(data) {
@@ -240,52 +229,36 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg,
     });
   };
 
-  function setPointAppearance(point) {
-    if (point.alarm) {
-      point.color = '#BF0B23';
-      if (!point.alarm.is_treated) {
-        point.events = {
-          click: function(e) {
-            $scope.handleAlarm(e.currentTarget.alarm);
-          }
-        };
-        point.marker = {
-          symbol: alertIconUrl
-        };
-      }
-    }
-  }
-
   var showO2Data = function(o2DataAPI) {
     var o2Data = o2DataAPI.measurements;
     for (var i = 0; i < o2Data.length; i++) {
-      setPointAppearance(o2Data[i]);
+      ChartHelper.setPointAppearance(o2Data[i], $scope.handleAlarm);
     }
     $scope.chartO2Config.series[0].data = o2Data;
-    addBackgroundColors($scope.chartO2Config, o2DataAPI.lower_threshold_values, o2DataAPI.upper_threshold_values, 0, 100);
+    ChartHelper.addBackgroundColors($scope.chartO2Config, o2DataAPI.lower_threshold_values, o2DataAPI.upper_threshold_values, 0, 100);
     var roof = 100; // O2 never goes above 100%
-    checkYAxisRange($scope.chartO2Config, o2DataAPI.lower_threshold_values, o2DataAPI.upper_threshold_values, roof);
+    ChartHelper.checkYAxisRange($scope.chartO2Config, o2DataAPI.lower_threshold_values, o2DataAPI.upper_threshold_values, roof);
   };
 
   function showHeartRateData(heartRateDataAPI) {
     var heartRateData = heartRateDataAPI.measurements;
     for (var i = 0; i < heartRateData.length; i++) {
-      setPointAppearance(heartRateData[i]);
+      ChartHelper.setPointAppearance(heartRateData[i], $scope.handleAlarm);
     }
     $scope.chartHeartRateConfig.series[0].data = heartRateData;
-    addBackgroundColors($scope.chartHeartRateConfig, heartRateDataAPI.lower_threshold_values, heartRateDataAPI.upper_threshold_values, 0, 300);
+    ChartHelper.addBackgroundColors($scope.chartHeartRateConfig, heartRateDataAPI.lower_threshold_values, heartRateDataAPI.upper_threshold_values, 0, 300);
     var roof = 200; // heart rate above 200 is unlikely for our users
-    checkYAxisRange($scope.chartHeartRateConfig, heartRateDataAPI.lower_threshold_values, heartRateDataAPI.upper_threshold_values, roof);
+    ChartHelper.checkYAxisRange($scope.chartHeartRateConfig, heartRateDataAPI.lower_threshold_values, heartRateDataAPI.upper_threshold_values, roof);
   }
 
   function showTemperatureData(temperatureDataAPI) {
     var temperatureData = temperatureDataAPI.measurements;
     for (var i = 0; i < temperatureData.length; i++) {
-      setPointAppearance(temperatureData[i]);
+      ChartHelper.setPointAppearance(temperatureData[i], $scope.handleAlarm);
     }
     $scope.chartTempConfig.series[0].data = temperatureData;
-    addBackgroundColors($scope.chartTempConfig, temperatureDataAPI.lower_threshold_values, temperatureDataAPI.upper_threshold_values, 0, 100);
-    checkYAxisRange($scope.chartTempConfig, temperatureDataAPI.lower_threshold_values, temperatureDataAPI.upper_threshold_values);
+    ChartHelper.addBackgroundColors($scope.chartTempConfig, temperatureDataAPI.lower_threshold_values, temperatureDataAPI.upper_threshold_values, 0, 100);
+    ChartHelper.checkYAxisRange($scope.chartTempConfig, temperatureDataAPI.lower_threshold_values, temperatureDataAPI.upper_threshold_values);
   }
 
   function showActivityData(activityDataAPI) {
@@ -321,202 +294,4 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg,
   };
 
   $scope.updateChartRange();
-
-  function addBackgroundColors(config, minValues, maxValues, floor, roof) {
-    if (!minValues.length || !maxValues.length) {
-      return;
-    }
-
-    // High, red area
-    if (maxValues) {
-      var highArea = [];
-      for (var i = 0; i < maxValues.length; i++) {
-        highArea.push([
-          maxValues[i].x, maxValues[i].y, roof
-        ]);
-
-        if (i + 1 == maxValues.length) {
-          highArea.push([
-            Date.now(), maxValues[i].y, roof
-          ]);
-        } else {
-          highArea.push([
-              maxValues[i + 1].x - 1, maxValues[i].y, roof
-          ]);
-        }
-      }
-
-      config.series[1].data = highArea;
-    }
-
-    // OK area
-    var allValues = [];
-    for (var i = 0; i < minValues.length; i++) {
-      allValues.push({
-        x: minValues[i].x,
-        min: minValues[i].y,
-        max: null
-      });
-    }
-
-    for (var i = 0; i < maxValues.length; i++) {
-      var found = false;
-      var newestMinValue = minValues[0].y;
-      for (var j = 0; j < allValues.length && !found && maxValues[i].x >= allValues[j].x; j++) {
-        newestMinValue = allValues[j].min;
-        if (maxValues[i].x == allValues[j].x) {
-          found = true;
-          allValues[j].max = maxValues[i].y;
-        }
-      }
-      if (!found) {
-        allValues.push({
-          x: maxValues[i].x,
-          min: newestMinValue,
-          max: maxValues[i].y
-        });
-      }
-    }
-
-    allValues.sort(compare);
-
-    var newestMaxValue = maxValues[0].y;
-    for (var i = 0; i < allValues.length; i++) {
-      if (!allValues[i].max) {
-        allValues[i].max = newestMaxValue;
-      } else {
-        newestMaxValue = allValues[i].max;
-      }
-    }
-
-    var okArea = [];
-    for (var i = 0; i < allValues.length; i++) {
-      okArea.push([
-        allValues[i].x, allValues[i].min, allValues[i].max
-      ]);
-
-      if (i + 1 == allValues.length) {
-        okArea.push([
-          Date.now(), allValues[i].min, allValues[i].max
-        ]);
-      } else {
-        okArea.push([
-            allValues[i + 1].x - 1, allValues[i].min, allValues[i].max
-        ]);
-      }
-    }
-
-    config.series[2].data = okArea;
-
-    // Low, red area
-    var lowArea = [];
-    for (var i = 0; i < minValues.length; i++) {
-      lowArea.push([
-        minValues[i].x, floor, minValues[i].y
-      ]);
-
-      if (i + 1 == minValues.length) {
-        lowArea.push([
-          Date.now(), floor, minValues[i].y
-        ]);
-      } else {
-        lowArea.push([
-            minValues[i + 1].x - 1, floor, minValues[i].y
-        ]);
-      }
-    }
-
-    config.series[3].data = lowArea;
-  }
-
-  /**
-   * @param config
-   * @param lower_threshold_values
-   * @param upper_threshold_values
-   * @param roof (the max y value won't exceed this value)
-   */
-  function checkYAxisRange(config, lower_threshold_values, upper_threshold_values, roof) {
-    if (!lower_threshold_values.length || !upper_threshold_values) {
-      return;
-    }
-    var min = getLowestValue(lower_threshold_values);
-    var max = getHighestValue(upper_threshold_values);
-    var aboveMax = false;
-    var belowMin = false;
-    var extremeValues = getExtremeValues(config.series[0].data);
-
-    for (var i = 0; i < config.series[0].data.length; i++) {
-      if (config.series[0].data[i].y > max) {
-        aboveMax = true;
-      }
-      if (config.series[0].data[i].y < min) {
-        belowMin = true;
-      }
-    }
-    var yAxisInterval = (max - min) / 10;
-    var determinedMax = max;
-    if (aboveMax) {
-      determinedMax = extremeValues.highest;
-    }
-    determinedMax += yAxisInterval;
-    if (typeof roof !== 'undefined' && determinedMax > roof) {
-      determinedMax = roof;
-    }
-    config.options.yAxis.max = determinedMax;
-
-    if (belowMin) {
-      config.options.yAxis.min = extremeValues.lowest - yAxisInterval;
-    } else {
-      config.options.yAxis.min = (min - yAxisInterval);
-    }
-  }
-
-
-  function getExtremeValues(data) {
-    if (0 === data.length) {
-      return { highest: null, lowest: null };
-    }
-    var lowest = data[0].y;
-    var highest = data[0].y;
-    for (var i = 1; i < data.length; i++) {
-      if (data[i].y < lowest) {
-        lowest = data[i].y;
-      }
-      if (data[i].y > highest) {
-        highest = data[i].y;
-      }
-    }
-    return {
-      highest: highest,
-      lowest: lowest
-    };
-  }
-
-  function compare(a, b) {
-    if (a.x < b.x)
-      return -1;
-    if (a.x > b.x)
-      return 1;
-    return 0;
-  }
-
-  function getLowestValue(values) {
-    var lowest = values[0].y;
-    for (var i = 1; i < values.length; i++) {
-      if (values[i].y < lowest) {
-        lowest = values[i].y;
-      }
-    }
-    return lowest;
-  }
-
-  function getHighestValue(values) {
-    var highest = values[0].y;
-    for (var i = 1; i < values.length; i++) {
-      if (values[i].y > highest) {
-        highest = values[i].y;
-      }
-    }
-    return highest;
-  }
 });

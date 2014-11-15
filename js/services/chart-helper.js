@@ -1,4 +1,5 @@
 angelikaServices.service('ChartHelper', function() {
+  var that = this;
   /**
    * @param config
    * @param lower_threshold_values
@@ -193,6 +194,32 @@ angelikaServices.service('ChartHelper', function() {
     }
 
     config.series[3].data = lowArea;
-  }
-});
+  };
 
+  this.getGraphWidth = function(containerWidth) {
+    return containerWidth - 40;
+  };
+
+  this.getGraphHeight = function(containerHeight) {
+    return Math.min(Math.max(250, Math.floor(containerHeight * 0.45)), 400);
+  };
+
+  this.alertIconUrl = 'url(../../img/alert-icon.png)';
+
+  this.setPointAppearance = function(point, clickHandler) {
+    if (point.alarm) {
+      point.color = '#BF0B23';
+      if (!point.alarm.is_treated) {
+        point.events = {
+          click: function(e) {
+            var alarm = e.currentTarget.alarm;
+            clickHandler(alarm);
+          }
+        };
+        point.marker = {
+          symbol: that.alertIconUrl
+        };
+      }
+    }
+  };
+});
