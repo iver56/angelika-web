@@ -13,7 +13,7 @@ angelikaServices.service('LayoutUtils', function() {
   };
 
   this.openPatient = function(patient) {
-    if (!this.checkNumberofOpenTabs()) {
+    if (!this.checkNumOpenTabs()) {
       return;
     }
     var foundIdx = -1;
@@ -34,7 +34,7 @@ angelikaServices.service('LayoutUtils', function() {
   };
 
   this.openNewPatient = function() {
-    if (!this.checkNumberofOpenTabs()) {
+    if (!this.checkNumOpenTabs()) {
       return;
     }
     dashboardLayout.getPatientParentComponent().addChild(this.getNewPatientConfig());
@@ -53,13 +53,16 @@ angelikaServices.service('LayoutUtils', function() {
     }
   };
 
-  this.checkNumberofOpenTabs = function() {
+  this.checkNumOpenTabs = function() {
     var width = $(window).width();
     var max = 4;
     if (width > 1366) {
       max = 10;
-    } else if (width > 768) {
+    } else if (width > 770) {
       max = 6;
+    }
+    else if (width > 480) {
+      max = 5;
     }
 
     if ($('.lm_tab').length >= max) {
