@@ -26,7 +26,9 @@
         <tr ng-repeat="measurement in list.data | orderBy: '-x' | limitTo: list.limitTo">
           <td>{{ timestampToDate(measurement.x) | date: list.dateFormat }}</td>
           <td ng-class="{'danger clickable': measurement.alarm}"
-              ng-click="openAlertHandling(measurement)">{{ measurement.y }} {{ measurementTypeUnit[list.type] }}
+              ng-click="handleAlarm(measurement)">
+            {{ measurement.y }} {{ measurementTypeUnit[list.type] }}
+            <span class="loading-spinner loading-spinner-extra-small" ng-if="measurement.loading"></span>
           </td>
         </tr>
       </table>

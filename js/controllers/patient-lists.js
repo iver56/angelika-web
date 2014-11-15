@@ -1,4 +1,4 @@
-angelikaControllers.controller('PatientListsCtrl', function($scope, DateTimeHelper, AlarmHelper) {
+angelikaControllers.controller('PatientListsCtrl', function($scope, DateTimeHelper, AlarmHelper, $modal, $http, cfg) {
   $scope.measurementType = AlarmHelper.measurementType;
   $scope.measurementTypeUnit = AlarmHelper.measurementTypeUnit;
   $scope.timestampToDate = DateTimeHelper.timestampToDate;
@@ -133,9 +133,42 @@ angelikaControllers.controller('PatientListsCtrl', function($scope, DateTimeHelp
     $scope.lists[3].loading = false;
   });
 
-  $scope.openAlertHandling = function(measurement) {
-    if (measurement.alert) {
-      console.log("test for opening alert handling");
+  $scope.openAlarmModal = function(alarm) {
+    var modalInstance = $modal.open({
+      templateUrl: 'templates/modals/handle-alarm.html',
+      controller: 'HandleAlarmCtrl',
+      size: null,
+      resolve: {
+        alarm: function() {
+          return angular.copy(alarm);
+        },
+        editMode: function() {
+          return alarm.is_treated ? true : false
+        },
+        patient: function() {
+          return $scope.patient
+        }
+      }
+    });
+    modalInstance.result.then(function(data) {
+      if (data.motivation_text.id) {
+        $scope.patient.motivation_texts.push(data.motivation_text);
+      }
+    });
+  };
+
+  $scope.handleAlarm = function(measurement) {
+    if (measurement.alarm) {
+      measurement.loading = true;
+      $http.get(cfg.apiUrl + "/alarms/" + measurement.alarm.id + "/")
+        .success(function(alarm) {
+          measurement.loading = false;
+          $scope.openAlarmModal(alarm);
+        })
+        .error(function(data) {
+          measurement.loading = false;
+          alert('Kunne ikke laste informasjon om varselet knyttet til målingen du klikket på');
+        });
     }
-  }
+  };
 });
