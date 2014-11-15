@@ -6,6 +6,7 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
   $scope.loadingAlarms = true;
   $scope.connectionLost = false;
   $scope.oldAlarms = {};
+  $scope.tickPromise = null;
 
   $scope.playNotifySound = function() {
     if (simpleStorage.get('isSoundOn')) {
@@ -30,6 +31,7 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
     if (simpleStorage.get('filterAlarms')) {
       url += "?only_untreated=1";
     }
+    $scope.loadingAlarms = true;
     $http.get(url)
       .success(function(data) {
         $scope.loadingAlarms = false;
@@ -48,14 +50,14 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
         updateNumUntreatedAlarmsBadge(true);
 
         setOldAlarms($scope.alarms);
-        $timeout(tick, 5000);
+        $scope.tickPromise = $timeout(tick, 5000);
       })
       .error(function(data, status, headers, config) {
         $scope.loadingAlarms = false;
         $scope.connectionLost = true;
         $scope.addAlert("server-connection-lost");
         console.error(data, status, headers, config);
-        $timeout(tick, 20000);
+        $scope.tickPromise = $timeout(tick, 20000);
       });
   }
 
@@ -118,5 +120,12 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
       }
     }
     return false;
-  }
+  };
+
+  dashboardLayout.on('filterAlarmsSettingChanged', function() {
+    if (!$scope.loadingAlarms) {
+      $timeout.cancel($scope.tickPromise);
+      tick();
+    }
+  });
 });

@@ -16,5 +16,6 @@ angelikaControllers.controller('SettingsCtrl', function($scope, AuthService, Lay
   $scope.filterAlarms = { value: (simpleStorage.get('filterAlarms') ? 1 : 0) };
   $scope.setFilterAlarmsSetting = function() {
     simpleStorage.set('filterAlarms', $scope.filterAlarms.value, {TTL: 157700000000 /*five years*/});
+    dashboardLayout.emit('filterAlarmsSettingChanged');
   };
 });

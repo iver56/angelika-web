@@ -1,5 +1,5 @@
 <div class="medium-padding">
-  <div class="loading-spinner" ng-if="loadingAlarms"></div>
+  <div class="loading-spinner" ng-if="loadingAlarms && alarms.length === 0"></div>
   <alert ng-show="!loadingAlarms && 0 === alarms.length && !connectionLost" type="success">
     <span class="glyphicon glyphicon-ok"></span> Ingen varsler
   </alert>
