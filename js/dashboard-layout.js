@@ -56,13 +56,16 @@ dashboardLayout.registerComponent('template', function(container, state) {
     console.error('state.controller must be specified and must be a string');
   }
 
-  var templateHtml = '<div class="component' + (state.padding ? ' medium-padding' : '') + '"'
-    + ' ng-include="\'templates/' + state.template + '\'"'
-    + ' ng-controller="' + state.controller + '"'
-    + (state.patientId ? ' ng-init="patientId = ' + state.patientId + '; init()"' : '')
-    + '></div>';
-
+  var templateHtml = $('<div class="component"></div>')
+    .attr('ng-include', "'templates/" + state.template + "'")
+    .attr('ng-controller', state.controller);
+  if (state.padding) {
+    templateHtml.addClass('medium-padding');
+  }
   if (state.patientId) {
+    templateHtml.attr('ng-init', 'patientId = ' + state.patientId + '; init()')
+      .attr('data-patient-id', state.patientId);
+
     if (container._config.title.indexOf('<span class="glyphicon glyphicon-user"></span>') === -1) {
       container.setTitle('<span class="glyphicon glyphicon-user"></span> ' + container._config.title);
     }

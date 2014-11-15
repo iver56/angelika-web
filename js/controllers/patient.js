@@ -45,7 +45,15 @@ angelikaControllers.controller('PatientCtrl', function($scope, $http, cfg, $q, $
     return asyncPatientActivityData.promise;
   };
 
+  function isTabOpen() {
+    return $('[data-patient-id=' + $scope.patientId + ']').length;
+  }
+
   function periodicO2Poll() {
+    if (!isTabOpen()) {
+      $interval.cancel($scope.stopPeriodicO2Poll);
+      return;
+    }
     $http.get(cfg.apiUrl + "/patients/" + $scope.patientId + "/graph_data/?type=O")
       .success(function(data) {
         for (var i = 0; i < $scope.o2DataListeners.length; i++) {
@@ -55,6 +63,10 @@ angelikaControllers.controller('PatientCtrl', function($scope, $http, cfg, $q, $
   }
 
   function periodicHeartRatePoll() {
+    if (!isTabOpen()) {
+      $interval.cancel($scope.stopPeriodicHeartRatePoll);
+      return;
+    }
     $http.get(cfg.apiUrl + "/patients/" + $scope.patientId + "/graph_data/?type=P")
       .success(function(data) {
         for (var i = 0; i < $scope.heartRateDataListeners.length; i++) {
@@ -64,6 +76,10 @@ angelikaControllers.controller('PatientCtrl', function($scope, $http, cfg, $q, $
   }
 
   function periodicTemperaturePoll() {
+    if (!isTabOpen()) {
+      $interval.cancel($scope.stopPeriodicTemperaturePoll);
+      return;
+    }
     $http.get(cfg.apiUrl + "/patients/" + $scope.patientId + "/graph_data/?type=T")
       .success(function(data) {
         for (var i = 0; i < $scope.temperatureDataListeners.length; i++) {
@@ -73,6 +89,10 @@ angelikaControllers.controller('PatientCtrl', function($scope, $http, cfg, $q, $
   }
 
   function periodicActivityPoll() {
+    if (!isTabOpen()) {
+      $interval.cancel($scope.stopPeriodicActivityPoll);
+      return;
+    }
     $http.get(cfg.apiUrl + "/patients/" + $scope.patientId + "/graph_data/?type=A")
       .success(function(data) {
         for (var i = 0; i < $scope.activityDataListeners.length; i++) {
@@ -82,8 +102,13 @@ angelikaControllers.controller('PatientCtrl', function($scope, $http, cfg, $q, $
   }
 
   function getRandomInterval() {
-    return 10000 + 5000 * Math.random() | 0;
+    return 9000 + 5000 * Math.random() | 0;
   }
+
+  $scope.stopPeriodicO2Poll = null;
+  $scope.stopPeriodicHeartRatePoll = null;
+  $scope.stopPeriodicTemperaturePoll = null;
+  $scope.stopPeriodicActivityPoll = null;
 
   $scope.getPatientId().then(function(patientId) {
     $http.get(cfg.apiUrl + "/patients/" + patientId + "/")
@@ -98,7 +123,7 @@ angelikaControllers.controller('PatientCtrl', function($scope, $http, cfg, $q, $
     $http.get(cfg.apiUrl + "/patients/" + patientId + "/graph_data/?type=O")
       .success(function(data) {
         asyncPatientO2Data.resolve(data);
-        $interval(periodicO2Poll, getRandomInterval());
+        $scope.stopPeriodicO2Poll = $interval(periodicO2Poll, getRandomInterval());
       })
       .error(function(data, status, headers, config) {
         asyncPatientO2Data.reject(data);
