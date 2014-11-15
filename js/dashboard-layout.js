@@ -63,7 +63,9 @@ dashboardLayout.registerComponent('template', function(container, state) {
     + '></div>';
 
   if (state.patientId) {
-    container.setTitle('<span class="glyphicon glyphicon-user"></span> ' + container._config.title);
+    if (container._config.title.indexOf('<span class="glyphicon glyphicon-user"></span>') === -1) {
+      container.setTitle('<span class="glyphicon glyphicon-user"></span> ' + container._config.title);
+    }
     container.on('resize', function() {
       if (container.width > 0 && container.height > 0) {
         dashboardLayout.emit('resizePatient' + state.patientId, container.width, container.height);
