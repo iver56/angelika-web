@@ -13,6 +13,9 @@ angelikaServices.service('LayoutUtils', function() {
   };
 
   this.openPatient = function(patient) {
+    if (!this.checkNumberofOpenTabs()) {
+      return;
+    }
     var foundIdx = -1;
     for (var i = 3; i < dashboardLayout.getPatientParentComponent().contentItems.length; i++) {
       var config = dashboardLayout.getPatientParentComponent().contentItems[i].config;
@@ -30,6 +33,13 @@ angelikaServices.service('LayoutUtils', function() {
     }
   };
 
+  this.openNewPatient = function() {
+    if (!this.checkNumberofOpenTabs()) {
+      return;
+    }
+    dashboardLayout.getPatientParentComponent().addChild(this.getNewPatientConfig());
+  };
+
   this.getNewPatientConfig = function() {
     return {
       type: 'component',
@@ -42,4 +52,21 @@ angelikaServices.service('LayoutUtils', function() {
       }
     }
   };
+
+  this.checkNumberofOpenTabs = function() {
+    var width = $(window).width();
+    var max = 4;
+    if (width > 1366) {
+      max = 10;
+    } else if (width > 768) {
+      max = 6;
+    }
+
+    if ($('.lm_tab').length >= max) {
+      alert('Du kan ikke ha så mange åpne faner samtidig. Lukk noen faner og prøv igjen.');
+      return false;
+    } else {
+      return true;
+    }
+  }
 });

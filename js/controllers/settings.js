@@ -1,7 +1,6 @@
 angelikaControllers.controller('SettingsCtrl', function($scope, AuthService, LayoutUtils) {
   $scope.newPatient = function() {
-    var newPatientComponentConfig = LayoutUtils.getNewPatientConfig();
-    dashboardLayout.getPatientParentComponent().addChild(newPatientComponentConfig);
+    LayoutUtils.openNewPatient();
   };
 
   $scope.logOut = function() {
