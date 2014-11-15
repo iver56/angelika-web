@@ -6,7 +6,7 @@
     <i class="glyphicon glyphicon-info-sign"></i>
     Info om bruker
     <i class="glyphicon glyphicon-exclamation-sign red-fore-color"
-       ng-class="{'visibility-hidden': isInfoTabValid()}"></i>
+       ng-hide="isInfoTabValid()"></i>
   </tab-heading>
   <div class="panel panel-default panel-body tab-panel">
     <label>Fornavn</label>
@@ -72,7 +72,7 @@
     <i class="glyphicon glyphicon-th-list"></i>
     Normalverdier
     <i class="glyphicon glyphicon-exclamation-sign red-fore-color"
-       ng-class="{'visibility-hidden': isThresholdValuesTabValid()}"></i>
+       ng-hide="isThresholdValuesTabValid()"></i>
   </tab-heading>
   <div class="panel panel-default panel-body tab-panel">
     <p>Det generes varsler hvis verdiene går utenfor disse grenseverdiene</p>
@@ -218,7 +218,7 @@
     <i class="glyphicon glyphicon-user"></i>
     Pårørende
     <i class="glyphicon glyphicon-exclamation-sign red-fore-color"
-       ng-class="{'visibility-hidden': isNextOfKinTabValid()}"></i>
+       ng-hide="isNextOfKinTabValid()"></i>
   </tab-heading>
   <div class="panel panel-default panel-body tab-panel">
     <div class="panel panel-default panel-body" ng-repeat="contact in patient.next_of_kin">

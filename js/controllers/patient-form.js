@@ -246,6 +246,7 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, L
     if (confirm('Dette vil tilbakestille skjemaet til tilstanden det var i forrige gang det ble lagret. Er du sikker?')) {
       setProperties($scope.patientBeforeChanges, $scope.patient);
       $scope.formScope.patientForm.$setPristine();
+      $scope.clearAlerts();
     }
   };
 
