@@ -32,16 +32,16 @@
         </tr>
         <tr>
           <td>Notis:</td>
-          <td><textarea rows="3" cols="50" ng-model="alarm.treated_text"></textarea></td>
+          <td><textarea rows="3" class="form-control" ng-model="alarm.treated_text"></textarea></td>
         </tr>
 
         <tr ng-if="!editMode">
           <td>Legg inn ny motiverende tekst:</td>
-          <td><textarea rows="3" cols="50" ng-model="motivationalText.text"></textarea></td>
+          <td><textarea rows="3" class="form-control" ng-model="motivationalText.text"></textarea></td>
         </tr>
         <tr>
           <td>Søkeord:</td>
-          <td><input type="text" ng-model="alarm.search_tag" maxlength="50"></td>
+          <td><input type="text" class="form-control" ng-model="alarm.search_tag" maxlength="50"></td>
         </tr>
       </table>
     </fieldset>
