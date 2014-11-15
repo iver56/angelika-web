@@ -1,4 +1,4 @@
-angelikaControllers.controller('UserDashboardCtrl', function($scope, $http, cfg, AuthService) {
+angelikaControllers.controller('UserDashboardCtrl', function($scope, $http, cfg, AuthService, ChartHelper) {
   $http.get(cfg.apiUrl + "/current-patient/")
     .success(function(patientData) {
       $scope.patient = patientData;
@@ -68,6 +68,36 @@ angelikaControllers.controller('UserDashboardCtrl', function($scope, $http, cfg,
         series: [
           {
             "name": "Målt verdi"
+          },
+          {
+            name: 'Unormalt lavt område',
+            type: 'arearange',
+            color: '#F57F7F', // red
+            fillOpacity: 0.3,
+            data: [],
+            zIndex: -1,
+            lineWidth: 0,
+            enableMouseTracking: false
+          },
+          {
+            name: 'OK område',
+            type: 'arearange',
+            color: '#73BF71', // green
+            fillOpacity: 0.3,
+            data: [],
+            zIndex: -2,
+            lineWidth: 0,
+            enableMouseTracking: false
+          },
+          {
+            name: 'Unormalt lavt område',
+            type: 'arearange',
+            color: '#F57F7F', // red
+            fillOpacity: 0.3,
+            data: [],
+            zIndex: -1,
+            lineWidth: 0,
+            enableMouseTracking: false
           }
         ]
       };
@@ -108,6 +138,8 @@ angelikaControllers.controller('UserDashboardCtrl', function($scope, $http, cfg,
         $http.get(cfg.apiUrl + "/current-patient/graph_data/?type=O")
           .success(function(o2Data) {
             $scope.chartO2Config.series[0].data = o2Data.measurements;
+            ChartHelper.addBackgroundColors($scope.chartO2Config, o2Data.lower_threshold_values, o2Data.upper_threshold_values, 0, 100);
+            ChartHelper.checkYAxisRange($scope.chartO2Config, o2Data.lower_threshold_values, o2Data.upper_threshold_values, 100);
           })
           .error(function(o2DataAPI, o2Status, o2Headers, o2Config) {
             console.error(o2DataAPI, o2Status, o2Headers, o2Config);
@@ -118,6 +150,9 @@ angelikaControllers.controller('UserDashboardCtrl', function($scope, $http, cfg,
         $http.get(cfg.apiUrl + "/current-patient/graph_data/?type=P")
           .success(function(heartRateData) {
             $scope.chartHeartRateConfig.series[0].data = heartRateData.measurements;
+            ChartHelper.addBackgroundColors($scope.chartHeartRateConfig, heartRateData.lower_threshold_values, heartRateData.upper_threshold_values, 0, 300);
+            var roof = 200; // heart rate above 200 is unlikely for our users
+            ChartHelper.checkYAxisRange($scope.chartHeartRateConfig, heartRateData.lower_threshold_values, heartRateData.upper_threshold_values, roof);
           })
           .error(function(heartRateDataAPI, heartRateStatus, heartRateHeaders, heartRateConfig) {
             console.error(heartRateDataAPI, heartRateStatus, heartRateHeaders, heartRateConfig);
@@ -128,6 +163,8 @@ angelikaControllers.controller('UserDashboardCtrl', function($scope, $http, cfg,
         $http.get(cfg.apiUrl + "/current-patient/graph_data/?type=T")
           .success(function(temperatureData) {
             $scope.chartTempConfig.series[0].data = temperatureData.measurements;
+            ChartHelper.addBackgroundColors($scope.chartTempConfig, temperatureData.lower_threshold_values, temperatureData.upper_threshold_values, 0, 100);
+            ChartHelper.checkYAxisRange($scope.chartTempConfig, temperatureData.lower_threshold_values, temperatureData.upper_threshold_values);
           })
           .error(function(tempDataAPI, tempStatus, tempHeaders, tempConfig) {
             console.error(tempDataAPI, tempStatus, tempHeaders, tempConfig);
@@ -166,6 +203,6 @@ angelikaControllers.controller('UserDashboardCtrl', function($scope, $http, cfg,
         $scope.callRequest.posting = false;
         alert("Noe gikk galt. Oppringnings-forespørsel ble ikke registrert.");
       });
-  }
+  };
 
 });
