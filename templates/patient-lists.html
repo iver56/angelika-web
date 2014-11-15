@@ -20,7 +20,7 @@
       <alert type="danger" ng-if="list.loadingFailed">Kunne ikke laste målinger</alert>
       <table class="table measurementTable table-condensed" ng-if="list.data.length">
         <tr class="active">
-          <th>Tid</th>
+          <th ng-style="{'width': ('A' === list.type ? 45 : 60) + '%'}">Tid</th>
           <th>Måling</th>
         </tr>
         <tr ng-repeat="measurement in list.data | orderBy: '-x' | limitTo: list.limitTo">
