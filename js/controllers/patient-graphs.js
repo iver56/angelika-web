@@ -137,8 +137,7 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg,
 
   $scope.handleAlarm = function(alarm) {
     $http.get(cfg.apiUrl + "/alarms/" + alarm.id + "/")
-      .success(function(data) {
-        alarm = data;
+      .success(function(alarm) {
         $scope.openAlarmModal(alarm);
       })
       .error(function(data) {
@@ -225,7 +224,6 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg,
       if (data.motivation_text.id) {
         $scope.patient.motivation_texts.push(data.motivation_text);
       }
-      $scope.chartO2Config.series[0] = angular.copy($scope.chartO2Config.series[0]);
     });
   };
 
