@@ -1,39 +1,44 @@
-angelikaServices.service('SoundRecorder', function() {
+angelikaServices.service('SoundRecorder', function($q) {
   this.recorder = null;
   this.audioContext = null;
-  this.isRecorderInitializing = false;
-  this.isRecorderInitialized = false;
+  this.isInitializing = false;
+  this.isInitialized = false;
   this.isRecording = false;
-  this.convertingToMp3 = false;
+  this.isConvertingToMp3 = false;
   this.mp3 = null;
+  this.initialize = null;
+  this.record = null;
+  this.createMp3 = null;
   var that = this;
 
-  dashboardLayout.on('convertingToMp3', function() {
-    this.convertingToMp3 = true;
-  });
-
   dashboardLayout.on('mp3Created', function(mp3Object) {
-    this.mp3 = mp3Object;
-    console.log(this.mp3);
-    this.convertingToMp3 = false;
+    that.mp3 = mp3Object;
+    console.log(that.mp3);
+    that.isConvertingToMp3 = false;
+    that.createMp3.resolve(that.mp3);
   });
 
   this.startUserMedia = function(stream) {
+    if (!that.isInitializing) {
+      return {status: "USER_MEDIA_NOT_INITIALIZED"};
+    }
     var input = that.audioContext.createMediaStreamSource(stream);
     console.log('Media stream created.');
     console.log("input sample rate " + input.context.sampleRate);
 
     that.recorder = new Recorder(input);
     console.log('Recorder initialised.');
-    that.isRecorderInitialized = true;
-    that.isRecorderInitializing = false;
+    that.isInitialized = true;
+    that.isInitializing = false;
+    that.initialize.resolve();
   };
 
   this.initUserMedia = function() {
-    if (this.isRecorderInitializing) {
+    if (this.isInitializing) {
       return;
     }
-    this.isRecorderInitializing = true;
+    this.isInitializing = true;
+    this.initialize = $q.defer();
     try {
       // webkit shim
       window.AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -47,13 +52,16 @@ angelikaServices.service('SoundRecorder', function() {
       console.log('Audio context set up.');
       console.log('navigator.getUserMedia ' + (navigator.getUserMedia ? 'available.' : 'not present!'));
     } catch (e) {
-      this.isRecorderInitializing = false;
+      this.isInitializing = false;
+      this.initialize.reject();
       alert('Beklager, denne nettleseren støtter ikke lydopptak. Prøv Chrome, Firefox eller Opera.');
     }
 
     navigator.getUserMedia({audio: true}, this.startUserMedia, function(e) {
-      this.isRecorderInitializing = false;
-      alert('Feil: Fikk ikke tilgang til lyd-inndata på datamaskinen');
+      that.isInitializing = false;
+      that.initialize.reject();
+      alert('Fikk ikke tilgang til lyd-inndata. For å kunne spille inn en talebeskjed,' +
+        ' må du tillate at Angelika får tilgang til lyd-inndata.');
       console.log('No live audio input: ' + e);
     });
 
@@ -61,30 +69,32 @@ angelikaServices.service('SoundRecorder', function() {
 
   this.startRecording = function() {
     if (this.isRecording) {
-      return;
+      return {status: "ALREADY_RECORDING"};
+    } else if (!this.isInitialized) {
+      return {status: "NOT_READY_FOR_RECORDING"};
+    } else {
+      this.recorder && this.recorder.record();
+      this.isRecording = true;
+      console.log('Recording...');
+      this.record = $q.defer();
+      return {status: "RECORDING"};
     }
-    if (!this.isRecorderInitialized && !this.isRecorderInitializing) {
-      this.initUserMedia();
-      console.log('initing user media');
-      return;
-    }
-    this.recorder && this.recorder.record();
-    this.isRecording = true;
-    console.log('Recording...');
   };
 
   this.stopRecording = function() {
     if (!this.isRecording) {
-      return;
+      return {status: "NO_RECORDING_IN_PROGRESS"};
+    } else {
+      this.recorder && this.recorder.stop();
+      this.createMp3 = $q.defer();
+      this.isRecording = false;
+      this.isConvertingToMp3 = true;
+      console.log('Stopped recording.');
+      this.record.resolve();
+      this.createDownloadLink();
+
+      this.recorder.clear();
     }
-    this.recorder && this.recorder.stop();
-    this.isRecording = false;
-    console.log('Stopped recording.');
-
-    // create WAV download link using audio data blob
-    this.createDownloadLink();
-
-    this.recorder.clear();
   };
 
   this.createDownloadLink = function() {
