@@ -179,8 +179,42 @@
 
     <div ng-repeat="motivationalText in patient.motivation_texts">
       <div class="row marginBottom20">
-        <div class="col-md-9">
+        <div class="col-md-5">
           <textarea ng-model="motivationalText.text" class="form-control" rows="2"/>
+        </div>
+        <div class="col-md-4">
+          <div ng-show="!motivationalText.isRecording && !motivationalText.isConvertingToMp3">
+            <button ng-click="startRecording(motivationalText)" class="btn btn-default"
+                    ng-disabled="soundRecorder.isInitializing">
+              <i class="glyphicon glyphicon-record red-fore-color"></i>
+              Spill inn {{ motivationalText.sound ? 'ny ' : '' }}talebeskjed
+            </button>
+            <div ng-show="motivationalText.isInitializing">
+              Venter på tilgang til mikrofonen (du må tillate dette)...
+              <span class="loading-spinner loading-spinner-extra-small"></span>
+            </div>
+            <div ng-show="!motivationalText.sound && soundRecorder.isInitialized">
+              <i class="glyphicon glyphicon-ok green-fore-color"></i>
+              Det er klart for lydopptak
+            </div>
+          </div>
+
+          <button class="btn btn-default" ng-click="stopRecording(motivationalText)" ng-show="motivationalText.isRecording">
+            <i class="glyphicon glyphicon-stop orange-fore-color"></i> Stopp
+          </button>
+          <progressbar ng-show="motivationalText.isRecording"
+                       class="progress-striped active marginTop10" max="soundRecorder.MAX_RECORD_TIME"
+                       value="elapsedRecordingTime" type="danger">
+            {{ elapsedRecordingTime / 1000 | number: 1 }} / {{ soundRecorder.MAX_RECORD_TIME / 1000 }} s
+          </progressbar>
+          <progressbar ng-show="motivationalText.isConvertingToMp3"
+                       class="progress-striped active marginTop10" max="1" value="1" type="success">
+            Prosesserer lydopptaket...
+          </progressbar>
+          <audio controls ng-if="motivationalText.sound.base64" class="marginTop10">
+            <source ng-src="{{ trustAsResourceUrl('data:audio/mp3;base64,' + motivationalText.sound.base64) }}"
+                    type='audio/mp3'>
+          </audio>
         </div>
         <div class="col-md-3">
           <button ng-click="removeMotivationalText($index)" class="btn btn-danger btn-sm">
@@ -276,13 +310,13 @@
 <alert ng-repeat="alert in alerts" type="{{ alert.type }}" close="closeAlert($index)">{{ alert.msg }}</alert>
 <button class="btn btn-primary btn-lg marginBottom20"
         ng-click="validateForm(patientForm.$valid) && save()"
-        ng-disabled="patientForm.$pristine">
+        ng-disabled="patientForm.$pristine || soundRecorder.isRecording || soundRecorder.isConvertingToMp3">
   <span class="glyphicon glyphicon-floppy-disk"></span> Lagre
 </button>
 <button class="btn btn-warning btn-lg marginBottom20"
         ng-click="resetForm()"
         ng-if="patientBeforeChanges.id"
-        ng-disabled="patientForm.$pristine">
+        ng-disabled="patientForm.$pristine || soundRecorder.isRecording || soundRecorder.isConvertingToMp3">
   <span class="glyphicon glyphicon-remove"></span> Tilbakestill
 </button>
 <button class="btn btn-warning btn-lg marginBottom20"

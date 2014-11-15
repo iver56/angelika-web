@@ -1,4 +1,4 @@
-angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, LayoutUtils, $modal, FormHelper) {
+angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, LayoutUtils, $modal, FormHelper, SoundRecorder, $sce, $interval, $timeout) {
   $scope.posting = false;
   $scope.isNationalIdentificationNumberValid = FormHelper.isNationalIdentificationNumberValid;
   $scope.patient = {
@@ -87,6 +87,15 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, L
     }
   }
 
+  function cleanData() {
+    for (var i = 0; i < $scope.patient.motivation_texts.length; i++) {
+      delete $scope.patient.motivation_texts[i].isInitializing;
+      delete $scope.patient.motivation_texts[i].isRecording;
+      delete $scope.patient.motivation_texts[i].isConvertingToMp3;
+      delete $scope.patient.motivation_texts[i].cancelRecording;
+    }
+  }
+
   $scope.save = function() {
     var changedThresholdValues = getChangedThresholdValues();
     if (changedThresholdValues) {
@@ -103,6 +112,7 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, L
     if (method === 'patch') {
       url += $scope.patientId + "/";
     }
+    cleanData();
     $http[method](url, $scope.patient)
       .success(function(patient) {
         setProperties(patient, $scope.patient);
@@ -137,6 +147,7 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, L
       phone_number: '',
       relation: ''
     });
+    $scope.formScope.patientForm.$setDirty();
   };
 
   $scope.addMotivationalText = function() {
@@ -144,6 +155,7 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, L
       id: null,
       text: ''
     });
+    $scope.formScope.patientForm.$setDirty();
   };
 
   $scope.addInfoText = function() {
@@ -151,30 +163,36 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, L
       id: null,
       text: ''
     });
+    $scope.formScope.patientForm.$setDirty();
   };
 
   $scope.removeNextOfKin = function(index) {
     $scope.patient.next_of_kin.splice(index, 1);
+    $scope.formScope.patientForm.$setDirty();
   };
 
   $scope.removeMotivationalText = function(index) {
     $scope.patient.motivation_texts.splice(index, 1);
+    $scope.formScope.patientForm.$setDirty();
   };
 
   $scope.removeInfoText = function(index) {
     $scope.patient.information_texts.splice(index, 1);
+    $scope.formScope.patientForm.$setDirty();
   };
 
   $scope.moveNextOfKinUp = function(index) {
     var temp = $scope.patient.next_of_kin[index];
     $scope.patient.next_of_kin[index] = $scope.patient.next_of_kin[index - 1];
     $scope.patient.next_of_kin[index - 1] = temp;
+    $scope.formScope.patientForm.$setDirty();
   };
 
   $scope.moveNextOfKinDown = function(index) {
     var temp = $scope.patient.next_of_kin[index];
     $scope.patient.next_of_kin[index] = $scope.patient.next_of_kin[index + 1];
     $scope.patient.next_of_kin[index + 1] = temp;
+    $scope.formScope.patientForm.$setDirty();
   };
 
   $scope.alerts = [];
@@ -251,10 +269,61 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, L
   };
 
   $scope.closeTab = function() {
+    SoundRecorder.stopRecording();
     var isConfirmNeeded = $scope.formScope.patientForm.$dirty;
     if (!isConfirmNeeded || confirm('Dette lukke fanen, og du vil miste data du har skrevet inn. Er du sikker?')) {
       var activeContentItem = dashboardLayout.getPatientParentComponent().getActiveContentItem();
       activeContentItem.remove();
     }
   };
+
+  // SOUND RECORDER
+  $scope.soundRecorder = SoundRecorder;
+  $scope.trustAsResourceUrl = $sce.trustAsResourceUrl;
+
+  function getReadyForRecording(motivationalText) {
+    motivationalText.isInitializing = true;
+    SoundRecorder.initUserMedia();
+    SoundRecorder.initialize.promise.then(function() {
+      motivationalText.isInitializing = false;
+      if (!$scope.$$phase) {
+        $scope.$apply();
+      }
+    });
+  }
+
+  $scope.startRecording = function(motivationalText) {
+    if (!SoundRecorder.isInitialized) {
+      getReadyForRecording(motivationalText);
+      return;
+    } else {
+      motivationalText.isRecording = true;
+      motivationalText.sound = null;
+      SoundRecorder.startRecording();
+      motivationalText.cancelRecording = $timeout(function() {
+        $scope.stopRecording(motivationalText);
+      }, SoundRecorder.MAX_RECORD_TIME + 49);
+      $scope.updateSoundProgressbar = $interval(function() {
+        $scope.elapsedRecordingTime = SoundRecorder.getElapsedTime();
+      }, 100, parseInt(SoundRecorder.MAX_RECORD_TIME / 100));
+    }
+  };
+
+  $scope.stopRecording = function(motivationalText) {
+    $timeout.cancel(motivationalText.cancelRecording);
+    SoundRecorder.stopRecording();
+    motivationalText.isRecording = false;
+    motivationalText.isConvertingToMp3 = true;
+    $interval.cancel($scope.updateSoundProgressbar);
+    $scope.elapsedRecordingTime = 0;
+    SoundRecorder.createMp3.promise.then(function(mp3) {
+      motivationalText.isConvertingToMp3 = false;
+      motivationalText.sound = mp3;
+      if (!$scope.$$phase) {
+        $scope.$apply();
+      }
+      $scope.formScope.patientForm.$setDirty();
+    });
+  };
+
 });

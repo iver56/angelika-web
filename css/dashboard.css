@@ -2,10 +2,6 @@
   color: #FA4D4D;
 }
 
-.iconGreen {
-  color: #3D8A36;
-}
-
 ul.nav-tabs li, ul.nav-pills li {
   cursor: pointer;
 }
@@ -22,8 +18,16 @@ form[name=patientForm] .ng-invalid.ng-dirty, .ng-invalid.ng-pristine {
   border-color: #FA787E;
 }
 
+.green-fore-color {
+  color: #3D8A36;
+}
+
 .red-fore-color {
   color: #D55757;
+}
+
+.orange-fore-color {
+  color: #F0AD4E;
 }
 
 form[name=patientForm] .ng-invalid.ng-dirty.form-control:focus {

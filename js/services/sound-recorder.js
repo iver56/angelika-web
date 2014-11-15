@@ -9,6 +9,8 @@ angelikaServices.service('SoundRecorder', function($q) {
   this.initialize = null;
   this.record = null;
   this.createMp3 = null;
+  this.timeRecordingStarted = null;
+  this.MAX_RECORD_TIME = 20000; //milliseconds
   var that = this;
 
   dashboardLayout.on('mp3Created', function(mp3Object) {
@@ -74,6 +76,7 @@ angelikaServices.service('SoundRecorder', function($q) {
       return {status: "NOT_READY_FOR_RECORDING"};
     } else {
       this.recorder && this.recorder.record();
+      this.timeRecordingStarted = Date.now();
       this.isRecording = true;
       console.log('Recording...');
       this.record = $q.defer();
@@ -102,5 +105,12 @@ angelikaServices.service('SoundRecorder', function($q) {
       //wav ready, still waiting for mp3
     });
   };
+
+  this.getElapsedTime = function() {
+    if (null === that.timeRecordingStarted) {
+      return null;
+    }
+    return Date.now() - that.timeRecordingStarted;
+  }
 
 });
