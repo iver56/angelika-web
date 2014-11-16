@@ -115,22 +115,20 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, L
     cleanData();
     $http[method](url, $scope.patient)
       .success(function(patient) {
-        setProperties(patient, $scope.patient);
-
+        dashboardLayout.emit('patientsChanged');
         if ('patch' === method) {
+          setProperties(patient, $scope.patient);
           var fullName = patient.user.first_name + " " + patient.user.last_name;
-          activeContentItem.setTitle(fullName);
+          activeContentItem.setTitle('<span class="glyphicon glyphicon-user"></span> ' + fullName);
           $scope.patientBeforeChanges = angular.copy($scope.patient);
+          $scope.addSuccessAlert();
+          $scope.formScope.patientForm.$setPristine();
+          $scope.posting = false;
         } else {
           // A new patient has been created
           activeContentItem.remove();
           LayoutUtils.openPatient(patient);
         }
-
-        dashboardLayout.emit('patientsChanged');
-        $scope.addSuccessAlert();
-        $scope.formScope.patientForm.$setPristine();
-        $scope.posting = false;
       })
       .error(function(data) {
         $scope.posting = false;
@@ -280,6 +278,7 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, L
   // SOUND RECORDER
   $scope.soundRecorder = SoundRecorder;
   $scope.trustAsResourceUrl = $sce.trustAsResourceUrl;
+  $scope.trustAsUrl = $sce.trustAsUrl;
 
   function getReadyForRecording(motivationalText) {
     motivationalText.isInitializing = true;
@@ -319,6 +318,7 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, L
     SoundRecorder.createMp3.promise.then(function(mp3) {
       motivationalText.isConvertingToMp3 = false;
       motivationalText.sound = mp3;
+      motivationalText.sound.is_updated = true;
       if (!$scope.$$phase) {
         $scope.$apply();
       }

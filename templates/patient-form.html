@@ -215,6 +215,9 @@
             <source ng-src="{{ trustAsResourceUrl('data:audio/mp3;base64,' + motivationalText.sound.base64) }}"
                     type='audio/mp3'>
           </audio>
+          <audio controls ng-if="motivationalText.sound.url" class="marginTop10">
+            <source ng-src="{{ trustAsResourceUrl(motivationalText.sound.url) }}" type='audio/mp3'>
+          </audio>
         </div>
         <div class="col-md-3">
           <button ng-click="removeMotivationalText($index)" class="btn btn-danger btn-sm">
@@ -308,22 +311,23 @@
 
 <br>
 <alert ng-repeat="alert in alerts" type="{{ alert.type }}" close="closeAlert($index)">{{ alert.msg }}</alert>
-<button class="btn btn-primary btn-lg marginBottom20"
+<button class="btn btn-primary btn-lg"
         ng-click="validateForm(patientForm.$valid) && save()"
         ng-disabled="patientForm.$pristine || soundRecorder.isRecording || soundRecorder.isConvertingToMp3">
   <span class="glyphicon glyphicon-floppy-disk"></span> Lagre
 </button>
-<button class="btn btn-warning btn-lg marginBottom20"
+<button class="btn btn-warning btn-lg"
         ng-click="resetForm()"
         ng-if="patientBeforeChanges.id"
         ng-disabled="patientForm.$pristine || soundRecorder.isRecording || soundRecorder.isConvertingToMp3">
   <span class="glyphicon glyphicon-remove"></span> Tilbakestill
 </button>
-<button class="btn btn-warning btn-lg marginBottom20"
+<button class="btn btn-warning btn-lg"
         ng-click="closeTab()"
         ng-if="!patientBeforeChanges.id">
   <span class="glyphicon glyphicon-remove"></span> Avbryt
 </button>
 <div class="loading-spinner loading-spinner-small" ng-show="posting"></div>
+<br><br>
 </fieldset>
 </form>
