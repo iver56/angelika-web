@@ -6,7 +6,7 @@ angelikaControllers.controller('PatientsCtrl', function($scope, $http, cfg, Auth
     $scope.serverError = false;
     $scope.loadingPatients = true;
 
-    $http.get(cfg.apiUrl + "/patients/")
+    $http.get(cfg.apiUrl + "/patients/?page_size=5000")
       .success(function(data) {
         $scope.patients = data.results;
         $scope.loadingPatients = false;
