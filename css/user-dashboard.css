@@ -26,3 +26,13 @@ header {
 .chartContainer {
   margin-bottom: 100px;
 }
+
+audio {
+  width: 100%;
+  max-width: 768px;
+  margin: 10px 0;
+}
+
+.alert {
+  color: #000 !important;
+}

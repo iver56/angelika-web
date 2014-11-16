@@ -1,4 +1,4 @@
-angelikaControllers.controller('UserDashboardCtrl', function($scope, $http, cfg, AuthService, ChartHelper) {
+angelikaControllers.controller('UserDashboardCtrl', function($scope, $http, cfg, AuthService, ChartHelper, $sce) {
   $http.get(cfg.apiUrl + "/current-patient/")
     .success(function(patientData) {
       $scope.patient = patientData;
@@ -204,5 +204,7 @@ angelikaControllers.controller('UserDashboardCtrl', function($scope, $http, cfg,
         alert("Noe gikk galt. Oppringnings-forespørsel ble ikke registrert.");
       });
   };
+
+  $scope.trustAsResourceUrl = $sce.trustAsResourceUrl;
 
 });

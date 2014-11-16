@@ -67,7 +67,13 @@
 </div>
 
 <div ng-repeat="motivationalText in patient.motivation_texts">
-  <div class="alert alert-success preserve-whitespace" role="alert">{{ motivationalText.text }}</div>
+  <div class="alert alert-success" role="alert">
+    <div class="preserve-whitespace">{{ motivationalText.text }}</div>
+    <audio controls ng-if="motivationalText.sound.url">
+      <source ng-src="{{ trustAsResourceUrl(motivationalText.sound.url) }}" type='audio/mp3'>
+    </audio>
+  </div>
+
 </div>
 
 <div ng-repeat="informationText in patient.information_texts">
