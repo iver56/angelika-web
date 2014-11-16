@@ -92,3 +92,8 @@ h1 {
   -ms-user-select: none;
   user-select: none;
 }
+
+audio {
+  width: 100%;
+  max-width: 500px;
+}
