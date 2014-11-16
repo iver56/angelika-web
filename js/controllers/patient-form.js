@@ -278,7 +278,6 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, L
   // SOUND RECORDER
   $scope.soundRecorder = SoundRecorder;
   $scope.trustAsResourceUrl = $sce.trustAsResourceUrl;
-  $scope.trustAsUrl = $sce.trustAsUrl;
 
   function getReadyForRecording(motivationalText) {
     motivationalText.isInitializing = true;

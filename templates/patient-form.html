@@ -215,7 +215,7 @@
             <source ng-src="{{ trustAsResourceUrl('data:audio/mp3;base64,' + motivationalText.sound.base64) }}"
                     type='audio/mp3'>
           </audio>
-          <audio controls ng-if="motivationalText.sound.url" class="marginTop10">
+          <audio controls ng-if="motivationalText.sound.url">
             <source ng-src="{{ trustAsResourceUrl(motivationalText.sound.url) }}" type='audio/mp3'>
           </audio>
         </div>

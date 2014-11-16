@@ -94,6 +94,7 @@ h1 {
 }
 
 audio {
+  margin: 10px 0;
   width: 100%;
   max-width: 500px;
 }
