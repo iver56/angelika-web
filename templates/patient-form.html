@@ -208,7 +208,7 @@
             {{ elapsedRecordingTime / 1000 | number: 1 }} / {{ soundRecorder.MAX_RECORD_TIME / 1000 }} s
           </progressbar>
           <progressbar ng-show="motivationalText.isConvertingToMp3"
-                       class="progress-striped active marginTop10" max="1" value="1" type="success">
+                       class="progress-striped active" max="1" value="1" type="success">
             Prosesserer lydopptaket...
           </progressbar>
           <audio controls ng-if="motivationalText.sound.base64" class="marginTop10">
