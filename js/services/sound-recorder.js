@@ -15,7 +15,6 @@ angelikaServices.service('SoundRecorder', function($q) {
 
   dashboardLayout.on('mp3Created', function(mp3Object) {
     that.mp3 = mp3Object;
-    console.log(that.mp3);
     that.isConvertingToMp3 = false;
     that.createMp3.resolve(that.mp3);
   });
@@ -25,11 +24,7 @@ angelikaServices.service('SoundRecorder', function($q) {
       return {status: "USER_MEDIA_NOT_INITIALIZED"};
     }
     var input = that.audioContext.createMediaStreamSource(stream);
-    console.log('Media stream created.');
-    console.log("input sample rate " + input.context.sampleRate);
-
     that.recorder = new Recorder(input);
-    console.log('Recorder initialised.');
     that.isInitialized = true;
     that.isInitializing = false;
     that.initialize.resolve();
@@ -51,8 +46,6 @@ angelikaServices.service('SoundRecorder', function($q) {
       window.URL = window.URL || window.webkitURL;
 
       this.audioContext = new AudioContext;
-      console.log('Audio context set up.');
-      console.log('navigator.getUserMedia ' + (navigator.getUserMedia ? 'available.' : 'not present!'));
     } catch (e) {
       this.isInitializing = false;
       this.initialize.reject();
@@ -64,7 +57,6 @@ angelikaServices.service('SoundRecorder', function($q) {
       that.initialize.reject();
       alert('Fikk ikke tilgang til lyd-inndata. For å kunne spille inn en talebeskjed,' +
         ' må du tillate at Angelika får tilgang til lyd-inndata.');
-      console.log('No live audio input: ' + e);
     });
 
   };
@@ -78,7 +70,6 @@ angelikaServices.service('SoundRecorder', function($q) {
       this.recorder && this.recorder.record();
       this.timeRecordingStarted = Date.now();
       this.isRecording = true;
-      console.log('Recording...');
       this.record = $q.defer();
       return {status: "RECORDING"};
     }
@@ -92,7 +83,6 @@ angelikaServices.service('SoundRecorder', function($q) {
       this.createMp3 = $q.defer();
       this.isRecording = false;
       this.isConvertingToMp3 = true;
-      console.log('Stopped recording.');
       this.record.resolve();
       this.createDownloadLink();
 
