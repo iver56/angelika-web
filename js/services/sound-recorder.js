@@ -46,18 +46,19 @@ angelikaServices.service('SoundRecorder', function($q) {
       window.URL = window.URL || window.webkitURL;
 
       this.audioContext = new AudioContext;
+
+      navigator.getUserMedia({audio: true}, this.startUserMedia, function(e) {
+        that.isInitializing = false;
+        that.initialize.reject();
+        alert('Fikk ikke tilgang til lyd-inndata. For å kunne spille inn en talebeskjed,' +
+          ' må du tillate at Angelika får tilgang til lyd-inndata.');
+      });
+
     } catch (e) {
       this.isInitializing = false;
-      this.initialize.reject();
+      this.initialize.reject(e);
       alert('Beklager, denne nettleseren støtter ikke lydopptak. Prøv Chrome, Firefox eller Opera.');
     }
-
-    navigator.getUserMedia({audio: true}, this.startUserMedia, function(e) {
-      that.isInitializing = false;
-      that.initialize.reject();
-      alert('Fikk ikke tilgang til lyd-inndata. For å kunne spille inn en talebeskjed,' +
-        ' må du tillate at Angelika får tilgang til lyd-inndata.');
-    });
 
   };
 

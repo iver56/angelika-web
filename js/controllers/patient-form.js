@@ -288,6 +288,11 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, L
       if (!$scope.$$phase) {
         $scope.$apply();
       }
+    }, function() {
+      motivationalText.isInitializing = false;
+      if (!$scope.$$phase) {
+        $scope.$apply();
+      }
     });
   }
 
