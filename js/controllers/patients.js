@@ -1,5 +1,6 @@
 angelikaControllers.controller('PatientsCtrl', function($scope, $http, cfg, AuthService, LayoutUtils) {
   $scope.patients = [];
+  $scope.searchHasFocus = false;
 
   function getPatients() {
     $scope.serverError = false;

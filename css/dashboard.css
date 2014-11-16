@@ -30,6 +30,10 @@ form[name=patientForm] .ng-invalid.ng-dirty, .ng-invalid.ng-pristine {
   color: #F0AD4E;
 }
 
+.blue-fore-color {
+  color: #428BD3;
+}
+
 form[name=patientForm] .ng-invalid.ng-dirty.form-control:focus {
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(250, 120, 126, .6);
 }
@@ -66,10 +70,6 @@ h1 {
   cursor: pointer;
 }
 
-.visibility-hidden {
-  visibility: hidden;
-}
-
 .table-vcenter td {
   vertical-align: middle !important;
 }
@@ -101,4 +101,10 @@ audio {
 
 .form-control {
   min-width: 170px;
+}
+
+.search-tip-icon {
+  float: left;
+  margin: 2px 23px 5px -3px;
+  font-size: 15px
 }
