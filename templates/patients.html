@@ -18,7 +18,7 @@
       <span ng-show="search.$.length === 0">
         Du kan søke på fødselsnummer, navn eller fødselsdato (format DD.MM.ÅÅÅÅ)
       </span>
-      <span ng-show="search.$.length < 3">
+      <span ng-show="search.$.length > 0 && search.$.length < 3">
         Skriv inn minst tre tegn
       </span>
     </div>
