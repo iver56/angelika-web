@@ -110,8 +110,14 @@
   <div class="panel-heading">
     <h3 class="panel-title">Motiverende beskjeder:</h3>
   </div>
-  <div class="marginTop20 marginLeft20 preserve-whitespace" ng-class="{'marginBottom20': $last}"
-       ng-repeat="motivationalText in patient.motivation_texts">{{ motivationalText.text }}<hr ng-if="!$last" class="marginBottom0"></div>
+  <div class="marginTop20 marginLeft20" ng-class="{'marginBottom20': $last}"
+       ng-repeat="motivationalText in patient.motivation_texts">
+    <div class="preserve-whitespace">{{ motivationalText.text }}</div>
+    <audio controls ng-if="motivationalText.sound.url">
+      <source ng-src="{{ trustAsResourceUrl(motivationalText.sound.url) }}" type='audio/mp3'>
+    </audio>
+    <hr ng-if="!$last" class="marginBottom0">
+  </div>
 </div>
 
 <div class="panel panel-info" ng-if="patient.information_texts.length">

@@ -1,10 +1,11 @@
-angelikaControllers.controller('PatientInfoCtrl', function($scope, $http, cfg, $modal, AlarmHelper) {
+angelikaControllers.controller('PatientInfoCtrl', function($scope, $http, cfg, $modal, AlarmHelper, $sce) {
   $scope.loadingPatient = true;
   $scope.loadingAlarms = true;
   $scope.nextOfKinLimit = 1;
   $scope.measurementType = AlarmHelper.measurementType;
   $scope.alarmReason = AlarmHelper.alarmReason;
   $scope.alarms = [];
+  $scope.trustAsResourceUrl = $sce.trustAsResourceUrl;
 
   $scope.showAllNextOfKin = function() {
     $scope.nextOfKinLimit = 999;
