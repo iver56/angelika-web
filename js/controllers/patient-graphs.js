@@ -174,7 +174,7 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg,
     }
     var point = getDataPointByAlarm(alarm, config);
 
-    if (point) {
+    if (point && point.marker) {
       point.marker.symbol = null;
       delete point.events;
       $scope.redrawChart(config);
