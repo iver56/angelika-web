@@ -67,7 +67,7 @@ dashboardLayout.registerComponent('template', function(container, state) {
       .attr('data-patient-id', state.patientId);
 
     if (container._config.title.indexOf('<span class="glyphicon glyphicon-user"></span>') === -1) {
-      container.setTitle('<span class="glyphicon glyphicon-user"></span> ' + container._config.title);
+      container.setTitle('<span class="glyphicon glyphicon-user"></span> ' + getStrippedName(container._config.title));
     }
     container.on('resize', function() {
       if (container.width > 0 && container.height > 0) {
@@ -88,3 +88,16 @@ dashboardLayout.init();
 dashboardLayout.getPatientParentComponent = function() {
   return dashboardLayout.root.contentItems[0];
 };
+
+function getStrippedName(name) {
+  var arr = name.split(" ");
+  if (arr.length === 1) {
+    return name;
+  }
+  var strippedName = "";
+  for (var i = 0; i < arr.length - 1; i++) {
+    strippedName += arr[i].charAt(0) + ". ";
+  }
+  strippedName += arr[arr.length - 1];
+  return strippedName;
+}

@@ -119,7 +119,7 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, L
         if ('patch' === method) {
           setProperties(patient, $scope.patient);
           var fullName = patient.user.first_name + " " + patient.user.last_name;
-          activeContentItem.setTitle('<span class="glyphicon glyphicon-user"></span> ' + fullName);
+          activeContentItem.setTitle('<span class="glyphicon glyphicon-user"></span> ' + getStrippedName(fullName));
           $scope.patientBeforeChanges = angular.copy($scope.patient);
           $scope.addSuccessAlert();
           $scope.formScope.patientForm.$setPristine();
