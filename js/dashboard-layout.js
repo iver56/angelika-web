@@ -67,7 +67,9 @@ dashboardLayout.registerComponent('template', function(container, state) {
       .attr('data-patient-id', state.patientId);
 
     if (container._config.title.indexOf('<span class="glyphicon glyphicon-user"></span>') === -1) {
-      container.setTitle('<span class="glyphicon glyphicon-user"></span> ' + getStrippedName(container._config.title));
+      container.setTitle(
+          '<span class="glyphicon glyphicon-user"></span> ' + getStrippedName(container._config.title, container.width)
+      );
     }
     container.on('resize', function() {
       if (container.width > 0 && container.height > 0) {
@@ -90,6 +92,10 @@ dashboardLayout.getPatientParentComponent = function() {
 };
 
 function getStrippedName(name) {
+  var widthToCheck = $(window).width();
+  if ($(window).width() > 768) {
+    return name;
+  }
   var arr = name.split(" ");
   if (arr.length === 1) {
     return name;
