@@ -66,6 +66,7 @@ dashboardLayout.registerComponent('template', function(container, state) {
     templateHtml.attr('ng-init', 'patientId = ' + state.patientId + '; init()')
       .attr('data-patient-id', state.patientId);
 
+    container._config.tooltip = container._config.title;
     if (container._config.title.indexOf('<span class="glyphicon glyphicon-user"></span>') === -1) {
       container.setTitle(
           '<span class="glyphicon glyphicon-user"></span> ' + getResponsiveName(container._config.title)
@@ -112,3 +113,9 @@ function getResponsiveName(name) {
   return '<span class="hidden-md hidden-lg">' + strippedName + '</span>'
     + '<span class="hidden-xs hidden-sm">' + name + '</span>';
 }
+
+dashboardLayout.on('tabCreated', function(tab) {
+  if (tab.contentItem.config.tooltip) {
+    tab.element.attr('title', tab.contentItem.config.tooltip);
+  }
+});

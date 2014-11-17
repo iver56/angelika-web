@@ -105,7 +105,11 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, L
 
     $scope.posting = true;
 
-    var activeContentItem = dashboardLayout.getPatientParentComponent().getActiveContentItem();
+    var patientParentComponent = dashboardLayout.getPatientParentComponent();
+    var activeContentItem = null;
+    if (patientParentComponent.getActiveContentItem) {
+      activeContentItem = patientParentComponent.getActiveContentItem();
+    }
 
     var method = $scope.patient.id ? 'patch' : 'post';
     var url = cfg.apiUrl + "/patients/";
@@ -118,8 +122,11 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, L
         dashboardLayout.emit('patientsChanged');
         if ('patch' === method) {
           setProperties(patient, $scope.patient);
-          var fullName = patient.user.first_name + " " + patient.user.last_name;
-          activeContentItem.setTitle('<span class="glyphicon glyphicon-user"></span> ' + getResponsiveName(fullName));
+          if (activeContentItem) {
+            var fullName = patient.user.first_name + " " + patient.user.last_name;
+            activeContentItem.setTitle('<span class="glyphicon glyphicon-user"></span> ' + getResponsiveName(fullName));
+            activeContentItem.tab.element.attr('title', fullName);
+          }
           $scope.patientBeforeChanges = angular.copy($scope.patient);
           $scope.addSuccessAlert();
           $scope.formScope.patientForm.$setPristine();
