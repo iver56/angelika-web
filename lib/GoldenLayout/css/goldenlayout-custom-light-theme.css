@@ -30,6 +30,7 @@
   background: #999;
   opacity: 0.001;
   transition: opacity 200ms ease;
+  z-index: 4;
 }
 
 .lm_splitter:hover {
