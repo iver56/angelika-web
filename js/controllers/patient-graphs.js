@@ -256,7 +256,8 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg,
     }
     $scope.chartTempConfig.series[0].data = temperatureData;
     ChartHelper.addBackgroundColors($scope.chartTempConfig, temperatureDataAPI.lower_threshold_values, temperatureDataAPI.upper_threshold_values, 0, 100);
-    ChartHelper.checkYAxisRange($scope.chartTempConfig, temperatureDataAPI.lower_threshold_values, temperatureDataAPI.upper_threshold_values);
+    var roof = 100; //temperature above 100 degrees celsius isn't a valid scenario in this system
+    ChartHelper.checkYAxisRange($scope.chartTempConfig, temperatureDataAPI.lower_threshold_values, temperatureDataAPI.upper_threshold_values, roof);
   }
 
   function showActivityData(activityDataAPI) {
