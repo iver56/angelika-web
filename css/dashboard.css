@@ -99,7 +99,7 @@ audio {
   max-width: 500px;
 }
 
-input.form-control {
+input.form-control[type=text], input.form-control[type=tel], input.form-control[type=number] {
   min-width: 170px;
   max-width: 300px;
 }
@@ -108,6 +108,16 @@ input.form-control {
   float: left;
   margin: 2px 23px 5px -3px;
   font-size: 15px
+}
+
+@media (max-width: 480px) {
+  .medium-padding {
+    padding: 10px 8px;
+  }
+
+  .nav > li > a {
+    padding: 10px 8px !important;
+  }
 }
 
 /* Hacks for making golden layout and bootstrap play nice with each other */
