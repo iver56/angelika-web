@@ -1,4 +1,4 @@
-angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, cfg, AlarmHelper, LayoutUtils) {
+angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, cfg, AlarmHelper, LayoutUtils, SoundRecorder) {
   $scope.alarms = [];
   $scope.alerts = [];
   $scope.measurementType = AlarmHelper.measurementType;
@@ -27,6 +27,9 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
   }
 
   function tick() {
+    if (SoundRecorder.isRecording) {
+      return;
+    }
     var url = cfg.apiUrl + "/alarms/";
     if (simpleStorage.get('filterAlarms')) {
       url += "?only_untreated=1";

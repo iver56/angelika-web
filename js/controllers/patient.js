@@ -1,4 +1,4 @@
-angelikaControllers.controller('PatientCtrl', function($scope, $http, cfg, $q, $interval) {
+angelikaControllers.controller('PatientCtrl', function($scope, $http, cfg, $q, $interval, SoundRecorder) {
   $scope.patientId = -1;
   $scope.patient = null;
 
@@ -54,6 +54,9 @@ angelikaControllers.controller('PatientCtrl', function($scope, $http, cfg, $q, $
       $interval.cancel($scope.stopPeriodicO2Poll);
       return;
     }
+    if (SoundRecorder.isRecording) {
+      return;
+    }
     $http.get(cfg.apiUrl + "/patients/" + $scope.patientId + "/graph_data/?type=O")
       .success(function(data) {
         for (var i = 0; i < $scope.o2DataListeners.length; i++) {
@@ -65,6 +68,9 @@ angelikaControllers.controller('PatientCtrl', function($scope, $http, cfg, $q, $
   function periodicHeartRatePoll() {
     if (!isTabOpen()) {
       $interval.cancel($scope.stopPeriodicHeartRatePoll);
+      return;
+    }
+    if (SoundRecorder.isRecording) {
       return;
     }
     $http.get(cfg.apiUrl + "/patients/" + $scope.patientId + "/graph_data/?type=P")
@@ -80,6 +86,9 @@ angelikaControllers.controller('PatientCtrl', function($scope, $http, cfg, $q, $
       $interval.cancel($scope.stopPeriodicTemperaturePoll);
       return;
     }
+    if (SoundRecorder.isRecording) {
+      return;
+    }
     $http.get(cfg.apiUrl + "/patients/" + $scope.patientId + "/graph_data/?type=T")
       .success(function(data) {
         for (var i = 0; i < $scope.temperatureDataListeners.length; i++) {
@@ -91,6 +100,9 @@ angelikaControllers.controller('PatientCtrl', function($scope, $http, cfg, $q, $
   function periodicActivityPoll() {
     if (!isTabOpen()) {
       $interval.cancel($scope.stopPeriodicActivityPoll);
+      return;
+    }
+    if (SoundRecorder.isRecording) {
       return;
     }
     $http.get(cfg.apiUrl + "/patients/" + $scope.patientId + "/graph_data/?type=A")
