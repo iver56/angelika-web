@@ -1,9 +1,9 @@
 <div class="row">
-  <h1 class="col-md-12">{{ patient.user.first_name }} {{ patient.user.last_name }}</h1>
+  <h1 class="col-sm-12">{{ patient.user.first_name }} {{ patient.user.last_name }}</h1>
 </div>
 
 <div class="row">
-  <div class="col-md-6">
+  <div class="col-sm-6">
     <div class="panel panel-default">
       <table class="table table-responsive table-bordered">
         <tr>
@@ -38,7 +38,7 @@
     </div>
   </div>
 
-  <div class="col-md-6">
+  <div class="col-sm-6">
     <div class="panel panel-default panel-body" ng-if="!patient.next_of_kin.length">
       Ingen pårørende er registrert
     </div>
@@ -80,7 +80,7 @@
     <th>Type</th>
     <th>Håndtert</th>
     <th>Rediger</th>
-    <th class="hidden-xs">Notis</th>
+    <th class="hidden-sm hidden-xs">Notis</th>
     <th class="hidden-xs">Søkeord</th>
   </tr>
   <tr ng-repeat="alarm in alarms">
@@ -101,7 +101,7 @@
         <span ng-if="!alarm.is_treated" class="hidden-xs">Merk som håndtert</span>
       </button>
     </td>
-    <td class="preserve-whitespace hidden-xs">{{ alarm.treated_text }}</td>
+    <td class="preserve-whitespace hidden-sm hidden-xs">{{ alarm.treated_text }}</td>
     <td class="hidden-xs">{{ alarm.search_tag }}</td>
   </tr>
 </table>
@@ -110,7 +110,7 @@
   <div class="panel-heading">
     <h3 class="panel-title">Motiverende beskjeder:</h3>
   </div>
-  <div class="marginTop20 marginLeft20" ng-class="{'marginBottom20': $last}"
+  <div class="marginTop20 marginLeft20 marginRight20" ng-class="{'marginBottom20': $last}"
        ng-repeat="motivationalText in patient.motivation_texts">
     <div class="preserve-whitespace">{{ motivationalText.text }}</div>
     <audio controls ng-if="motivationalText.sound.url">
@@ -124,6 +124,6 @@
   <div class="panel-heading">
     <h3 class="panel-title">Informative beskjeder:</h3>
   </div>
-  <div class="marginTop20 marginLeft20 preserve-whitespace" ng-class="{'marginBottom20': $last}"
+  <div class="marginTop20 marginLeft20 marginRight20 preserve-whitespace" ng-class="{'marginBottom20': $last}"
        ng-repeat="infoText in patient.information_texts">{{ infoText.text }}<hr ng-if="!$last" class="marginBottom0"></div>
 </div>

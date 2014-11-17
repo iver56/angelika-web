@@ -99,12 +99,41 @@ audio {
   max-width: 500px;
 }
 
-.form-control {
+input.form-control {
   min-width: 170px;
+  max-width: 300px;
 }
 
 .search-tip-icon {
   float: left;
   margin: 2px 23px 5px -3px;
   font-size: 15px
+}
+
+/* Hacks for making golden layout and bootstrap play nice with each other */
+
+/* xs */
+.container-xs .hidden-xs {
+  display: none !important;
+}
+
+.container-xs .col-sm-6, .container-xs .col-sm-4, .container-xs .col-sm-3 {
+  float: none;
+  width: 100%;
+}
+
+.container-xs .col-md-3, .container-xs .col-md-4, .container-xs .col-md-5, .container-xs .col-md-6 {
+  float: none;
+  width: 100%;
+}
+
+/* sm */
+
+.container-sm .hidden-sm {
+  display: none !important;
+}
+
+.container-sm .col-md-3, .container-sm .col-md-4, .container-sm .col-md-5, .container-sm .col-md-6 {
+  float: none;
+  width: 100%;
 }

@@ -10,60 +10,32 @@
   </tab-heading>
   <div class="panel panel-default panel-body tab-panel">
     <label>Fornavn</label>
-    <div class="row">
-      <div class="col-md-3">
-        <input type="text" ng-model="patient.user.first_name" class="form-control" required name="firstName"
-               ng-minlength="2">
-      </div>
-    </div>
+    <input type="text" ng-model="patient.user.first_name" class="form-control" required name="firstName"
+           ng-minlength="2">
 
     <label>Etternavn</label>
-    <div class="row">
-      <div class="col-md-3">
-        <input type="text" ng-model="patient.user.last_name" class="form-control" required name="lastName"
-               ng-minlength="2">
-      </div>
-    </div>
+    <input type="text" ng-model="patient.user.last_name" class="form-control" required name="lastName"
+           ng-minlength="2">
 
     <label>Fødselsnummer</label>
-    <div class="row">
-      <div class="col-md-3">
-        <input type="text" ng-model="patient.national_identification_number" class="form-control"
-               required ng-minlength="11" ng-maxlength="11"
-               ui-validate="'isNationalIdentificationNumberValid($value)'"
-               name="nationalIdentificationNumber">
-      </div>
-    </div>
+    <input type="text" ng-model="patient.national_identification_number" class="form-control"
+           required ng-minlength="11" ng-maxlength="11"
+           ui-validate="'isNationalIdentificationNumberValid($value)'"
+           name="nationalIdentificationNumber">
 
     <label>Telefonnummer</label>
-    <div class="row">
-      <div class="col-md-3">
-        <input type="tel" ng-model="patient.phone_number" class="form-control" maxlength="14"
-               ng-pattern="/^[0-9+\(\)#\.\s\/ext-]+$/" ng-minlength="3">
-      </div>
-    </div>
+    <input type="tel" ng-model="patient.phone_number" class="form-control" maxlength="14"
+           ng-pattern="/^[0-9+\(\)#\.\s\/ext-]+$/" ng-minlength="3">
 
     <label>Adresse</label>
-    <div class="row">
-      <div class="col-md-3">
-        <input type="text" ng-model="patient.address" class="form-control" maxlength="255">
-      </div>
-    </div>
+    <input type="text" ng-model="patient.address" class="form-control" maxlength="255">
 
     <label>Postnummer</label>
-    <div class="row">
-      <div class="col-md-3">
-        <input type="text" ng-model="patient.zip_code" class="form-control"
-               ng-minlength="4" ng-maxlength="4" maxlength="4">
-      </div>
-    </div>
+    <input type="text" ng-model="patient.zip_code" class="form-control"
+           ng-minlength="4" ng-maxlength="4" maxlength="4">
 
     <label>Poststed</label>
-    <div class="row">
-      <div class="col-md-3">
-        <input type="text" ng-model="patient.city" class="form-control" maxlength="120">
-      </div>
-    </div>
+    <input type="text" ng-model="patient.city" class="form-control" maxlength="120">
   </div>
 </tab>
 
@@ -77,16 +49,16 @@
   <div class="panel panel-default panel-body tab-panel">
     <p>Det generes varsler hvis verdiene går utenfor disse grenseverdiene</p>
 
-    <div class="row">
-      <div class="col-md-3">
+    <div class="row medium-width-limit">
+      <div class="col-sm-3">
         <h4>O2-metning</h4>
       </div>
-      <div class="col-md-3">
+      <div class="col-sm-4">
         <label class="control-label">Min (%)</label>
         <input type="number" ng-model="patient.o2_min" class="form-control"
                min="0" max="{{ patient.o2_max }}" required name="o2Min">
       </div>
-      <div class="col-md-3">
+      <div class="col-sm-4">
         <label class="control-label">Maks (%)</label>
         <input type="number" ng-model="patient.o2_max" class="form-control"
                min="{{ patient.o2_min }}" max="100" required
@@ -95,31 +67,31 @@
                popover-trigger="focus" name="o2Max">
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-3">
+    <div class="row medium-width-limit">
+      <div class="col-sm-3">
         <h4>Puls</h4>
       </div>
-      <div class="col-md-3">
+      <div class="col-sm-4">
         <label class="control-label">Min (slag/min.)</label>
         <input type="number" ng-model="patient.pulse_min" class="form-control"
                min="0" max="{{ patient.pulse_max }}" required name="pulseMin">
       </div>
-      <div class="col-md-3">
+      <div class="col-sm-4">
         <label class="control-label">Maks (slag/min.)</label>
         <input type="number" ng-model="patient.pulse_max" class="form-control"
                min="{{ patient.pulse_min }}" max="240" required name="pulseMax">
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-3">
+    <div class="row medium-width-limit">
+      <div class="col-sm-3">
         <h4>Temperatur</h4>
       </div>
-      <div class="col-md-3">
+      <div class="col-sm-4">
         <label class="control-label">Min (°C)</label>
         <input type="number" ng-model="patient.temperature_min" class="form-control"
                min="0" max="{{ patient.temperature_max }}" required name="temperatureMin">
       </div>
-      <div class="col-md-3">
+      <div class="col-sm-4">
         <label class="control-label">Maks (°C)</label>
         <input type="number" ng-model="patient.temperature_max" class="form-control"
                min="{{ patient.temperature_min }}" max="100" required name="temperatureMax">
@@ -134,7 +106,7 @@
     Synlige målinger
   </tab-heading>
   <div class="panel panel-default panel-body tab-panel">
-    <div class="col-md-6">
+    <div class="col-sm-6">
       <h3>Synlig for bruker</h3>
 
       <div class="checkbox">
@@ -150,7 +122,7 @@
         <label><input type="checkbox" ng-model="patient.temperature_access">Temperatur</label>
       </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-sm-6">
       <h3>Synlig for helsepersonell</h3>
 
       <div class="checkbox">
@@ -199,7 +171,8 @@
             </div>
           </div>
 
-          <button class="btn btn-default" ng-click="stopRecording(motivationalText)" ng-show="motivationalText.isRecording">
+          <button class="btn btn-default" ng-click="stopRecording(motivationalText)"
+                  ng-show="motivationalText.isRecording">
             <i class="glyphicon glyphicon-stop orange-fore-color"></i> Stopp
           </button>
           <progressbar ng-show="motivationalText.isRecording"

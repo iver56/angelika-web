@@ -73,6 +73,14 @@ dashboardLayout.registerComponent('template', function(container, state) {
     }
     container.on('resize', function() {
       if (container.width > 0 && container.height > 0) {
+        var $el = $(container.getElement());
+        if (container.width >= 992) {
+          $el.removeClass('container-xs').removeClass('container-sm');
+        } else if (container.width >= 768) {
+          $el.removeClass('container-xs').addClass('container-sm');
+        } else {
+          $el.removeClass('container-sm').addClass('container-xs');
+        }
         dashboardLayout.emit('resizePatient' + state.patientId, container.width, container.height);
       }
     });
