@@ -68,18 +68,18 @@ dashboardLayout.registerComponent('template', function(container, state) {
 
     if (container._config.title.indexOf('<span class="glyphicon glyphicon-user"></span>') === -1) {
       container.setTitle(
-          '<span class="glyphicon glyphicon-user"></span> ' + getStrippedName(container._config.title, container.width)
+          '<span class="glyphicon glyphicon-user"></span> ' + getResponsiveName(container._config.title)
       );
     }
     container.on('resize', function() {
       if (container.width > 0 && container.height > 0) {
-        var $el = $(container.getElement());
+        var $container = $(container.getElement());
         if (container.width >= 992) {
-          $el.removeClass('container-xs').removeClass('container-sm');
+          $container.removeClass('container-xs').removeClass('container-sm');
         } else if (container.width >= 768) {
-          $el.removeClass('container-xs').addClass('container-sm');
+          $container.removeClass('container-xs').addClass('container-sm');
         } else {
-          $el.removeClass('container-sm').addClass('container-xs');
+          $container.removeClass('container-sm').addClass('container-xs');
         }
         dashboardLayout.emit('resizePatient' + state.patientId, container.width, container.height);
       }
@@ -99,11 +99,7 @@ dashboardLayout.getPatientParentComponent = function() {
   return dashboardLayout.root.contentItems[0];
 };
 
-function getStrippedName(name) {
-  var widthToCheck = $(window).width();
-  if ($(window).width() > 768) {
-    return name;
-  }
+function getResponsiveName(name) {
   var arr = name.split(" ");
   if (arr.length === 1) {
     return name;
@@ -113,5 +109,6 @@ function getStrippedName(name) {
     strippedName += arr[i].charAt(0) + ". ";
   }
   strippedName += arr[arr.length - 1];
-  return strippedName;
+  return '<span class="hidden-md hidden-lg">' + strippedName + '</span>'
+    + '<span class="hidden-xs hidden-sm">' + name + '</span>';
 }
