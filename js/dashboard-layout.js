@@ -25,21 +25,21 @@ dashboardLayout = new GoldenLayout({
         {
           type: 'component',
           componentName: 'template',
-          title: '<span class="glyphicon glyphicon-bell"></span> Varsler <span class="badge alarms-badge"></span>',
+          title: '<span class="glyphicon glyphicon-bell"></span> <span class="hidden-xs">Varsler</span> <span class="badge alarms-badge"></span>',
           componentState: { template: 'alarms.html', controller: 'AlarmsCtrl' },
           isClosable: false
         },
         {
           type: 'component',
           componentName: 'template',
-          title: '<span class="glyphicon glyphicon-search"></span> Brukere',
+          title: '<span class="glyphicon glyphicon-search"></span> <span class="hidden-xs">Brukere</span>',
           componentState: { template: 'patients.html', controller: 'PatientsCtrl' },
           isClosable: false
         },
         {
           type: 'component',
           componentName: 'template',
-          title: '<span class="glyphicon glyphicon-cog"></span> Innstillinger',
+          title: '<span class="glyphicon glyphicon-cog"></span> <span class="hidden-xs">Innstillinger</span>',
           componentState: { template: 'settings.html', controller: 'SettingsCtrl' },
           isClosable: false
         }
