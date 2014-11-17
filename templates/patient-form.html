@@ -185,7 +185,7 @@
         <div class="col-md-4">
           <div ng-show="!motivationalText.isRecording && !motivationalText.isConvertingToMp3">
             <button ng-click="startRecording(motivationalText)" class="btn btn-default"
-                    ng-disabled="soundRecorder.isInitializing">
+                    ng-disabled="soundRecorder.isInitializing || soundRecorder.isRecording">
               <i class="glyphicon glyphicon-record red-fore-color"></i>
               Spill inn {{ motivationalText.sound ? 'ny ' : '' }}talebeskjed
             </button>

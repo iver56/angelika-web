@@ -308,7 +308,7 @@ angelikaControllers.controller('PatientFormCtrl', function($scope, $http, cfg, L
       }, SoundRecorder.MAX_RECORD_TIME + 49);
       $scope.updateSoundProgressbar = $interval(function() {
         $scope.elapsedRecordingTime = SoundRecorder.getElapsedTime();
-      }, 100, parseInt(SoundRecorder.MAX_RECORD_TIME / 100));
+      }, 1000, parseInt(SoundRecorder.MAX_RECORD_TIME / 1000));
     }
   };
 
