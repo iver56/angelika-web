@@ -1,7 +1,7 @@
 Angelika
 ============
 
-This is the front end for project Angelika. This was a [customer driven project (TDT4290)](http://www.idi.ntnu.no/emner/tdt4290/) at NTNU.
+This is the front end for project Angelika. This was a [customer driven project (TDT4290)](http://www.idi.ntnu.no/emner/tdt4290/) at [NTNU](http://www.ntnu.edu/).
 
 The back end is in a [separate repository](https://github.com/sigurdsa/angelika-api)
 
