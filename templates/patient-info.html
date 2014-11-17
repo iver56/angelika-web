@@ -79,9 +79,9 @@
     <th>Tid</th>
     <th>Type</th>
     <th>Håndtert</th>
-    <th>Endre/håndter</th>
-    <th>Notis</th>
-    <th>Søkeord</th>
+    <th>Rediger</th>
+    <th class="hidden-xs">Notis</th>
+    <th class="hidden-xs">Søkeord</th>
   </tr>
   <tr ng-repeat="alarm in alarms">
     <td>{{ alarm.time_created | date : 'dd.MM.yyyy HH:mm' }}</td>
@@ -97,12 +97,12 @@
     <td>
       <button class="btn btn-default" ng-click="open(null, $index)">
         <span class="glyphicon glyphicon-edit"></span>
-        <span ng-if="alarm.is_treated">Endre</span>
-        <span ng-if="!alarm.is_treated">Merk som håndtert</span>
+        <span ng-if="alarm.is_treated" class="hidden-xs">Endre</span>
+        <span ng-if="!alarm.is_treated" class="hidden-xs">Merk som håndtert</span>
       </button>
     </td>
-    <td class="preserve-whitespace">{{ alarm.treated_text }}</td>
-    <td>{{ alarm.search_tag }}</td>
+    <td class="preserve-whitespace hidden-xs">{{ alarm.treated_text }}</td>
+    <td class="hidden-xs">{{ alarm.search_tag }}</td>
   </tr>
 </table>
 
