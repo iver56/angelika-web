@@ -33,7 +33,7 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
     }
     var url = cfg.apiUrl + "/alarms/?page_size=" + $scope.pageSize;
     if (simpleStorage.get('filterAlarms')) {
-      url += "?only_untreated=1";
+      url += "&only_untreated=1";
     }
     $scope.loadingAlarms = true;
     $http.get(url)
