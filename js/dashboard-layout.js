@@ -11,8 +11,8 @@ dashboardLayout = new GoldenLayout({
     showCloseIcon: false
   },
   dimensions: {
-    minItemWidth: 370,
-    minItemHeight: 200,
+    minItemWidth: 420,
+    minItemHeight: 250,
     dragProxyWidth: 500,
     dragProxyHeight: 300,
     headerHeight: 42

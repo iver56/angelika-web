@@ -1,9 +1,9 @@
 <div class="medium-padding">
-  <button ng-click="newPatient()" class="btn btn-success btn-lg">
+  <button ng-click="newPatient()" class="btn btn-success">
     <span class="glyphicon glyphicon-plus"></span> Ny bruker
   </button>
   <br>
-  <div class="btn-group btn-group-lg marginTop10"
+  <div class="btn-group marginTop10"
        popover="Skru på for å få en lyd hver gang det kommer nye varsler"
        popover-trigger="mouseenter" popover-placement="right">
     <label class="btn btn-primary" ng-model="isSoundOn.value" btn-radio="0" ng-change="setSoundSetting()">
@@ -14,7 +14,7 @@
     </label>
   </div>
   <br>
-  <div class="btn-group btn-group-lg marginTop10"
+  <div class="btn-group marginTop10"
        popover="Skru på denne innstillingen for å se kun uhåndterte varsler i &quot;Varsler&quot;-fanen"
        popover-trigger="mouseenter" popover-placement="right">
     <label class="btn btn-primary" ng-model="filterAlarms.value" btn-radio="0" ng-change="setFilterAlarmsSetting()">
@@ -25,7 +25,7 @@
     </label>
   </div>
   <br>
-  <button ng-click="logOut()" class="btn btn-danger btn-lg marginTop10">
+  <button ng-click="logOut()" class="btn btn-danger marginTop10">
     <span class="glyphicon glyphicon-log-out"></span> Logg ut
   </button>
   <img src="img/angelika-logo-1024.png" class="logo-bottom-right" alt="Angelika">

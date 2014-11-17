@@ -84,7 +84,7 @@
     <th class="hidden-xs">Søkeord</th>
   </tr>
   <tr ng-repeat="alarm in alarms">
-    <td>{{ alarm.time_created | date : 'dd.MM.yyyy HH:mm' }}</td>
+    <td>{{ alarm.time_created | date : 'dd.MM.yyyy kl. HH.mm' }}</td>
     <td>{{ alarmReason[alarm.reason] }} {{ measurementType[alarm.measurement.type] }}</td>
     <td>
       <span ng-if="alarm.is_treated">

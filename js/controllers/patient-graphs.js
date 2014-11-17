@@ -61,7 +61,7 @@ angelikaControllers.controller('PatientGraphsCtrl', function($scope, $http, cfg,
       },
       tooltip: {
         pointFormat: '{series.name}: <b>{point.y}</b>',
-        xDateFormat: '%A %d.%m.%Y kl. %H:%M'
+        xDateFormat: '%A %d.%m.%Y kl. %H.%M'
       }
     },
     size: {

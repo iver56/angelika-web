@@ -10,16 +10,23 @@
       <th>Navn</th>
       <th>Tid</th>
       <th>Type</th>
-      <th>Håndtert</th>
+      <th><span class="hidden-xs">Håndtert</span></th>
     </tr>
     <tr ng-repeat="alarm in alarms"
         class="clickable"
         ng-click="openPatient(alarm.measurement.patient)"
         draggable-patient="alarm.measurement.patient">
       <td>{{ alarm.measurement.patient.user.full_name }}</td>
-      <td>{{ alarm.time_created | date:'dd.MM.yyyy HH:mm'}}</td>
+      <td>{{ alarm.time_created | date:'dd.MM.yyyy kl. HH.mm'}}</td>
       <td>{{ alarmReason[alarm.reason] }} {{ measurementType[alarm.measurement.type] }}</td>
-      <td>{{ alarm.is_treated ? 'Ja' : 'Nei'}}</td>
+      <td>
+        <span ng-if="alarm.is_treated">
+          <span class="glyphicon glyphicon-ok green-fore-color"></span> <span class="hidden-xs">Ja</span>
+        </span>
+        <span ng-if="!alarm.is_treated">
+          <span class="glyphicon glyphicon-warning-sign iconRed"></span> <span class="hidden-xs">Nei</span>
+        </span>
+      </td>
     </tr>
   </table>
 </div>
