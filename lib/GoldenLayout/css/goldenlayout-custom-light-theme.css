@@ -33,7 +33,7 @@
   z-index: 4;
 }
 
-.lm_splitter:hover {
+.lm_splitter:hover, .lm_splitter.lm_dragging {
   opacity: 1;
   background: #bbb;
 }
