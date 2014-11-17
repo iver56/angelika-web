@@ -29,4 +29,6 @@
       </td>
     </tr>
   </table>
+  <button class="btn btn-default" ng-show="alarms.length && alarms.length == pageSize && pageSize < 500"
+          ng-click="increasePageSize()">Vis flere varsler</button>
 </div>

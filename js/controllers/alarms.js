@@ -7,6 +7,7 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
   $scope.connectionLost = false;
   $scope.oldAlarms = {};
   $scope.tickPromise = null;
+  $scope.pageSize = 50;
 
   $scope.playNotifySound = function() {
     if (simpleStorage.get('isSoundOn')) {
@@ -30,7 +31,7 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
     if (SoundRecorder.isRecording) {
       return;
     }
-    var url = cfg.apiUrl + "/alarms/";
+    var url = cfg.apiUrl + "/alarms/?page_size=" + $scope.pageSize;
     if (simpleStorage.get('filterAlarms')) {
       url += "?only_untreated=1";
     }
@@ -131,4 +132,10 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
       tick();
     }
   });
+
+  $scope.increasePageSize = function() {
+    $scope.pageSize += 100;
+    $timeout.cancel($scope.tickPromise);
+    tick();
+  }
 });
