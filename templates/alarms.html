@@ -1,7 +1,8 @@
 <div class="medium-padding">
-  <div class="loading-spinner" ng-if="loadingAlarms && alarms.length === 0"></div>
-  <alert ng-show="!loadingAlarms && 0 === alarms.length && !connectionLost" type="success">
+  <div class="loading-spinner" ng-if="loadingAlarms && alarms.length === 0 && numTicks === 0"></div>
+  <alert ng-show="(!loadingAlarms || (loadingAlarms && numTicks > 0)) && 0 === alarms.length && !connectionLost" type="success">
     <span class="glyphicon glyphicon-ok"></span> Ingen varsler
+    <span class="loading-spinner loading-spinner-extra-small" ng-show="loadingAlarms && numTicks > 0"></span>
   </alert>
   <alert ng-repeat="alert in alerts" type="{{ alert.type }}" close="closeAlert($index)">{{ alert.msg }}</alert>
   <table class="table table-bordered table-striped table-hover table-responsive medium-width-limit"

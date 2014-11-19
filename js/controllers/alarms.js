@@ -8,6 +8,7 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
   $scope.oldAlarms = {};
   $scope.tickPromise = null;
   $scope.pageSize = 50;
+  $scope.numTicks = 0;
 
   $scope.playNotifySound = function() {
     if (simpleStorage.get('isSoundOn')) {
@@ -55,6 +56,7 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
 
         setOldAlarms($scope.alarms);
         $scope.tickPromise = $timeout(tick, 5000);
+        $scope.numTicks++;
       })
       .error(function(data, status, headers, config) {
         $scope.loadingAlarms = false;
