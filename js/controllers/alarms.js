@@ -115,8 +115,12 @@ angelikaControllers.controller('AlarmsCtrl', function($scope, $http, $timeout, c
     $scope.alerts.pop();
   };
 
+  /**
+   * Returns true if there are new, untreated alarms
+   * @returns {boolean}
+   */
   $scope.assessNewAlarms = function() {
-    if ($.isEmptyObject($scope.oldAlarms)) {
+    if ($scope.numTicks === 0) {
       return false;
     }
     for (var i = 0; i < $scope.alarms.length; i++) {
